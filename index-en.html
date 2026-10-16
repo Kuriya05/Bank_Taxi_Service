@@ -306,49 +306,12 @@
                 <a href="cars-en.html">Cars</a>
                 <a href="booking-en.html">Booking</a>
                 <a href="contact-en.html">Contact</a>
-                <a href="#" onclick="openAdminModal(event)"><i class="fa-solid fa-lock"></i> Admin</a>
+                <a href="admin-dashboard.html" rel="nofollow"><i class="fa-solid fa-lock"></i> Admin</a>
             </div>
             <p class="copyright">&copy; 2026 Bank Taxi Service. All Rights Reserved.</p>
         </div>
-
-        <div id="adminModal">
-            <div class="glass modal-card">
-                <h3>🔒 Admin Access</h3>
-                <p>Please enter the admin password</p>
-                <input type="password" id="adminPin" placeholder="Enter Password" onkeydown="if(event.key==='Enter')checkAdminPassword()">
-                <button class="btn btn-primary" onclick="checkAdminPassword()">Sign in</button>
-                <button class="modal-cancel" onclick="closeAdminModal()">Cancel</button>
-            </div>
-        </div>
     </footer>
 
-    <script>
-        // ===== Admin Modal (พฤติกรรมเดิม) =====
-        function openAdminModal(event) {
-            event.preventDefault();
-            document.getElementById('adminModal').style.display = 'flex';
-            document.getElementById('adminPin').focus();
-        }
-
-        function closeAdminModal() {
-            document.getElementById('adminModal').style.display = 'none';
-            document.getElementById('adminPin').value = '';
-        }
-
-        function checkAdminPassword() {
-            const enteredPassword = document.getElementById('adminPin').value;
-
-            // ตั้งรหัสผ่านแอดมินของคุณตรงนี้ (เปลี่ยนเป็นรหัสที่คุณต้องการได้เลย)
-            const correctPassword = "bank8307";
-
-            if (enteredPassword === correctPassword) {
-                window.location.href = "admin-dashboard.html";
-            } else {
-                alert("Incorrect password! Please try again.");
-                document.getElementById('adminPin').value = '';
-            }
-        }
-    </script>
 
     <script src="site.js"></script>
     <script>

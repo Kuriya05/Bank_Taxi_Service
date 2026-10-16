@@ -631,9 +631,78 @@
                 text-align: center;
             }
         }
+
+        /* ===== หน้าล็อกอินแอดมิน (Firebase Authentication) ===== */
+        body.auth-pending .admin-layout { display: none; }
+        .login-screen {
+            position: fixed; inset: 0; z-index: 1000;
+            display: none; align-items: center; justify-content: center; padding: 20px;
+            background: radial-gradient(circle at 15% 15%, rgba(56,189,248,0.25), transparent 45%),
+                        radial-gradient(circle at 85% 85%, rgba(37,99,235,0.22), transparent 45%), var(--bg-main);
+        }
+        body.auth-pending .login-screen { display: flex; }
+        .login-card {
+            width: 100%; max-width: 400px; padding: 36px 32px; border-radius: 24px;
+            background: var(--card-bg); border: 1px solid var(--border-color);
+            box-shadow: 0 30px 70px rgba(2, 132, 199, 0.18); text-align: center;
+        }
+        .login-card img { width: 72px; height: 72px; margin-bottom: 10px; }
+        .login-card h1 { font-size: 1.5rem; font-weight: 800; color: var(--primary); margin: 0 0 4px; }
+        .login-card > p { color: var(--text-muted); font-size: 0.92rem; margin: 0 0 24px; }
+        .login-field { text-align: left; margin-bottom: 16px; }
+        .login-field label { display: block; font-weight: 600; font-size: 0.9rem; color: var(--text-main); margin-bottom: 6px; }
+        .login-input { position: relative; }
+        .login-input > i { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--accent); }
+        .login-input input {
+            width: 100%; padding: 13px 44px 13px 40px; border-radius: 12px;
+            border: 1px solid var(--border-color); background: var(--bg-main); color: var(--text-main);
+            font-family: 'Sarabun', sans-serif; font-size: 1rem;
+        }
+        .login-input input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 4px rgba(2,132,199,0.15); }
+        .login-eye { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); border: 0; background: none; color: var(--text-muted); cursor: pointer; padding: 8px; }
+        .login-btn {
+            width: 100%; margin-top: 6px; padding: 14px; border: 0; border-radius: 12px; cursor: pointer;
+            background: var(--accent-gradient); color: #fff; font-family: 'Sarabun', sans-serif; font-size: 1.05rem; font-weight: 700;
+            box-shadow: 0 10px 24px rgba(2,132,199,0.3);
+        }
+        .login-btn:disabled { opacity: 0.75; cursor: wait; }
+        .login-error {
+            display: none; margin-bottom: 16px; padding: 12px 14px; border-radius: 12px; text-align: left;
+            background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.3); color: var(--danger); font-size: 0.9rem; font-weight: 600;
+        }
+        .login-error.show { display: block; }
+        .login-back { display: inline-block; margin-top: 18px; color: var(--text-muted); font-size: 0.88rem; text-decoration: none; }
+        .login-back:hover { color: var(--accent); }
     </style>
 </head>
-<body data-theme="light">
+<body data-theme="light" class="auth-pending">
+
+    <!-- 🔐 หน้าล็อกอินแอดมิน -->
+    <div class="login-screen" id="loginScreen">
+        <form class="login-card" id="loginForm" novalidate>
+            <img src="logo-mark.svg" alt="">
+            <h1>เข้าสู่ระบบแอดมิน</h1>
+            <p>Bank Taxi Service · ระบบจัดการการจอง</p>
+            <div class="login-error" id="loginError" role="alert"></div>
+            <div class="login-field">
+                <label for="loginEmail">อีเมล</label>
+                <div class="login-input">
+                    <i class="fa-solid fa-envelope"></i>
+                    <input type="email" id="loginEmail" autocomplete="username" required placeholder="admin@example.com">
+                </div>
+            </div>
+            <div class="login-field">
+                <label for="loginPassword">รหัสผ่าน</label>
+                <div class="login-input">
+                    <i class="fa-solid fa-lock"></i>
+                    <input type="password" id="loginPassword" autocomplete="current-password" required placeholder="••••••••">
+                    <button type="button" class="login-eye" id="loginEye" aria-label="แสดงรหัสผ่าน"><i class="fa-solid fa-eye"></i></button>
+                </div>
+            </div>
+            <button type="submit" class="login-btn" id="loginBtn"><i class="fa-solid fa-right-to-bracket"></i> เข้าสู่ระบบ</button>
+            <a href="index.html" class="login-back"><i class="fa-solid fa-arrow-left"></i> กลับหน้าเว็บไซต์</a>
+        </form>
+    </div>
 
     <div class="admin-layout">
         <!-- Sidebar Navigation -->
@@ -825,19 +894,21 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getFirestore, collection, getDocs, doc, getDoc, updateDoc, deleteDoc, writeBatch } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
         const firebaseConfig = {
-            apiKey: "AIzaSyASv5AeTc3XJjILvvU9ca7sE27901Zt9aU",
+            apiKey: "AIzaSyASv5AeTc3XJjiLvvU9ca7sE27901Zt9aU",
             authDomain: "bank-taxi-service.firebaseapp.com",
             projectId: "bank-taxi-service",
-            storageBucket: "bank-taxi-service.appspot.com",
-            messagingSenderId: "12836327344",
-            appId: "1:12836327344:web:ab2255c4ca38beda763435",
+            storageBucket: "bank-taxi-service.firebasestorage.app",
+            messagingSenderId: "128363247344",
+            appId: "1:128363247344:web:ab2255c4ca38beda763435",
             measurementId: "G-N2LDVWQ57M"
         };
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
+        const auth = getAuth(app);
 
         let allBookingsData = [];
         let currentFilter = 'all';
@@ -861,7 +932,10 @@
 
             } catch (e) {
                 console.error("Error loading bookings: ", e);
-                tbody.innerHTML = '<tr><td colspan="8" style="text-align:center; color:red; padding:30px;">เกิดข้อผิดพลาดในการโหลดข้อมูลจากระบบ Cloud</td></tr>';
+                const msg = e && e.code === 'permission-denied'
+                    ? 'บัญชีนี้ไม่มีสิทธิ์ดูข้อมูลการจอง (ตรวจสอบอีเมลแอดมินใน Firestore Rules)'
+                    : 'เกิดข้อผิดพลาดในการโหลดข้อมูลจากระบบ Cloud';
+                tbody.innerHTML = '<tr><td colspan="8" style="text-align:center; color:red; padding:30px;">' + msg + '</td></tr>';
             }
         }
 
@@ -1179,11 +1253,80 @@
             document.getElementById('slipModal').style.display = 'none';
         };
 
-        window.logoutAdmin = function() {
+        window.logoutAdmin = async function() {
             if (confirm('คุณต้องการออกจากระบบแอดมินใช่หรือไม่?')) {
+                await signOut(auth);
                 window.location.href = "index.html";
             }
         };
+
+        // ===== ล็อกอินด้วย Firebase Authentication (อีเมล + รหัสผ่าน) =====
+        const loginForm = document.getElementById('loginForm');
+        const loginError = document.getElementById('loginError');
+        const loginBtn = document.getElementById('loginBtn');
+        const loginBtnLabel = loginBtn.innerHTML;
+
+        function showLoginError(text) {
+            loginError.textContent = text;
+            loginError.classList.add('show');
+        }
+
+        function loginMessage(code) {
+            switch (code) {
+                case 'auth/invalid-credential':
+                case 'auth/wrong-password':
+                case 'auth/user-not-found':
+                case 'auth/invalid-email':
+                    return 'อีเมลหรือรหัสผ่านไม่ถูกต้อง';
+                case 'auth/too-many-requests':
+                    return 'ลองผิดหลายครั้งเกินไป กรุณารอสักครู่แล้วลองใหม่';
+                case 'auth/network-request-failed':
+                    return 'เชื่อมต่ออินเทอร์เน็ตไม่ได้ กรุณาลองใหม่';
+                case 'auth/configuration-not-found':
+                case 'auth/operation-not-allowed':
+                    return 'ยังไม่ได้เปิดการล็อกอินแบบ Email/Password ใน Firebase (Authentication → Sign-in method)';
+                default:
+                    return 'เข้าสู่ระบบไม่สำเร็จ (' + code + ')';
+            }
+        }
+
+        loginForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            loginError.classList.remove('show');
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value;
+            if (!email || !password) { showLoginError('กรุณากรอกอีเมลและรหัสผ่าน'); return; }
+
+            loginBtn.disabled = true;
+            loginBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> กำลังเข้าสู่ระบบ...';
+            try {
+                await signInWithEmailAndPassword(auth, email, password);
+            } catch (e) {
+                showLoginError(loginMessage(e.code || 'unknown'));
+            } finally {
+                loginBtn.disabled = false;
+                loginBtn.innerHTML = loginBtnLabel;
+            }
+        });
+
+        document.getElementById('loginEye').addEventListener('click', () => {
+            const input = document.getElementById('loginPassword');
+            const show = input.type === 'password';
+            input.type = show ? 'text' : 'password';
+            document.querySelector('#loginEye i').className = show ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye';
+        });
+
+        // ล็อกอินอยู่ = แสดงหน้าแอดมินและโหลดข้อมูล, ยังไม่ล็อกอิน = แสดงหน้าล็อกอิน
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                document.body.classList.remove('auth-pending');
+                document.getElementById('loginPassword').value = '';
+                loadAdminBookings();
+            } else {
+                document.body.classList.add('auth-pending');
+                document.getElementById('loginEmail').focus();
+            }
+        });
 
         // ฟังก์ชันสลับโหมดสี Dark / Light Mode พร้อมบันทึกสถานะ
         window.toggleTheme = function() {
@@ -1206,8 +1349,6 @@
             const savedTheme = localStorage.getItem('admin_theme') || 'light';
             document.body.setAttribute('data-theme', savedTheme);
             document.getElementById('theme-icon').className = savedTheme === 'dark' ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
-
-            loadAdminBookings();
         });
     </script>
 </body>
