@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - Bank Taxi Service</title>
+    <meta name="robots" content="noindex, nofollow">
     <link rel="icon" href="logo-mark.svg" type="image/svg+xml">
     <!-- Google Fonts - Sarabun -->
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -720,7 +721,7 @@
                     <li><a href="#" id="menu-completed" onclick="switchView('completed', this)"><div class="menu-left"><i class="fa-solid fa-flag-checkered"></i> <span>งานที่จบแล้ว</span></div></a></li>
                     <li><a href="#" id="menu-cancelled" onclick="switchView('cancelled', this)"><div class="menu-left"><i class="fa-solid fa-circle-xmark"></i> <span>ยกเลิก</span></div></a></li>
                     <li><a href="#" id="menu-finance" onclick="switchView('finance', this)"><div class="menu-left"><i class="fa-solid fa-wallet"></i> <span>ข้อมูลการเงิน</span></div></a></li>
-                    <li style="margin-top: 15px;"><a href="index.html" target="_blank"><div class="menu-left"><i class="fa-solid fa-globe"></i> <span>ดูเว็บไซต์หลัก</span></div></a></li>
+                    <li style="margin-top: 15px;"><a href="index.html" target="_blank" rel="noopener"><div class="menu-left"><i class="fa-solid fa-globe"></i> <span>ดูเว็บไซต์หลัก</span></div></a></li>
                 </ul>
             </div>
             <div class="sidebar-footer">
@@ -911,6 +912,16 @@
         const auth = getAuth(app);
 
         let allBookingsData = [];
+
+        // ข้อมูลทุกช่องมาจากลูกค้า ต้อง escape ก่อนใส่ลงใน HTML เสมอ (กันโค้ดแปลกปลอมรันในหน้าแอดมิน)
+        function esc(value) {
+            return String(value ?? '').replace(/[&<>"'`]/g, ch => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;', '`': '&#96;'
+            })[ch]);
+        }
+        function safeId(value) {
+            return String(value ?? '').replace(/[^A-Za-z0-9_-]/g, '');
+        }
         let currentFilter = 'all';
 
         async function loadAdminBookings() {
@@ -1009,11 +1020,11 @@
                    <td>
                         <strong style="color:var(--primary); display:block; font-size:0.88rem;">
                             <i class="fa-regular fa-calendar-days" style="color:var(--accent);"></i>
-                            วันเดินทาง: ${b.bookingDate || b.date || '-'}
+                            วันเดินทาง: ${esc(b.bookingDate || b.date || '-')}
                         </strong>
                         <small style="color:var(--success); display:block; margin-top:3px;">
                             <i class="fa-regular fa-clock"></i>
-                            เวลา: ${b.bookingTime || b.time || b.travelTime || '-'}
+                            เวลา: ${esc(b.bookingTime || b.time || b.travelTime || '-')}
                         </small>
                         <small style="color:var(--text-muted); display:block; margin-top:5px;">
                             <i class="fa-regular fa-clock"></i>
@@ -1021,17 +1032,17 @@
                         </small>
                     </td>
                     <td>
-                        <strong style="color: var(--primary);">${b.name || 'ไม่ระบุชื่อ'}</strong><br>
-                        <span style="font-size:0.85rem; color:var(--text-muted);"><i class="fa-solid fa-phone"></i> ${b.phone || '-'}</span><br>
-                        ${b.lineid ? `<a href="https://line.me/ti/p/~${b.lineid}" target="_blank" class="btn-action btn-line" style="margin-top:6px;"><i class="fa-brands fa-line"></i> ${b.lineid}</a>` : ''}
+                        <strong style="color: var(--primary);">${esc(b.name || 'ไม่ระบุชื่อ')}</strong><br>
+                        <span style="font-size:0.85rem; color:var(--text-muted);"><i class="fa-solid fa-phone"></i> ${esc(b.phone || '-')}</span><br>
+                        ${b.lineid ? `<a href="https://line.me/ti/p/~${encodeURIComponent(b.lineid)}" target="_blank" rel="noopener noreferrer" class="btn-action btn-line" style="margin-top:6px;"><i class="fa-brands fa-line"></i> ${esc(b.lineid)}</a>` : ''}
                     </td>
                     <td>
-                        <strong style="color: var(--primary);">${b.carType || b.car || 'รถแท็กซี่'}</strong><br>
-                        <span style="font-size:0.85rem; color:var(--accent); font-weight:600;"><i class="fa-solid fa-route"></i> ${b.route || '-'}</span>
+                        <strong style="color: var(--primary);">${esc(b.carType || b.car || 'รถแท็กซี่')}</strong><br>
+                        <span style="font-size:0.85rem; color:var(--accent); font-weight:600;"><i class="fa-solid fa-route"></i> ${esc(b.route || '-')}</span>
                     </td>
-                    <td><strong style="color: var(--primary);">${typeof b.price === 'number' ? b.price.toLocaleString() + ' THB' : (b.price || '-')}</strong></td>
+                    <td><strong style="color: var(--primary);">${typeof b.price === 'number' ? b.price.toLocaleString() + ' THB' : esc(b.price || '-')}</strong></td>
                     <td>
-                        <select class="status-select" onchange="updateCloudStatus('${b.id}', this.value)">
+                        <select class="status-select" onchange="updateCloudStatus('${safeId(b.id)}', this.value)">
                             <option value="pending" ${b.status === 'pending' ? 'selected' : ''}>🟡 รอดำเนินการ</option>
                             <option value="confirmed" ${b.status === 'confirmed' ? 'selected' : ''}>🟢 ยืนยันแล้ว</option>
                             <option value="completed" ${b.status === 'completed' ? 'selected' : ''}>🏁 งานจบแล้ว</option>
@@ -1039,21 +1050,21 @@
                         </select>
                     </td>
                     <td>
-                        <button class="btn-action btn-detail" onclick="openDetailModal('${b.id}')">
+                        <button class="btn-action btn-detail" onclick="openDetailModal('${safeId(b.id)}')">
                             <i class="fa-solid fa-eye"></i> ดูข้อมูล
                         </button>
                     </td>
                     <td>
-                        <button class="btn-action btn-slip" onclick="openSlipModal('${b.slipBase64 || b.slipUrl || ''}')">
+                        <button class="btn-action btn-slip" onclick="openSlipModal('${safeId(b.id)}')">
                             <i class="fa-solid fa-receipt"></i> ดูสลิป
                         </button>
                     </td>
                     <td>
                         <div style="display: flex; gap: 6px;">
-                            <button class="btn-action btn-edit" onclick="openEditModal('${b.id}')" title="แก้ไขการเดินทางและรถ">
+                            <button class="btn-action btn-edit" onclick="openEditModal('${safeId(b.id)}')" title="แก้ไขการเดินทางและรถ">
                                 <i class="fa-solid fa-pen-to-square"></i> แก้ไข
                             </button>
-                            <button class="btn-action btn-delete" onclick="deleteCloudBooking('${b.id}')" title="ลบข้อมูลลูกค้า">
+                            <button class="btn-action btn-delete" onclick="deleteCloudBooking('${safeId(b.id)}')" title="ลบข้อมูลลูกค้า">
                                 <i class="fa-solid fa-trash"></i> ลบ
                             </button>
                         </div>
@@ -1089,6 +1100,7 @@
         };
 
         window.updateCloudStatus = async function(docId, newStatus) {
+            if (!['pending', 'confirmed', 'completed', 'cancelled'].includes(newStatus)) return;
             try {
                 const docRef = doc(db, "bookings", docId);
                 await updateDoc(docRef, { status: newStatus });
@@ -1216,20 +1228,20 @@
             
             const modalBody = document.getElementById('modalDetailBody');
             modalBody.innerHTML = `
-                <div class="detail-group"><strong>รหัสการจอง:</strong> <span style="color:var(--text-muted);">${booking.id}</span></div>
-                <div class="detail-group"><strong>วันที่ต้องการเดินทาง:</strong> <span style="color:var(--primary); font-weight:700;"><i class="fa-regular fa-calendar-days"></i> ${booking.bookingDate || booking.date || '-'}</span></div>
-                <div class="detail-group"><strong>เวลาที่ต้องการเดินทาง:</strong> <span style="color:var(--success); font-weight:700;"><i class="fa-regular fa-clock"></i> ${booking.bookingTime || booking.time || booking.travelTime || 'ไม่ระบุเวลา'}</span></div>
+                <div class="detail-group"><strong>รหัสการจอง:</strong> <span style="color:var(--text-muted);">${esc(booking.id)}</span></div>
+                <div class="detail-group"><strong>วันที่ต้องการเดินทาง:</strong> <span style="color:var(--primary); font-weight:700;"><i class="fa-regular fa-calendar-days"></i> ${esc(booking.bookingDate || booking.date || '-')}</span></div>
+                <div class="detail-group"><strong>เวลาที่ต้องการเดินทาง:</strong> <span style="color:var(--success); font-weight:700;"><i class="fa-regular fa-clock"></i> ${esc(booking.bookingTime || booking.time || booking.travelTime || 'ไม่ระบุเวลา')}</span></div>
                 <div class="detail-group"><strong>วันที่ทำรายการ:</strong> <span style="color:var(--accent); font-weight:700;"><i class="fa-regular fa-clock"></i> ${createdAtFormatted}</span></div>
-                <div class="detail-group"><strong>ชื่อ-นามสกุล:</strong> <span>${booking.name || '-'}</span></div>
-                <div class="detail-group"><strong>เบอร์โทรศัพท์:</strong> <span>${booking.phone || '-'}</span></div>
-                <div class="detail-group"><strong>Line ID:</strong> <span>${booking.lineid || '-'}</span></div>
-                <div class="detail-group"><strong>อีเมล:</strong> <span>${booking.email || '-'}</span></div>
-                <div class="detail-group"><strong>เส้นทาง:</strong> <span>${booking.route || '-'}</span></div>
-                <div class="detail-group"><strong>รุ่นรถที่เลือก:</strong> <span>${booking.carType || booking.car || '-'}</span></div>
-                <div class="detail-group"><strong>ราคารวม:</strong> <span style="color:var(--success); font-weight:700;">${typeof booking.price === 'number' ? booking.price.toLocaleString() + ' THB' : (booking.price || '-')}</span></div>
+                <div class="detail-group"><strong>ชื่อ-นามสกุล:</strong> <span>${esc(booking.name || '-')}</span></div>
+                <div class="detail-group"><strong>เบอร์โทรศัพท์:</strong> <span>${esc(booking.phone || '-')}</span></div>
+                <div class="detail-group"><strong>Line ID:</strong> <span>${esc(booking.lineid || '-')}</span></div>
+                <div class="detail-group"><strong>อีเมล:</strong> <span>${esc(booking.email || '-')}</span></div>
+                <div class="detail-group"><strong>เส้นทาง:</strong> <span>${esc(booking.route || '-')}</span></div>
+                <div class="detail-group"><strong>รุ่นรถที่เลือก:</strong> <span>${esc(booking.carType || booking.car || '-')}</span></div>
+                <div class="detail-group"><strong>ราคารวม:</strong> <span style="color:var(--success); font-weight:700;">${typeof booking.price === 'number' ? booking.price.toLocaleString() + ' THB' : esc(booking.price || '-')}</span></div>
                 <div class="detail-group" style="border-bottom: none; background: var(--bg-main); padding: 12px; border-radius: 8px; margin-top: 15px;">
                     <strong style="display:block; margin-bottom:5px; color:var(--primary);"><i class="fa-solid fa-note-sticky"></i> หมายเหตุ / ข้อความจากลูกค้า:</strong>
-                    <span style="color: var(--text-muted); white-space: pre-wrap;">${customerNote}</span>
+                    <span style="color: var(--text-muted); white-space: pre-wrap;">${esc(customerNote)}</span>
                 </div>
             `;
             document.getElementById('detailModal').style.display = 'flex';
@@ -1239,9 +1251,11 @@
             document.getElementById('detailModal').style.display = 'none';
         };
 
-        window.openSlipModal = function(imgSrc) {
+        window.openSlipModal = function(docId) {
+            const booking = allBookingsData.find(b => b.id === docId) || {};
+            const imgSrc = String(booking.slipBase64 || booking.slipUrl || '');
             const modalImg = document.getElementById('modalSlipImg');
-            if (imgSrc && imgSrc !== 'undefined' && imgSrc !== '') {
+            if (/^data:image\/(png|jpe?g|webp|gif);base64,/i.test(imgSrc) || /^https:\/\//i.test(imgSrc)) {
                 modalImg.src = imgSrc;
             } else {
                 modalImg.src = 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=400&q=80';

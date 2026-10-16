@@ -69,7 +69,7 @@
                     <label for="name">
                         <span data-i18n="label_name">Full Name</span> <span class="required">*</span>
                     </label>
-                    <input type="text" id="name" name="name" data-i18n-placeholder="Enter your full name" placeholder="Enter your full name" required>
+                    <input type="text" id="name" name="name" maxlength="100" data-i18n-placeholder="Enter your full name" placeholder="Enter your full name" required>
                 </div>
                 <div class="form-group">
                     <label for="phone">
@@ -84,13 +84,13 @@
                     <label for="lineid">
                         <span data-i18n="label_lineid">LINE ID</span> <span class="required">*</span>
                     </label>
-                    <input type="text" id="lineid" name="lineid" placeholder="e.g. @banktaxi or your phone-number ID" required>
+                    <input type="text" id="lineid" name="lineid" maxlength="50" placeholder="e.g. @banktaxi or your phone-number ID" required>
                 </div>
                 <div class="form-group">
                     <label for="email">
                         <span data-i18n="label_email">Email (for booking confirmation)</span> <span class="required">*</span>
                     </label>
-                    <input type="email" id="email" name="email" placeholder="example@email.com" required>
+                    <input type="email" id="email" name="email" maxlength="100" placeholder="example@email.com" required>
                 </div>
             </div>
 
@@ -149,7 +149,7 @@
     <label for="notes">
         <span data-i18n="label_notes">Special Notes / Additional Requirements</span>
     </label>
-    <textarea id="notes" name="notes" rows="3" placeholder="e.g., additional pickup/drop-off locations, child seats, or passenger count"></textarea>
+    <textarea id="notes" name="notes" maxlength="500" rows="3" placeholder="e.g., additional pickup/drop-off locations, child seats, or passenger count"></textarea>
 </div>
 
 <button type="submit" class="btn-submit-glow">
@@ -462,19 +462,20 @@ document.addEventListener("DOMContentLoaded", () => {
     const notes = document.getElementById('notes').value || '-';
     const price = document.getElementById('price-display').textContent;
 
+    const esc = v => String(v ?? '').replace(/[&<>"'`]/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;', '`': '&#96;' })[ch]);
     const summaryBox = document.getElementById('booking-summary-box');
     summaryBox.innerHTML = `
         <h4 style="margin: 0 0 10px 0; color: var(--accent-glow);"><i class="fa-solid fa-address-card"></i> สรุปข้อมูลการจอง / Booking Summary</h4>
-        <p style="margin: 4px 0;"><strong>ชื่อ / Name:</strong> ${name}</p>
-        <p style="margin: 4px 0;"><strong>เบอร์โทร / Phone:</strong> ${phone}</p>
-        <p style="margin: 4px 0;"><strong>LINE ID:</strong> ${lineid}</p>
-        <p style="margin: 4px 0;"><strong>Email:</strong> ${email}</p>
-        <p style="margin: 4px 0;"><strong>วัน-เวลานัดหมาย / Date & Time:</strong> <span style="color: #38bdf8;">${bookingDate} (${bookingTime} น.)</span></p>
-        <p style="margin: 4px 0;"><strong>รถ / Vehicle:</strong> ${car}</p>
-        <p style="margin: 4px 0;"><strong>เส้นทาง / Route:</strong> ${route}</p>
-        <p style="margin: 4px 0;"><strong>ราคารวม / Total:</strong> ${price}</p>
+        <p style="margin: 4px 0;"><strong>ชื่อ / Name:</strong> ${esc(name)}</p>
+        <p style="margin: 4px 0;"><strong>เบอร์โทร / Phone:</strong> ${esc(phone)}</p>
+        <p style="margin: 4px 0;"><strong>LINE ID:</strong> ${esc(lineid)}</p>
+        <p style="margin: 4px 0;"><strong>Email:</strong> ${esc(email)}</p>
+        <p style="margin: 4px 0;"><strong>วัน-เวลานัดหมาย / Date & Time:</strong> <span style="color: #38bdf8;">${esc(bookingDate)} (${esc(bookingTime)} น.)</span></p>
+        <p style="margin: 4px 0;"><strong>รถ / Vehicle:</strong> ${esc(car)}</p>
+        <p style="margin: 4px 0;"><strong>เส้นทาง / Route:</strong> ${esc(route)}</p>
+        <p style="margin: 4px 0;"><strong>ราคารวม / Total:</strong> ${esc(price)}</p>
         <p style="margin: 4px 0;"><strong>มัดจำ / Deposit:</strong> <span style="color: #fb7185; font-weight: 700;">400 บาท / THB</span></p>
-        <p style="margin: 4px 0;"><strong>หมายเหตุ / Notes:</strong> ${notes}</p>
+        <p style="margin: 4px 0;"><strong>หมายเหตุ / Notes:</strong> ${esc(notes)}</p>
     `;
 
     document.getElementById('payment-section').style.display = 'block';
@@ -501,6 +502,10 @@ window.handleBookingSubmission = handleBookingSubmission;
     const notes = document.getElementById('notes').value;
 
     const file = slipInput.files[0];
+    if (!/^image\/(png|jpe?g|webp|heic|heif)$/i.test(file.type) || file.size > 10 * 1024 * 1024) {
+        alert('Please attach an image file (JPG or PNG) no larger than 10 MB');
+        return;
+    }
     const errorBox = document.getElementById('bookingError');
     if (errorBox) errorBox.remove();
     window.setBookingSending(true);

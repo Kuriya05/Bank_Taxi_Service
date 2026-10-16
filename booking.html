@@ -69,7 +69,7 @@
                     <label for="name">
                         <span data-i18n="label_name">ชื่อ-นามสกุล</span> <span class="required">*</span>
                     </label>
-                    <input type="text" id="name" name="name" data-i18n-placeholder="กรอกชื่อของคุณ" placeholder="กรอกชื่อของคุณ" required>
+                    <input type="text" id="name" name="name" maxlength="100" data-i18n-placeholder="กรอกชื่อของคุณ" placeholder="กรอกชื่อของคุณ" required>
                 </div>
                 <div class="form-group">
                     <label for="phone">
@@ -84,13 +84,13 @@
                     <label for="lineid">
                         <span data-i18n="label_lineid">ไอดีไลน์ (LINE ID)</span> <span class="required">*</span>
                     </label>
-                    <input type="text" id="lineid" name="lineid" placeholder="เช่น @banktaxi หรือเบอร์โทรไอดี" required>
+                    <input type="text" id="lineid" name="lineid" maxlength="50" placeholder="เช่น @banktaxi หรือเบอร์โทรไอดี" required>
                 </div>
                 <div class="form-group">
                     <label for="email">
                         <span data-i18n="label_email">อีเมล (สำหรับรับหลักฐานการจอง)</span> <span class="required">*</span>
                     </label>
-                    <input type="email" id="email" name="email" placeholder="example@email.com" required>
+                    <input type="email" id="email" name="email" maxlength="100" placeholder="example@email.com" required>
                 </div>
             </div>
 
@@ -149,7 +149,7 @@
                 <label for="notes">
                     <span data-i18n="label_notes">หมายเหตุพิเศษ / ความต้องการเพิ่มเติม</span>
                 </label>
-                <textarea id="notes" name="notes" rows="3" placeholder="เช่น จุดรับ-ส่งเพิ่มเติม, เบาะเด็ก, หรือจำนวนผู้โดยสารจริง"></textarea>
+                <textarea id="notes" name="notes" maxlength="500" rows="3" placeholder="เช่น จุดรับ-ส่งเพิ่มเติม, เบาะเด็ก, หรือจำนวนผู้โดยสารจริง"></textarea>
             </div>
 
             <button type="submit" class="btn-submit-glow">
@@ -459,19 +459,20 @@ document.addEventListener("DOMContentLoaded", () => {
     const notes = document.getElementById('notes').value || '-';
     const price = document.getElementById('price-display').textContent;
 
+    const esc = v => String(v ?? '').replace(/[&<>"'`]/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;', '`': '&#96;' })[ch]);
     const summaryBox = document.getElementById('booking-summary-box');
     summaryBox.innerHTML = `
         <h4 style="margin: 0 0 10px 0; color: var(--accent-glow);"><i class="fa-solid fa-address-card"></i> สรุปข้อมูลการจอง / Booking Summary</h4>
-        <p style="margin: 4px 0;"><strong>ชื่อ / Name:</strong> ${name}</p>
-        <p style="margin: 4px 0;"><strong>เบอร์โทร / Phone:</strong> ${phone}</p>
-        <p style="margin: 4px 0;"><strong>LINE ID:</strong> ${lineid}</p>
-        <p style="margin: 4px 0;"><strong>Email:</strong> ${email}</p>
-        <p style="margin: 4px 0;"><strong>วัน-เวลานัดหมาย / Date & Time:</strong> <span style="color: #38bdf8;">${bookingDate} (${bookingTime} น.)</span></p>
-        <p style="margin: 4px 0;"><strong>รถ / Vehicle:</strong> ${car}</p>
-        <p style="margin: 4px 0;"><strong>เส้นทาง / Route:</strong> ${route}</p>
-        <p style="margin: 4px 0;"><strong>ราคารวม / Total:</strong> ${price}</p>
+        <p style="margin: 4px 0;"><strong>ชื่อ / Name:</strong> ${esc(name)}</p>
+        <p style="margin: 4px 0;"><strong>เบอร์โทร / Phone:</strong> ${esc(phone)}</p>
+        <p style="margin: 4px 0;"><strong>LINE ID:</strong> ${esc(lineid)}</p>
+        <p style="margin: 4px 0;"><strong>Email:</strong> ${esc(email)}</p>
+        <p style="margin: 4px 0;"><strong>วัน-เวลานัดหมาย / Date & Time:</strong> <span style="color: #38bdf8;">${esc(bookingDate)} (${esc(bookingTime)} น.)</span></p>
+        <p style="margin: 4px 0;"><strong>รถ / Vehicle:</strong> ${esc(car)}</p>
+        <p style="margin: 4px 0;"><strong>เส้นทาง / Route:</strong> ${esc(route)}</p>
+        <p style="margin: 4px 0;"><strong>ราคารวม / Total:</strong> ${esc(price)}</p>
         <p style="margin: 4px 0;"><strong>มัดจำ / Deposit:</strong> <span style="color: #fb7185; font-weight: 700;">400 บาท / THB</span></p>
-        <p style="margin: 4px 0;"><strong>หมายเหตุ / Notes:</strong> ${notes}</p>
+        <p style="margin: 4px 0;"><strong>หมายเหตุ / Notes:</strong> ${esc(notes)}</p>
     `;
 
     document.getElementById('payment-section').style.display = 'block';
@@ -498,6 +499,10 @@ window.handleBookingSubmission = handleBookingSubmission;
     const notes = document.getElementById('notes').value;
 
     const file = slipInput.files[0];
+    if (!/^image\/(png|jpe?g|webp|heic|heif)$/i.test(file.type) || file.size > 10 * 1024 * 1024) {
+        alert('กรุณาแนบไฟล์รูปภาพ (JPG หรือ PNG) ขนาดไม่เกิน 10 MB');
+        return;
+    }
     const errorBox = document.getElementById('bookingError');
     if (errorBox) errorBox.remove();
     window.setBookingSending(true);
