@@ -219,6 +219,7 @@
     </footer>
 
     <script src="site.js"></script>
+    <script src="receipt.js"></script>
     <script type="module">
         // 1. นำเข้า Firebase SDK ที่จำเป็น
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
@@ -497,50 +498,63 @@ window.handleBookingSubmission = handleBookingSubmission;
     const notes = document.getElementById('notes').value;
 
     const file = slipInput.files[0];
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    
-    reader.onload = function (event) {
-        const img = new Image();
-        img.src = event.target.result;
-        
-        img.onload = async function () {
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-            const MAX_WIDTH = 800;
-            const scaleSize = MAX_WIDTH / img.width;
-            canvas.width = MAX_WIDTH;
-            canvas.height = img.height * scaleSize;
+    const errorBox = document.getElementById('bookingError');
+    if (errorBox) errorBox.remove();
+    window.setBookingSending(true);
 
-            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-            const base64Slip = canvas.toDataURL('image/jpeg', 0.7);
+    try {
+        // ย่อรูปสลิปให้กว้างไม่เกิน 800px และสูงไม่เกิน 1600px (ไฟล์เล็กพอสำหรับ Firestore)
+        const base64Slip = await new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onerror = () => reject(new Error('slip-read'));
+            reader.onload = event => {
+                const img = new Image();
+                img.onerror = () => reject(new Error('slip-image'));
+                img.onload = () => {
+                    const scale = Math.min(1, 800 / img.width, 1600 / img.height);
+                    const canvas = document.createElement('canvas');
+                    canvas.width = Math.round(img.width * scale);
+                    canvas.height = Math.round(img.height * scale);
+                    canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+                    resolve(canvas.toDataURL('image/jpeg', 0.7));
+                };
+                img.src = event.target.result;
+            };
+            reader.readAsDataURL(file);
+        });
 
-            try {
-                const docRef = await addDoc(collection(db, "bookings"), {
-                    name, 
-                    phone, 
-                    lineid, 
-                    email,
-                    bookingDate, // บันทึกวันที่เดินทางลง Cloud
-                    bookingTime, // บันทึกเวลาเดินทางลง Cloud
-                    carType: car,
-                    route: routeText,
-                    price: Number(priceValue),
-                    notes,
-                    deposit: 400, // ค่ามัดจำ 400 บาท
-                    slipBase64: base64Slip,
-                    status: "pending",
-                    createdAt: new Date()
-                });
-
-                alert(`บันทึกข้อมูลการจองสำเร็จ!\nรหัสการจอง: ${docRef.id}\n\nขอบคุณที่ใช้บริการ Bank Taxi Service!`);
-                location.reload();
-            } catch (e) {
-                console.error("Error adding document: ", e);
-                alert("เกิดข้อผิดพลาดในการบันทึกข้อมูล กรุณาลองใหม่อีกครั้ง");
-            }
+        const booking = {
+            name,
+            phone,
+            lineid,
+            email,
+            bookingDate, // บันทึกวันที่เดินทางลง Cloud
+            bookingTime, // บันทึกเวลาเดินทางลง Cloud
+            carType: car,
+            route: routeText,
+            price: Number(priceValue),
+            notes,
+            deposit: 400, // ค่ามัดจำ 400 บาท
+            slipBase64: base64Slip,
+            status: "pending",
+            createdAt: new Date()
         };
-    };
+
+        // ถ้าเน็ตหลุด Firestore จะรอส่งไปเรื่อยๆ โดยไม่แจ้งอะไร จึงตัดที่ 25 วินาทีแล้วบอกผู้ใช้
+        const timeout = new Promise((_, reject) => setTimeout(() => reject({ code: 'timeout' }), 25000));
+        const docRef = await Promise.race([addDoc(collection(db, "bookings"), booking), timeout]);
+
+        window.setBookingSending(false);
+        window.showBookingReceipt({
+            ...booking,
+            id: docRef.id,
+            carLabel: document.getElementById('car').options[document.getElementById('car').selectedIndex].text
+        });
+    } catch (e) {
+        console.error("Error adding document: ", e);
+        window.setBookingSending(false);
+        window.showBookingError(e);
+    }
 }
 window.finalizeBooking = finalizeBooking;
         window.addEventListener('DOMContentLoaded', () => {

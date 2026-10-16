@@ -1500,3 +1500,111 @@ footer {
     header .brand span { font-size: 0.92rem; }
     .lang-btn { width: 28px; height: 28px; }
 }
+
+/* ==========================================================
+   23. Booking: ตัวอย่างสลิป, สถานะปุ่มส่ง, ข้อความ error, ใบจองรถ
+   ========================================================== */
+.slip-preview:empty { display: none; }
+.slip-preview {
+    display: flex; align-items: center; gap: 14px;
+    margin-top: 12px; padding: 10px; border-radius: 14px;
+    background: #fff; border: 1px solid var(--line);
+}
+.slip-preview img { width: 64px; height: 84px; object-fit: cover; border-radius: 10px; border: 1px solid var(--line); }
+.slip-preview b { display: block; color: var(--sky-deep); font-family: var(--font-head); font-weight: 600; }
+.slip-preview span { display: block; font-size: 0.85rem; word-break: break-all; }
+.slip-preview small { color: var(--muted); font-size: 0.78rem; }
+
+.btn-submit-glow:disabled { cursor: wait; opacity: 0.85; transform: none; }
+.spinner {
+    display: inline-block; width: 18px; height: 18px; margin-right: 6px; vertical-align: -3px;
+    border: 2.5px solid rgba(255,255,255,0.45); border-top-color: #fff; border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+.booking-error {
+    display: flex; gap: 10px; align-items: flex-start;
+    margin-top: 20px; padding: 14px 16px; border-radius: 14px; text-align: left;
+    background: rgba(225,29,72,0.07); border: 1px solid rgba(225,29,72,0.35); color: #be123c; font-weight: 600;
+    animation: rise 0.4s var(--ease);
+}
+.booking-error i { margin-top: 3px; }
+
+body.receipt-open { overflow: hidden; }
+.receipt-overlay {
+    position: fixed; inset: 0; z-index: 10000;
+    display: flex; align-items: flex-start; justify-content: center;
+    padding: 28px 16px; overflow-y: auto;
+    background: rgba(15,42,68,0.45); backdrop-filter: blur(8px);
+}
+.receipt {
+    position: relative; width: 100%; max-width: 520px; margin: auto;
+    padding: 28px; border-radius: 26px; background: #fff; color: var(--text);
+    box-shadow: 0 40px 90px rgba(8,30,60,0.35);
+    animation: rise 0.55s var(--ease);
+}
+.receipt::before {
+    content: ''; position: absolute; left: 0; right: 0; top: 0; height: 8px; border-radius: 26px 26px 0 0;
+    background: var(--grad);
+}
+.r-head { display: flex; align-items: center; gap: 14px; padding-bottom: 18px; border-bottom: 1px dashed var(--line); }
+.r-head img { width: 52px; height: 52px; }
+.r-head h2 { font-size: 1.45rem; font-weight: 800; }
+.r-head p { margin: 0; color: var(--muted); font-size: 0.9rem; }
+.r-check {
+    margin-left: auto; width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center;
+    background: rgba(22,163,74,0.12); color: #16a34a; font-size: 1.3rem;
+    animation: pop 0.6s 0.25s var(--ease) both;
+}
+@keyframes pop { from { transform: scale(0); } 60% { transform: scale(1.2); } to { transform: scale(1); } }
+.r-code {
+    display: flex; justify-content: space-between; align-items: center; gap: 12px;
+    margin: 18px 0 6px; padding: 14px 16px; border-radius: 16px;
+    background: linear-gradient(160deg, #f0f9ff, #e0f2fe); border: 1px solid rgba(14,165,233,0.25);
+}
+.r-code small { display: block; font-size: 0.75rem; color: var(--muted); }
+.r-code b { font-family: var(--font-head); font-size: 1.35rem; letter-spacing: 1.5px; color: var(--sky-deep); }
+.r-code > div:last-child { text-align: right; }
+.r-badge {
+    display: inline-block; margin-top: 2px; padding: 4px 10px; border-radius: 999px;
+    background: rgba(245,158,11,0.14); color: #b45309; font-size: 0.8rem; font-weight: 600; white-space: nowrap;
+}
+.r-section { padding: 14px 0 6px; border-bottom: 1px dashed var(--line); }
+.r-section h3 { font-size: 0.8rem; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--sky-deep); margin-bottom: 8px; }
+.r-route { font-family: var(--font-head); font-size: 1.1rem; font-weight: 600; margin-bottom: 6px; }
+.r-route i { color: var(--sky); margin-right: 4px; }
+.r-row { display: flex; justify-content: space-between; gap: 16px; padding: 5px 0; font-size: 0.93rem; }
+.r-row span { color: var(--muted); flex-shrink: 0; }
+.r-row b { font-weight: 600; text-align: right; word-break: break-word; }
+.r-green b { color: #16a34a; }
+.r-total { margin-top: 4px; padding-top: 10px; border-top: 1px solid var(--line); }
+.r-total span { color: var(--text); font-weight: 600; }
+.r-total b { font-family: var(--font-head); font-size: 1.3rem; color: var(--sky-deep); }
+.r-pay { border-bottom: 0; }
+.r-note { margin: 10px 0 14px; padding: 12px 14px; border-radius: 12px; background: #f8fbff; color: #334e68; font-size: 0.88rem; }
+.r-foot { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 16px; color: var(--muted); font-size: 0.8rem; }
+.r-foot i { color: var(--sky); }
+.r-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
+.r-actions .btn { padding: 13px 16px; font-size: 0.95rem; }
+.r-close {
+    position: absolute; top: 18px; right: 18px; width: 34px; height: 34px; border-radius: 50%;
+    border: 1px solid var(--line); background: #fff; color: var(--muted); cursor: pointer;
+}
+.r-close:hover { color: var(--sky-deep); border-color: var(--sky); }
+.r-head .r-check { margin-right: 36px; }
+
+@media (max-width: 480px) {
+    .receipt { padding: 22px 18px; border-radius: 22px; }
+    .r-actions { grid-template-columns: 1fr; }
+    .r-head .r-check { display: none; }
+    .r-head h2 { font-size: 1.3rem; }
+}
+
+/* พิมพ์ / บันทึก PDF: พิมพ์เฉพาะใบจอง */
+@media print {
+    body.receipt-open > *:not(.receipt-overlay) { display: none !important; }
+    body.receipt-open { padding: 0 !important; background: #fff !important; }
+    .receipt-overlay { position: static; padding: 0; background: none; backdrop-filter: none; overflow: visible; }
+    .receipt { box-shadow: none; max-width: 100%; animation: none; border: 1px solid #cfe3f3; }
+    .receipt *, .receipt::before { -webkit-print-color-adjust: exact; print-color-adjust: exact; animation: none !important; }
+    .r-actions, .r-close { display: none !important; }
+}
