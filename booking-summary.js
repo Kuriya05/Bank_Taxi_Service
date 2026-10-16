@@ -123,7 +123,21 @@
                 <a href="https://line.me/ti/p/4wD6IYASNu" target="_blank" rel="noopener"><i class="fa-brands fa-line"></i> LINE</a>
             </div>`;
         updateSteps();
+        fitSticky();
     }
+
+    // ===== กล่องสรุปไม่มีแถบเลื่อนของตัวเอง =====
+    // สั้นกว่าจอ: ค้างอยู่ใต้ header · ยาวกว่าจอ: เลื่อนไปพร้อมหน้าเว็บ แล้วค้างเมื่อเห็นท้ายกล่อง
+    const HEADER_GAP = 92, BOTTOM_GAP = 16;
+    function fitSticky() {
+        // เว้นที่ให้แถบปุ่มติดต่อด้านล่างจอ (ถ้าแสดงอยู่) จะได้ไม่บังท้ายกล่อง
+        const bar = document.querySelector('.floating-contact');
+        const barRect = bar ? bar.getBoundingClientRect() : null;
+        const barH = barRect && barRect.width > innerWidth * 0.6 ? innerHeight - barRect.top : 0;
+        const top = Math.min(HEADER_GAP, innerHeight - aside.offsetHeight - BOTTOM_GAP - barH);
+        aside.style.setProperty('--sum-top', top + 'px');
+    }
+    addEventListener('resize', fitSticky);
 
     // ===== ความคืบหน้า =====
     function updateSteps() {

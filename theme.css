@@ -2098,7 +2098,7 @@ body.receipt-open { overflow: hidden; }
 .booking-card .form-section:not(:first-of-type) { margin-top: 26px; padding-top: 22px; border-top: 1px dashed var(--line); }
 
 /* --- กล่องสรุป --- */
-.booking-summary { position: sticky; top: 92px; max-height: calc(100vh - 110px); overflow-y: auto; scrollbar-width: thin; padding: 22px; display: flex; flex-direction: column; gap: 16px; }
+.booking-summary { position: sticky; top: var(--sum-top, 92px); padding: 22px; display: flex; flex-direction: column; gap: 16px; }
 .sum-head { display: flex; flex-direction: column; gap: 4px; }
 .sum-head h3 { font-size: 1.2rem; font-weight: 700; display: flex; align-items: center; gap: 8px; }
 .sum-head h3 i { color: var(--sky); }
@@ -2150,7 +2150,7 @@ body.receipt-open { overflow: hidden; }
 
 @media (max-width: 1024px) {
     .booking-layout { grid-template-columns: 1fr; }
-    .booking-summary { position: static; max-height: none; overflow: visible; }
+    .booking-summary { position: static; }
 }
 @media (max-width: 640px) {
     .book-steps { margin-bottom: 18px; }
