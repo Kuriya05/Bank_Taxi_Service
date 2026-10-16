@@ -1424,3 +1424,79 @@ footer {
 @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation: none !important; transition: none !important; }
 }
+
+/* ==========================================================
+   22. มือถือ: เมนูสามขีด + แถบปุ่มติดต่อด้านล่าง (ไม่ทับเนื้อหา)
+   ========================================================== */
+.nav-toggle { display: none; }
+.float-btn .tip-extra { display: inline; }
+
+@media (max-width: 860px) {
+    .header-wrapper, header.scrolled .header-wrapper { flex-wrap: wrap; padding: 10px 16px; gap: 10px; }
+    header .brand span { display: inline; font-size: 1rem; }
+    .language-switcher-top { margin-left: auto; }
+
+    .nav-toggle {
+        display: grid; place-content: center; gap: 5px;
+        width: 44px; height: 44px; padding: 0; cursor: pointer;
+        border-radius: 14px; border: 1px solid var(--line);
+        background: var(--surface); box-shadow: var(--shadow);
+    }
+    .nav-toggle span {
+        display: block; width: 20px; height: 2px; border-radius: 2px;
+        background: var(--sky-deep); transition: transform 0.35s var(--ease), opacity 0.2s;
+    }
+    header.nav-open .nav-toggle span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    header.nav-open .nav-toggle span:nth-child(2) { opacity: 0; }
+    header.nav-open .nav-toggle span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    .nav-menu {
+        order: 10; width: 100%;
+        display: none; flex-direction: column; align-items: stretch; gap: 4px;
+        padding: 8px; border-radius: 20px; overflow: visible;
+        background: rgba(255, 255, 255, 0.96); box-shadow: 0 18px 40px rgba(14, 116, 184, 0.16);
+    }
+    header.nav-open .nav-menu { display: flex; animation: rise 0.35s var(--ease); }
+    .nav-menu a, .nav-menu a.active { padding: 13px 16px; font-size: 1.02rem; border-radius: 14px; }
+    .nav-menu a i { display: inline-block; width: 20px; text-align: center; }
+}
+
+@media (max-width: 640px) {
+    .nav-menu a i { display: inline-block; }
+}
+
+@media (max-width: 1024px) {
+    /* ปุ่มลอยกลายเป็นแถบด้านล่างจอ มีชื่อกำกับ และเว้นพื้นที่ให้เนื้อหาไม่โดนบัง */
+    body { padding-bottom: calc(78px + env(safe-area-inset-bottom)); }
+    .floating-contact {
+        left: 0; right: 0; bottom: 0;
+        flex-direction: row; justify-content: center; gap: 6px;
+        padding: 8px 10px calc(8px + env(safe-area-inset-bottom));
+        background: rgba(255, 255, 255, 0.94);
+        backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+        border-top: 1px solid var(--line);
+        box-shadow: 0 -10px 30px rgba(14, 116, 184, 0.12);
+    }
+    .float-btn {
+        flex: 1; width: auto; max-width: 170px; height: 54px; min-width: 0;
+        display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px;
+        border-radius: 14px; font-size: 1.15rem;
+        box-shadow: none;
+    }
+    .float-btn:hover { transform: none; }
+    .float-btn.phone::before { display: none; }
+    .float-btn.phone i { animation: none; }
+    .float-btn .tip, .float-btn:hover .tip {
+        position: static; opacity: 1; transform: none;
+        padding: 0; border: 0; background: none; box-shadow: none;
+        color: #fff; font-size: 0.7rem; font-weight: 600; line-height: 1;
+        max-width: 100%; overflow: hidden; text-overflow: ellipsis;
+    }
+    .float-btn .tip-extra { display: none; }
+    footer { padding-bottom: 24px; }
+}
+
+@media (max-width: 380px) {
+    header .brand span { font-size: 0.92rem; }
+    .lang-btn { width: 28px; height: 28px; }
+}

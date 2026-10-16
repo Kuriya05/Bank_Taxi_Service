@@ -28,6 +28,30 @@ function animateNumber(el, from, to, ms = 600) {
     onScroll();
 })();
 
+// ===== ปุ่มเมนูสามขีดบนมือถือ =====
+(function () {
+    const header = document.getElementById('siteHeader');
+    const nav = header && header.querySelector('.nav-menu');
+    if (!nav) return;
+    const isEn = document.documentElement.lang === 'en';
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'nav-toggle';
+    btn.setAttribute('aria-label', isEn ? 'Menu' : 'เมนู');
+    btn.setAttribute('aria-expanded', 'false');
+    btn.innerHTML = '<span></span><span></span><span></span>';
+    header.querySelector('.header-wrapper').appendChild(btn);
+
+    function setOpen(open) {
+        header.classList.toggle('nav-open', open);
+        btn.setAttribute('aria-expanded', String(open));
+    }
+    btn.addEventListener('click', () => setOpen(!header.classList.contains('nav-open')));
+    nav.addEventListener('click', e => { if (e.target.closest('a')) setOpen(false); });
+    document.addEventListener('click', e => { if (!header.contains(e.target)) setOpen(false); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') setOpen(false); });
+})();
+
 // ===== Scroll reveal + ตัวเลขนับขึ้น =====
 function revealEl(el) {
     if (el.classList.contains('in')) return;
