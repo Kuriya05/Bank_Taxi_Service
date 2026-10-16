@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-i18n="booking_title">ระบบจองรถและประเมินราคา | Bank Taxi Service</title>
+    <title data-i18n="booking_title">Car Rental & Fare Estimation | Bank Taxi Service</title>
     <meta name="theme-color" content="#f5f9ff">
     <link rel="icon" href="logo-mark.svg" type="image/svg+xml">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -30,15 +30,15 @@
 
             <nav class="nav-menu">
                 <a href="index-en.html"><i class="fa-solid fa-house"></i> Home</a>
-                <a href="services-en.html"><i class="fa-solid fa-tags"></i> Services & Rates</a>
+                <a href="services-en.html"><i class="fa-solid fa-tags"></i> Services &amp; Rates</a>
                 <a href="cars-en.html"><i class="fa-solid fa-car"></i> Cars</a>
                 <a href="booking-en.html" class="active"><i class="fa-solid fa-calendar-check"></i> Booking</a>
                 <a href="contact-en.html"><i class="fa-solid fa-address-book"></i> Contact</a>
             </nav>
 
             <div class="language-switcher-top">
-                <a href="booking.html" class="lang-btn th" title="ภาษาไทย" data-lang="th" onclick="setLanguage('th')">TH</a>
-                <a href="booking-en.html" class="lang-btn en active" title="English" data-lang="en" onclick="setLanguage('en')">EN</a>
+                <a href="booking.html" class="lang-btn th" data-lang="th" title="ภาษาไทย">TH</a>
+                <a href="booking-en.html" class="lang-btn en active" data-lang="en" title="English">EN</a>
             </div>
         </div>
         <div class="road-progress" aria-hidden="true">
@@ -51,13 +51,13 @@
    <main class="wrap page booking-wrap">
     <div class="page-head reveal">
         <span class="eyebrow">Online Booking</span>
-        <h1 data-i18n="booking_main_heading">ระบบจองรถและประเมินราคา</h1>
-        <p data-i18n="booking_main_subheading">สะดวก รวดเร็ว พร้อมให้บริการคุณตลอด 24 ชั่วโมง ทั่วไทย</p>
+        <h1 data-i18n="booking_main_heading">Online Car Booking & Fare Estimation</h1>
+        <p data-i18n="booking_main_subheading">Convenient, fast, and available 24 hours a day across Thailand.</p>
     </div>
 
     <div class="booking-card glass reveal">
         <h2>
-    <i class="fa-solid fa-file-pen"></i> <span data-i18n="form_heading">แบบฟอร์มจองรถและประเมินราคา</span>
+    <i class="fa-solid fa-file-pen"></i> <span data-i18n="form_heading">Booking Form & Fare Estimation</span>
 </h2>
         
         <form id="bookingForm" onsubmit="handleBookingSubmission(event)">
@@ -67,28 +67,28 @@
             <div class="form-row">
                 <div class="form-group">
                     <label for="name">
-                        <span data-i18n="label_name">ชื่อ-นามสกุล</span> <span class="required">*</span>
+                        <span data-i18n="label_name">Full Name</span> <span class="required">*</span>
                     </label>
-                    <input type="text" id="name" name="name" data-i18n-placeholder="กรอกชื่อของคุณ" placeholder="กรอกชื่อของคุณ" required>
+                    <input type="text" id="name" name="name" data-i18n-placeholder="Enter your full name" placeholder="Enter your full name" required>
                 </div>
                 <div class="form-group">
                     <label for="phone">
-                        <span data-i18n="label_phone">เบอร์โทรศัพท์ (10 หลัก)</span> <span class="required">*</span>
+                        <span data-i18n="label_phone">Phone Number (10 digits)</span> <span class="required">*</span>
                     </label>
-                    <input type="tel" id="phone" name="phone" placeholder="094xxxxxxx" maxlength="10" pattern="[0-9]{10}" title="กรุณากรอกเบอร์โทรศัพท์ 10 หลัก" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required>
+                    <input type="tel" id="phone" name="phone" placeholder="094xxxxxxx" maxlength="10" pattern="[0-9]{10}" title="Please enter a 10-digit phone number" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required>
                 </div>
             </div>
 
             <div class="form-row">
                 <div class="form-group">
                     <label for="lineid">
-                        <span data-i18n="label_lineid">ไอดีไลน์ (LINE ID)</span> <span class="required">*</span>
+                        <span data-i18n="label_lineid">LINE ID</span> <span class="required">*</span>
                     </label>
-                    <input type="text" id="lineid" name="lineid" placeholder="เช่น @banktaxi หรือเบอร์โทรไอดี" required>
+                    <input type="text" id="lineid" name="lineid" placeholder="e.g. @banktaxi or your phone-number ID" required>
                 </div>
                 <div class="form-group">
                     <label for="email">
-                        <span data-i18n="label_email">อีเมล (สำหรับรับหลักฐานการจอง)</span> <span class="required">*</span>
+                        <span data-i18n="label_email">Email (for booking confirmation)</span> <span class="required">*</span>
                     </label>
                     <input type="email" id="email" name="email" placeholder="example@email.com" required>
                 </div>
@@ -98,13 +98,13 @@
             <div class="form-row">
                 <div class="form-group">
                     <label for="bookingDate">
-                        <i class="fa-solid fa-calendar-days"></i> <span data-i18n="label_date">วันที่นัดหมายเดินทาง</span> <span class="required">*</span>
+                        <i class="fa-solid fa-calendar-days"></i> <span data-i18n="label_date">Travel Date</span> <span class="required">*</span>
                     </label>
                     <input type="date" id="bookingDate" name="bookingDate" required>
                 </div>
                 <div class="form-group">
                     <label for="bookingTime">
-                        <i class="fa-solid fa-clock"></i> <span data-i18n="label_time">เวลานัดหมายเดินทาง</span> <span class="required">*</span>
+                        <i class="fa-solid fa-clock"></i> <span data-i18n="label_time">Travel Time</span> <span class="required">*</span>
                     </label>
                     <input type="time" id="bookingTime" name="bookingTime" required>
                 </div>
@@ -160,12 +160,12 @@
        <!-- Payment & QR Code Section -->
         <div id="payment-section" style="display: none;">
             <div class="deposit-alert">
-                <i class="fa-solid fa-circle-exclamation"></i> <span data-i18n="deposit_alert">ยอดมัดจำยืนยันการจอง: 400 บาท (ส่วนที่เหลือชำระกับคนขับวันเดินทาง)</span>
+                <i class="fa-solid fa-circle-exclamation"></i> <span data-i18n="deposit_alert">Booking Confirmation Deposit: 400 THB (Balance payable to driver on travel day)</span>
             </div>
             <h3>
-                <i class="fa-solid fa-qrcode"></i> <span data-i18n="qr_heading">กรุณาสแกน QR Code เพื่อชำระเงินมัดจำ 400 บาท</span>
+                <i class="fa-solid fa-qrcode"></i> <span data-i18n="qr_heading">Please Scan QR Code to Pay 400 THB Deposit</span>
             </h3>
-            <p data-i18n="qr_subheading">เมื่อโอนเงินแล้ว โปรดแนบสลิปเพื่อส่งหลักฐานการจองเข้าสู่อีเมลและแจ้งเตือนผ่าน LINE อัตโนมัติ</p>
+            <p data-i18n="qr_subheading">After transferring, please attach your transfer slip below to send booking details to your email.</p>
             
             <div class="qr-container">
                 <img src="https://img2.pic.in.th/IMG_2290.jpg" alt="Payment QR Code">
@@ -174,7 +174,7 @@
 
             <div class="upload-box">
                 <label for="slip">
-                    <i class="fa-solid fa-file-arrow-up"></i> <span data-i18n="label_slip">แนบสลิปหลักฐานการโอนเงิน (มัดจำ 400 บาท)</span> <span class="required">*</span>
+                    <i class="fa-solid fa-file-arrow-up"></i> <span data-i18n="label_slip">Attach Transfer Slip (400 THB Deposit)</span> <span class="required">*</span>
                 </label>
                 <input type="file" id="slip" name="slip" accept="image/*" required onchange="previewSlip(event)">
                 
@@ -183,7 +183,7 @@
                 </div>
 
                 <button type="button" class="btn-submit-glow" onclick="finalizeBooking()">
-                    <i class="fa-solid fa-paper-plane"></i> <span data-i18n="btn_finalize">ส่งหลักฐานการจอง (แจ้งเตือนเข้า LINE & Email)</span>
+                    <i class="fa-solid fa-paper-plane"></i> <span data-i18n="btn_finalize">Submit Booking Proof (LINE & Email Notification)</span>
                 </button>
             </div>
         </div>
@@ -191,13 +191,11 @@
     </div>
 </main>
 
-    <!-- Floating Contact Buttons -->
-    
 
     <div class="floating-contact">
-        <a href="https://line.me/ti/p/4wD6IYASNu" target="_blank" rel="noopener" class="float-btn line" title="แอดไลน์"><i class="fa-brands fa-line"></i></a>
-        <a href="tel:087-585-4108" class="float-btn phone" title="โทรด่วน 087-585-4108"><i class="fa-solid fa-phone"></i></a>
-        <a href="mailto:bank8307@gmail.com" class="float-btn email" title="ส่งอีเมลติดต่อเรา"><i class="fa-solid fa-envelope"></i></a>
+        <a href="https://line.me/ti/p/4wD6IYASNu" target="_blank" rel="noopener" class="float-btn line" aria-label="Add LINE"><i class="fa-brands fa-line"></i><span class="tip">Add LINE</span></a>
+        <a href="tel:087-585-4108" class="float-btn phone" aria-label="Call 087-585-4108"><i class="fa-solid fa-phone"></i><span class="tip">Call 087-585-4108</span></a>
+        <a href="mailto:bank8307@gmail.com" class="float-btn email" aria-label="Email us"><i class="fa-solid fa-envelope"></i><span class="tip">Email us</span></a>
     </div>
 
     <footer>
@@ -374,7 +372,7 @@ document.addEventListener("DOMContentLoaded", () => {
         window.setLanguage = setLanguage;
 
         document.addEventListener("DOMContentLoaded", () => {
-            const savedLang = localStorage.getItem('selectedLang') || 'th';
+            const savedLang = 'en';
             setLanguage(savedLang);
         });
 
