@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ประเภทรถและอัตราค่าบริการ - Bank Taxi Service</title>
+    <title>รถของเรา - Bank Taxi Service</title>
     <meta name="theme-color" content="#f5f9ff">
     <link rel="icon" href="logo-mark.svg" type="image/svg+xml">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -47,206 +47,55 @@
         </div>
     </header>
 
-    <main class="wrap page">
-
-
-    <!-- Main Container -->
-    <div class="container">
-        <div class="container">
-<div class="page-head reveal"><span class="eyebrow">Our Fleet</span><h1>ประเภทรถและอัตราค่าบริการ</h1><p>เลือกเลื่อนดูขบวนรถของเรา พร้อมรายละเอียดคนขับ จำนวนที่นั่ง และพื้นที่สัมภาระ</p></div>
-</div>
-        <!-- 🚗 แผงปุ่มตัวเลือกเลือกรุ่นรถ (Jump to Specific Car) -->
-        <div class="car-selector-bar reveal">
-            <a href="#camry" class="car-select-btn"><i class="fa-solid fa-car"></i> Toyota Camry</a>
-            <a href="#fortuner" class="car-select-btn"><i class="fa-solid fa-car"></i> Toyota Fortuner</a>
-            <a href="#commuter" class="car-select-btn"><i class="fa-solid fa-car"></i> Toyota Commuter</a>
+    <main class="wrap page cars-page">
+        <div class="page-head reveal">
+            <span class="eyebrow">Our Fleet</span>
+            <h1>เลือกรถที่ <span class="grad-text">ใช่สำหรับคุณ</span></h1>
+            <p>รถทุกคันผ่านการตรวจเช็คสภาพสม่ำเสมอ สะอาดทั้งภายในและภายนอก พร้อมคนขับมืออาชีพ</p>
         </div>
 
-        <!-- 🎬 โซนสไลด์โชว์รูปรถสไตล์ภาพยนตร์ -->
-        <section class="car-slider-section reveal">
-            <div class="cinema-slider" id="cinemaSlider">
-                <div class="slide-item active">
-                    <img src="https://img1.pic.in.th/images/camry.png" alt="Toyota Camry">
-                    <div class="slide-caption">
-                        <span class="tag"><i class="fa-solid fa-users"></i> 1-3 ที่นั่ง</span>
-                        <h3>Toyota Camry</h3>
-                        <p>รถเก๋งซีดานหรู นั่งสบาย เหมาะสำหรับ 1-3 ที่นั่ง เดินทางเป็นส่วนตัว</p>
-                    </div>
+        <section class="showroom glass reveal" id="showroom" aria-roledescription="carousel"></section>
+
+        <section class="svc-block">
+            <div class="section-head reveal"><span class="eyebrow">Compare</span><h2>เปรียบเทียบรถทั้ง 3 รุ่น</h2><p>แตะรูปรถเพื่อดูในโชว์รูมด้านบน</p></div>
+            <div class="compare-wrap glass reveal"><div class="compare" id="compareTable"></div></div>
+        </section>
+
+        <section class="svc-block">
+            <div class="section-head reveal"><span class="eyebrow">Our Standard</span><h2>มาตรฐานเดียวกันทุกคัน</h2></div>
+            <div class="cond-grid">
+                <div class="glass spotlight std reveal" data-delay="0">
+                    <span class="std-icon"><i class="fa-solid fa-user-tie"></i></span>
+                    <h3>คนขับมืออาชีพ</h3>
+                    <p>คนขับมืออาชีพสุภาพ พร้อมดูแลคุณตลอดการเดินทาง</p>
                 </div>
-                <div class="slide-item">
-                    <img src="https://img1.pic.in.th/images/fortuner.png" alt="Toyota Fortuner">
-                    <div class="slide-caption">
-                        <span class="tag"><i class="fa-solid fa-users"></i> 4-5 ที่นั่ง</span>
-                        <h3>Toyota Fortuner</h3>
-                        <p>รถ SUV พรีเมียม ลุยได้ทุกเส้นทาง พื้นที่กว้างขวาง รองรับ 4-5 ที่นั่ง</p>
-                    </div>
+                <div class="glass spotlight std reveal" data-delay="1">
+                    <span class="std-icon"><i class="fa-solid fa-shield-halved"></i></span>
+                    <h3>ปลอดภัยมั่นใจได้</h3>
+                    <p>รถได้มาตรฐานความปลอดภัย ผ่านการตรวจเช็คสภาพสม่ำเสมอ</p>
                 </div>
-                <div class="slide-item">
-                    <img src="https://img2.pic.in.th/commuter.png" alt="Toyota Commuter">
-                    <div class="slide-caption">
-                        <span class="tag"><i class="fa-solid fa-users"></i> 9-10 ที่นั่ง</span>
-                        <h3>Toyota Commuter</h3>
-                        <p>รถตู้ VIP ปรับแต่งพิเศษนั่งสบาย เหมาะสำหรับเดินทางเป็นหมู่คณะ 9-10 ที่นั่ง</p>
-                    </div>
+                <div class="glass spotlight std reveal" data-delay="2">
+                    <span class="std-icon"><i class="fa-solid fa-spray-can-sparkles"></i></span>
+                    <h3>สะอาดทุกเที่ยว</h3>
+                    <p>ดูแลความสะอาดเรียบร้อยทั้งภายในและภายนอก</p>
                 </div>
-                <div class="slide-counter"><b id="slideNow">01</b> / 03</div>
-                <button class="slider-btn prev-btn" onclick="moveSlide(-1)" aria-label="previous"><i class="fa-solid fa-chevron-left"></i></button>
-                <button class="slider-btn next-btn" onclick="moveSlide(1)" aria-label="next"><i class="fa-solid fa-chevron-right"></i></button>
-                <div class="slider-dots">
-                    <button class="dot active" onclick="currentSlide(0)" aria-label="slide 1"></button>
-                    <button class="dot" onclick="currentSlide(1)" aria-label="slide 2"></button>
-                    <button class="dot" onclick="currentSlide(2)" aria-label="slide 3"></button>
+                <div class="glass spotlight std reveal" data-delay="3">
+                    <span class="std-icon"><i class="fa-solid fa-clock"></i></span>
+                    <h3>พร้อมทุกเวลา</h3>
+                    <p>ให้บริการตลอด 24 ชั่วโมง ไม่ว่าเที่ยวบินจะถึงกี่โมง</p>
                 </div>
             </div>
         </section>
 
-        <!-- รายละเอียดแยกแต่ละรุ่นรถ พร้อมข้อมูลคนขับ จำนวนคน สัมภาระ -->
-       <div class="container">
-<div class="page-head second reveal"><span class="eyebrow">Our Fleet</span><h1>บริการและอัตราค่าบริการตามประเภทรถ</h1><p>เลือกประเภทรถที่ต้องการ พร้อมดูอัตราค่าบริการและเงื่อนไขในแต่ละเส้นทาง</p></div>
-
-    <!-- Car Service List (Modern Editorial Layout) -->
-    <div class="car-service-list">
-
-        <!-- 1. Toyota Camry -->
-        <div class="car-service-card glass spotlight reveal" id="camry">
-            <div class="car-image-side">
-                <img src="https://img1.pic.in.th/images/camry.png" alt="Toyota Camry" onclick="openImageModal(this.src)" title="คลิกเพื่อขยายรูปภาพ">
-            </div>
-            <div class="car-details-side">
-                <div class="car-header-info">
-                    <h2>Toyota Camry</h2>
-                    <p>รถเก๋ง สะอาด นั่งนุ่มนวล เป็นส่วนตัวสูงสุด</p>
-                    <!-- ข้อมูลคนขับ จำนวนคน สัมภาระ -->
-                    <div class="car-specs-info">
-                        <span><i class="fa-solid fa-user-tie"></i> คนขับมืออาชีพสุภาพ</span>
-                        <span><i class="fa-solid fa-users"></i> 1-3 ที่นั่ง</span>
-                        <span><i class="fa-solid fa-suitcase-rolling"></i> กระเป๋า 2-3 ใบ</span>
-                    </div>
-                    <table class="rate-table ">
-                        <tr><td>สุวรรณภูมิ - พัทยา</td><td>1,000 บาท</td></tr>
-                        <tr><td>สุวรรณภูมิ - หัวหิน</td><td>1,800 บาท</td></tr>
-                        <tr><td>สุวรรณภูมิ - ระยอง</td><td>1,800 บาท</td></tr>
-                        <tr><td>สุวรรณภูมิ - เกาะช้าง</td><td>3,500 บาท</td></tr>
-                        <tr><td>ดอนเมือง - พัทยา</td><td>1,400 บาท</td></tr>
-                        <tr><td>อู่ตะเภา - พัทยา</td><td>800 บาท</td></tr>
-                        <tr><td>พัทยา - กรุงเทพ</td><td>1,200 บาท</td></tr>
-                        <tr><td>พัทยา - ดอนเมือง</td><td>1,400 บาท</td></tr>
-                        <tr><td>พัทยา - สุวรรณภูมิ</td><td>1,000 บาท</td></tr>
-                        <tr><td>กรุงเทพ - พัทยา</td><td>1,200 บาท</td></tr>
-                    </table>
-                    <div class="price-condition"><i class="fa-solid fa-triangle-exclamation"></i> เงื่อนไขราคา: ยกเลิกไม่คืนค่ามัดจำ </div>
-                </div>
-                <div class="car-card-footer">
-                    <div class="car-specs-info">
-                        <span><i class="fa-solid fa-shield-halved"></i> ปลอดภัยมั่นใจได้</span>
-                    </div>
-                    <a href="booking.html?car=camry" class="btn-booking-glow"><i class="fa-solid fa-calendar-check"></i> จอง Toyota Camry ทันที</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- 2. Toyota Fortuner -->
-        <div class="car-service-card glass spotlight reveal" id="fortuner">
-            <div class="car-image-side">
-                <img src="https://img1.pic.in.th/images/fortuner.png" alt="Toyota Fortuner" onclick="openImageModal(this.src)" title="คลิกเพื่อขยายรูปภาพ">
-            </div>
-            <div class="car-details-side">
-                <div class="car-header-info">
-                    <h2>Toyota Fortuner</h2>
-                    <p>พื้นที่ใช้สอยกว้างขวาง ลุยได้ทุกสภาพเส้นทาง</p>
-                    <!-- ข้อมูลคนขับ จำนวนคน สัมภาระ -->
-                    <div class="car-specs-info">
-                        <span><i class="fa-solid fa-user-tie"></i> คนขับมืออาชีพสุภาพ</span>
-                        <span><i class="fa-solid fa-users"></i> 4-5 ที่นั่ง</span>
-                        <span><i class="fa-solid fa-suitcase-rolling"></i> กระเป๋า 4-5 ใบ</span>
-                    </div>
-                    <table class="rate-table">
-                        <tr><td>สุวรรณภูมิ - พัทยา</td><td>1,400 บาท</td></tr>
-                        <tr><td>สุวรรณภูมิ - หัวหิน</td><td>2,500 บาท</td></tr>
-                        <tr><td>สุวรรณภูมิ - ระยอง</td><td>2,500 บาท</td></tr>
-                        <tr><td>สุวรรณภูมิ - เกาะช้าง</td><td>4,000 บาท</td></tr>
-                        <tr><td>ดอนเมือง - พัทยา</td><td>1,800 บาท</td></tr>
-                        <tr><td>อู่ตะเภา - พัทยา</td><td>1,200 บาท</td></tr>
-                        <tr><td>พัทยา - กรุงเทพ</td><td>1,600 บาท</td></tr>
-                        <tr><td>พัทยา - ดอนเมือง</td><td>1,800 บาท</td></tr>
-                        <tr><td>พัทยา - สุวรรณภูมิ</td><td>1,400 บาท</td></tr>
-                        <tr><td>กรุงเทพ - พัทยา</td><td>1,600 บาท</td></tr>
-                    </table>
-                    <div class="price-condition"><i class="fa-solid fa-triangle-exclamation"></i> เงื่อนไขราคา: ยกเลิกไม่คืนค่ามัดจำ</div>
-                </div>
-                <div class="car-card-footer">
-                    <div class="car-specs-info">
-                        <span><i class="fa-solid fa-shield-halved"></i> ปลอดภัยมั่นใจได้</span>
-                    </div>
-                    <a href="booking.html?car=fortuner" class="btn-booking-glow"><i class="fa-solid fa-calendar-check"></i> จอง Toyota Fortuner ทันที</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- 3. Toyota Commuter -->
-        <div class="car-service-card glass spotlight reveal" id="commuter">
-            <div class="car-image-side">
-                <img src="https://img2.pic.in.th/commuter.png" alt="Toyota Commuter" onclick="openImageModal(this.src)" title="คลิกเพื่อขยายรูปภาพ">
-            </div>
-            <div class="car-details-side">
-                <div class="car-header-info">
-                    <h2>Toyota Commuter</h2>
-                    <p>รถตู้ VIP แต่งพิเศษ เบาะนั่งกว้างขวาง นั่งสบายตลอดการเดินทางหมู่คณะ</p>
-                    <!-- ข้อมูลคนขับ จำนวนคน สัมภาระ -->
-                    <div class="car-specs-info">
-                        <span><i class="fa-solid fa-user-tie"></i> คนขับมืออาชีพสุภาพ</span>
-                        <span><i class="fa-solid fa-users"></i> 9-10 ที่นั่ง</span>
-                        <span><i class="fa-solid fa-suitcase-rolling"></i> กระเป๋าใบใหญ่ 8-10 ใบ</span>
-                    </div>
-                    <table class="rate-table">
-                        <tr><td>สุวรรณภูมิ - พัทยา</td><td>1,800 บาท</td></tr>
-                        <tr><td>สุวรรณภูมิ - หัวหิน</td><td>2,700 บาท</td></tr>
-                        <tr><td>สุวรรณภูมิ - ระยอง</td><td>2,700 บาท</td></tr>
-                        <tr><td>สุวรรณภูมิ - เกาะช้าง</td><td>4,500 บาท</td></tr>
-                        <tr><td>ดอนเมือง - พัทยา</td><td>2,200 บาท</td></tr>
-                        <tr><td>อู่ตะเภา - พัทยา</td><td>1,300 บาท</td></tr>
-                        <tr><td>พัทยา - กรุงเทพ</td><td>1,900 บาท</td></tr>
-                        <tr><td>พัทยา - ดอนเมือง</td><td>2,200 บาท</td></tr>
-                        <tr><td>พัทยา - สุวรรณภูมิ</td><td>1,800 บาท</td></tr>
-                        <tr><td>กรุงเทพ - พัทยา</td><td>1,900 บาท</td></tr>
-                    </table>
-                    <div class="price-condition"><i class="fa-solid fa-triangle-exclamation"></i> เงื่อนไขราคา: ยกเลิกไม่คืนค่ามัดจำ</div>
-                </div>
-                <div class="car-card-footer">
-                    <div class="car-specs-info">
-                        <span><i class="fa-solid fa-shield-halved"></i> ปลอดภัยมั่นใจได้</span>
-                    </div>
-                    <a href="booking.html?car=commuter" class="btn-booking-glow"><i class="fa-solid fa-calendar-check"></i> จอง Toyota Commuter ทันที</a>
-                </div>
-            </div>
-        </div>
-
-    </div>
-</div>
-
-<!-- 🖼️ Modal สำหรับขยายรูปภาพ -->
-<div id="imageModal" onclick="closeImageModal()" style="display: none;">
-    <span>&times;</span>
-    <img id="modalImg" src="" alt="Zoomed Car Image">
-</div>
-
-<script>
-    function openImageModal(imgSrc) {
-        const modal = document.getElementById('imageModal');
-        const modalImg = document.getElementById('modalImg');
-        modal.style.display = 'flex';
-        modalImg.src = imgSrc;
-    }
-
-    function closeImageModal() {
-        document.getElementById('imageModal').style.display = 'none';
-    }
-</script>
-    </div>
         <div class="cta-band reveal">
-            <h2>พร้อมออกเดินทางแล้วหรือยัง?</h2>
-            <p>จองล่วงหน้าหรือเรียกด่วน ทีมงานพร้อมดูแลทุกเส้นทางของคุณ</p>
-            <a href="booking.html" class="btn btn-primary"><i class="fa-solid fa-car-side"></i> จองรถด่วนคลิกที่นี่</a>
+            <h2>เจอรถที่ใช่แล้วหรือยัง?</h2>
+            <p>จองออนไลน์ได้ทันที รับใบจองหลังส่งหลักฐานการโอน</p>
+            <a href="booking.html" class="btn btn-primary"><i class="fa-solid fa-car-side"></i> จองรถเลย</a>
+        </div>
+
+        <div id="imageModal" role="dialog" aria-modal="true">
+            <span>&times;</span>
+            <img id="modalImg" src="" alt="">
         </div>
     </main>
 
@@ -275,6 +124,8 @@
     </footer>
 
     <script src="site.js"></script>
+    <script src="fares.js"></script>
+    <script src="cars.js"></script>
 
 </body>
 </html>

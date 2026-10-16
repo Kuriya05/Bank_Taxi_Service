@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vehicle Types &amp; Rates - Bank Taxi Service</title>
+    <title>Our Fleet - Bank Taxi Service</title>
     <meta name="theme-color" content="#f5f9ff">
     <link rel="icon" href="logo-mark.svg" type="image/svg+xml">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -47,206 +47,55 @@
         </div>
     </header>
 
-    <main class="wrap page">
-
-
-    <!-- Main Container -->
-    <div class="container">
-        <div class="container">
-    <div class="page-head reveal"><span class="eyebrow">Our Fleet</span><h1>Car Types and Service Rates</h1><p>Browse our vehicles with driver, seating capacity, and luggage information</p></div>
-</div>
-        <!-- 🚗 แผงปุ่มตัวเลือกเลือกรุ่นรถ (Jump to Specific Car) -->
-        <div class="car-selector-bar reveal">
-            <a href="#camry" class="car-select-btn"><i class="fa-solid fa-car"></i> Toyota Camry</a>
-            <a href="#fortuner" class="car-select-btn"><i class="fa-solid fa-car"></i> Toyota Fortuner</a>
-            <a href="#commuter" class="car-select-btn"><i class="fa-solid fa-car"></i> Toyota Commuter</a>
+    <main class="wrap page cars-page">
+        <div class="page-head reveal">
+            <span class="eyebrow">Our Fleet</span>
+            <h1>Find the right <span class="grad-text">ride for you</span></h1>
+            <p>Every vehicle is regularly inspected, cleaned inside and out, and comes with a professional driver.</p>
         </div>
 
-        <!-- 🎬 โซนสไลด์โชว์รูปรถสไตล์ภาพยนตร์ -->
-        <section class="car-slider-section reveal">
-            <div class="cinema-slider" id="cinemaSlider">
-                <div class="slide-item active">
-                    <img src="https://img1.pic.in.th/images/camry.png" alt="Toyota Camry">
-                    <div class="slide-caption">
-                        <span class="tag"><i class="fa-solid fa-users"></i> 1-3 seats</span>
-                        <h3>Toyota Camry</h3>
-                        <p>Luxury sedan, comfortable and private, suitable for 1-3 passengers</p>
-                    </div>
+        <section class="showroom glass reveal" id="showroom" aria-roledescription="carousel"></section>
+
+        <section class="svc-block">
+            <div class="section-head reveal"><span class="eyebrow">Compare</span><h2>Compare all 3 vehicles</h2><p>Tap a car picture to view it in the showroom above.</p></div>
+            <div class="compare-wrap glass reveal"><div class="compare" id="compareTable"></div></div>
+        </section>
+
+        <section class="svc-block">
+            <div class="section-head reveal"><span class="eyebrow">Our Standard</span><h2>The same standard in every car</h2></div>
+            <div class="cond-grid">
+                <div class="glass spotlight std reveal" data-delay="0">
+                    <span class="std-icon"><i class="fa-solid fa-user-tie"></i></span>
+                    <h3>Professional drivers</h3>
+                    <p>Courteous, professional drivers who look after you all the way.</p>
                 </div>
-                <div class="slide-item">
-                    <img src="https://img1.pic.in.th/images/fortuner.png" alt="Toyota Fortuner">
-                    <div class="slide-caption">
-                        <span class="tag"><i class="fa-solid fa-users"></i> 4-5 seats</span>
-                        <h3>Toyota Fortuner</h3>
-                        <p>Premium SUV, suitable for all routes, spacious, and accommodates 4-5 passengers</p>
-                    </div>
+                <div class="glass spotlight std reveal" data-delay="1">
+                    <span class="std-icon"><i class="fa-solid fa-shield-halved"></i></span>
+                    <h3>Safe and reliable</h3>
+                    <p>Safety-standard vehicles with regular maintenance checks.</p>
                 </div>
-                <div class="slide-item">
-                    <img src="https://img2.pic.in.th/commuter.png" alt="Toyota Commuter">
-                    <div class="slide-caption">
-                        <span class="tag"><i class="fa-solid fa-users"></i> 9-10 seats</span>
-                        <h3>Toyota Commuter</h3>
-                        <p>Specially customized VIP van, comfortable and ideal for groups of 9-10 passengers</p>
-                    </div>
+                <div class="glass spotlight std reveal" data-delay="2">
+                    <span class="std-icon"><i class="fa-solid fa-spray-can-sparkles"></i></span>
+                    <h3>Clean every trip</h3>
+                    <p>Every vehicle is kept spotless inside and out.</p>
                 </div>
-                <div class="slide-counter"><b id="slideNow">01</b> / 03</div>
-                <button class="slider-btn prev-btn" onclick="moveSlide(-1)" aria-label="previous"><i class="fa-solid fa-chevron-left"></i></button>
-                <button class="slider-btn next-btn" onclick="moveSlide(1)" aria-label="next"><i class="fa-solid fa-chevron-right"></i></button>
-                <div class="slider-dots">
-                    <button class="dot active" onclick="currentSlide(0)" aria-label="slide 1"></button>
-                    <button class="dot" onclick="currentSlide(1)" aria-label="slide 2"></button>
-                    <button class="dot" onclick="currentSlide(2)" aria-label="slide 3"></button>
+                <div class="glass spotlight std reveal" data-delay="3">
+                    <span class="std-icon"><i class="fa-solid fa-clock"></i></span>
+                    <h3>Ready any time</h3>
+                    <p>Available 24 hours a day, whatever time your flight lands.</p>
                 </div>
             </div>
         </section>
 
-        <!-- รายละเอียดแยกแต่ละรุ่นรถ พร้อมข้อมูลคนขับ จำนวนคน สัมภาระ -->
-       <div class="container">
-    <div class="page-head second reveal"><span class="eyebrow">Our Fleet</span><h1>Services and Rates by Vehicle Type</h1><p>Choose your preferred vehicle and view service rates and conditions for each route</p></div>
-
-    <!-- Car Service List (Modern Editorial Layout) -->
-    <div class="car-service-list">
-
-        <!-- 1. Toyota Camry -->
-        <div class="car-service-card glass spotlight reveal" id="camry">
-            <div class="car-image-side">
-                <img src="https://img1.pic.in.th/images/camry.png" alt="Toyota Camry" onclick="openImageModal(this.src)" title="Click to enlarge image">
-            </div>
-            <div class="car-details-side">
-                <div class="car-header-info">
-                    <h2>Toyota Camry</h2>
-                    <p>Clean sedan with a smooth ride and maximum privacy</p>
-                    <!-- ข้อมูลคนขับ จำนวนคน สัมภาระ -->
-                    <div class="car-specs-info">
-                        <span><i class="fa-solid fa-user-tie"></i> Professional and courteous driver</span>
-                        <span><i class="fa-solid fa-users"></i> 1-3 seats</span>
-                        <span><i class="fa-solid fa-suitcase-rolling"></i> Luggage: 2-3 bags</span>
-                    </div>
-                    <table class="rate-table ">
-                        <tr><td>Suvarnabhumi - Pattaya</td><td>1,000 THB</td></tr>
-                        <tr><td>Suvarnabhumi - Hua Hin</td><td>1,800 THB</td></tr>
-                        <tr><td>Suvarnabhumi - Rayong</td><td>1,800 THB</td></tr>
-                        <tr><td>Suvarnabhumi - Koh Chang</td><td>3,500 THB</td></tr>
-                        <tr><td>Don Mueang - Pattaya</td><td>1,400 THB</td></tr>
-                        <tr><td>U-Tapao - Pattaya</td><td>800 THB</td></tr>
-                        <tr><td>Pattaya - Bangkok</td><td>1,200 THB</td></tr>
-                        <tr><td>Pattaya - Don Mueang</td><td>1,400 THB</td></tr>
-                        <tr><td>Pattaya - Suvarnabhumi</td><td>1,000 THB</td></tr>
-                        <tr><td>Bangkok - Pattaya</td><td>1,200 THB</td></tr>
-                    </table>
-                    <div class="price-condition"><i class="fa-solid fa-triangle-exclamation"></i> Price condition: Deposit is non-refundable upon cancellation </div>
-                </div>
-                <div class="car-card-footer">
-                    <div class="car-specs-info">
-                        <span><i class="fa-solid fa-shield-halved"></i> Safe and reliable</span>
-                    </div>
-                    <a href="booking.html?car=camry" class="btn-booking-glow"><i class="fa-solid fa-calendar-check"></i> Book Toyota Camry Now</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- 2. Toyota Fortuner -->
-        <div class="car-service-card glass spotlight reveal" id="fortuner">
-            <div class="car-image-side">
-                <img src="https://img1.pic.in.th/images/fortuner.png" alt="Toyota Fortuner" onclick="openImageModal(this.src)" title="Click to enlarge image">
-            </div>
-            <div class="car-details-side">
-                <div class="car-header-info">
-                    <h2>Toyota Fortuner</h2>
-                    <p>Spacious interior and suitable for all road conditions</p>
-                    <!-- ข้อมูลคนขับ จำนวนคน สัมภาระ -->
-                    <div class="car-specs-info">
-                        <span><i class="fa-solid fa-user-tie"></i> Professional and courteous driver</span>
-                        <span><i class="fa-solid fa-users"></i> 4-5 seats</span>
-                        <span><i class="fa-solid fa-suitcase-rolling"></i> Luggage: 4-5 bags</span>
-                    </div>
-                    <table class="rate-table">
-                        <tr><td>Suvarnabhumi - Pattaya</td><td>1,400 THB</td></tr>
-                        <tr><td>Suvarnabhumi - Hua Hin</td><td>2,500 THB</td></tr>
-                        <tr><td>Suvarnabhumi - Rayong</td><td>2,500 THB</td></tr>
-                        <tr><td>Suvarnabhumi - Koh Chang</td><td>4,000 THB</td></tr>
-                        <tr><td>Don Mueang - Pattaya</td><td>1,800 THB</td></tr>
-                        <tr><td>U-Tapao - Pattaya</td><td>1,200 THB</td></tr>
-                        <tr><td>Pattaya - Bangkok</td><td>1,600 THB</td></tr>
-                        <tr><td>Pattaya - Don Mueang</td><td>1,800 THB</td></tr>
-                        <tr><td>Pattaya - Suvarnabhumi</td><td>1,400 THB</td></tr>
-                        <tr><td>Bangkok - Pattaya</td><td>1,600 THB</td></tr>
-                    </table>
-                    <div class="price-condition"><i class="fa-solid fa-triangle-exclamation"></i> Price condition: Deposit is non-refundable upon cancellation</div>
-                </div>
-                <div class="car-card-footer">
-                    <div class="car-specs-info">
-                        <span><i class="fa-solid fa-shield-halved"></i> Safe and reliable</span>
-                    </div>
-                    <a href="booking.html?car=fortuner" class="btn-booking-glow"><i class="fa-solid fa-calendar-check"></i> Book Toyota Fortuner Now</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- 3. Toyota Commuter -->
-        <div class="car-service-card glass spotlight reveal" id="commuter">
-            <div class="car-image-side">
-                <img src="https://img2.pic.in.th/commuter.png" alt="Toyota Commuter" onclick="openImageModal(this.src)" title="Click to enlarge image">
-            </div>
-            <div class="car-details-side">
-                <div class="car-header-info">
-                    <h2>Toyota Commuter</h2>
-                    <p>Specially customized VIP van with spacious seats, comfortable for group travel</p>
-                    <!-- ข้อมูลคนขับ จำนวนคน สัมภาระ -->
-                    <div class="car-specs-info">
-                        <span><i class="fa-solid fa-user-tie"></i> Professional and courteous driver</span>
-                        <span><i class="fa-solid fa-users"></i> 9-10 seats</span>
-                        <span><i class="fa-solid fa-suitcase-rolling"></i> Luggage: 8-10 large bags</span>
-                    </div>
-                    <table class="rate-table">
-                        <tr><td>Suvarnabhumi - Pattaya</td><td>1,800 THB</td></tr>
-                        <tr><td>Suvarnabhumi - Hua Hin</td><td>2,700 THB</td></tr>
-                        <tr><td>Suvarnabhumi - Rayong</td><td>2,700 THB</td></tr>
-                        <tr><td>Suvarnabhumi - Koh Chang</td><td>4,500 THB</td></tr>
-                        <tr><td>Don Mueang - Pattaya</td><td>2,200 THB</td></tr>
-                        <tr><td>U-Tapao - Pattaya</td><td>1,300 THB</td></tr>
-                        <tr><td>Pattaya - Bangkok</td><td>1,900 THB</td></tr>
-                        <tr><td>Pattaya - Don Mueang</td><td>2,200 THB</td></tr>
-                        <tr><td>Pattaya - Suvarnabhumi</td><td>1,800 THB</td></tr>
-                        <tr><td>Bangkok - Pattaya</td><td>1,900 THB</td></tr>
-                    </table>
-                    <div class="price-condition"><i class="fa-solid fa-triangle-exclamation"></i> Price condition: Deposit is non-refundable upon cancellation</div>
-                </div>
-                <div class="car-card-footer">
-                    <div class="car-specs-info">
-                        <span><i class="fa-solid fa-shield-halved"></i> Safe and reliable</span>
-                    </div>
-                    <a href="booking.html?car=commuter" class="btn-booking-glow"><i class="fa-solid fa-calendar-check"></i> Book Toyota Commuter Now</a>
-                </div>
-            </div>
-        </div>
-
-    </div>
-</div>
-
-<!-- 🖼️ Modal สำหรับขยายรูปภาพ -->
-<div id="imageModal" onclick="closeImageModal()" style="display: none;">
-    <span>&times;</span>
-    <img id="modalImg" src="" alt="Zoomed Car Image">
-</div>
-
-<script>
-    function openImageModal(imgSrc) {
-        const modal = document.getElementById('imageModal');
-        const modalImg = document.getElementById('modalImg');
-        modal.style.display = 'flex';
-        modalImg.src = imgSrc;
-    }
-
-    function closeImageModal() {
-        document.getElementById('imageModal').style.display = 'none';
-    }
-</script>
-    </div>
         <div class="cta-band reveal">
-            <h2>Ready to hit the road?</h2>
-            <p>Book ahead or call now — we are ready to take care of every route.</p>
-            <a href="booking-en.html" class="btn btn-primary"><i class="fa-solid fa-car-side"></i> Quick Booking Click Here</a>
+            <h2>Found your ride?</h2>
+            <p>Book online now and get your confirmation once your deposit slip is sent.</p>
+            <a href="booking-en.html" class="btn btn-primary"><i class="fa-solid fa-car-side"></i> Book now</a>
+        </div>
+
+        <div id="imageModal" role="dialog" aria-modal="true">
+            <span>&times;</span>
+            <img id="modalImg" src="" alt="">
         </div>
     </main>
 
@@ -275,6 +124,8 @@
     </footer>
 
     <script src="site.js"></script>
+    <script src="fares.js"></script>
+    <script src="cars.js"></script>
 
 </body>
 </html>

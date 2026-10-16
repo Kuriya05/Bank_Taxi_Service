@@ -1904,3 +1904,152 @@ body.receipt-open { overflow: hidden; }
     .cond-grid { grid-template-columns: 1fr; }
     .svc-actions .btn { width: 100%; }
 }
+
+/* ==========================================================
+   26. หน้ารถยนต์ (cars.html / cars-en.html): โชว์รูม + เปรียบเทียบ
+   ========================================================== */
+.cars-page .page-head h1 { font-size: clamp(2.2rem, 5vw, 3.4rem); }
+
+/* --- โชว์รูม --- */
+.showroom { padding: 18px; overflow: hidden; }
+.sr-tabs {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px;
+    padding: 6px; border-radius: 20px; background: rgba(14, 165, 233, 0.06); border: 1px solid var(--line);
+}
+.sr-tab {
+    display: flex; align-items: center; justify-content: center; gap: 12px;
+    padding: 12px 10px; border: 0; border-radius: 15px; cursor: pointer;
+    background: transparent; color: var(--muted); font-family: var(--font-body);
+    transition: background 0.35s var(--ease), color 0.35s var(--ease), box-shadow 0.35s var(--ease);
+}
+.sr-tab > i { font-size: 1.3rem; }
+.sr-tab span { display: flex; flex-direction: column; align-items: flex-start; line-height: 1.25; }
+.sr-tab b { font-family: var(--font-head); font-size: 1.02rem; font-weight: 600; color: var(--text); }
+.sr-tab small { font-size: 0.78rem; }
+.sr-tab:hover { color: var(--sky-deep); }
+.sr-tab[aria-selected="true"] { background: #fff; color: var(--sky-deep); box-shadow: 0 8px 22px rgba(14, 116, 184, 0.14); }
+.sr-tab[aria-selected="true"] > i { color: var(--sky); }
+
+.sr-stage { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 28px; align-items: center; padding: 18px 10px 6px; }
+.sr-visual {
+    position: relative; min-height: 380px; display: grid; place-items: center;
+    border-radius: 24px; overflow: hidden;
+    background: radial-gradient(ellipse at 50% 85%, #dbeefe 0%, #f5faff 55%, #ffffff 100%);
+    border: 1px solid var(--line);
+}
+.sr-watermark {
+    position: absolute; top: 18px; left: 0; right: 0; text-align: center;
+    font-family: var(--font-head); font-weight: 800; font-size: clamp(3rem, 9vw, 6.5rem); letter-spacing: 6px;
+    color: transparent; -webkit-text-stroke: 1.5px rgba(14, 165, 233, 0.22);
+    pointer-events: none; user-select: none;
+}
+.sr-glow {
+    position: absolute; width: 70%; height: 55%; bottom: 14%; border-radius: 50%;
+    background: radial-gradient(circle, rgba(56, 189, 248, 0.35), transparent 70%); filter: blur(10px);
+}
+.sr-photo { position: relative; z-index: 1; border: 0; padding: 0; background: none; cursor: zoom-in; width: 88%; }
+.sr-photo img { width: 100%; max-height: 300px; object-fit: contain; mix-blend-mode: multiply; }
+.sr-floor {
+    position: absolute; bottom: 14%; width: 62%; height: 22px; border-radius: 50%;
+    background: radial-gradient(ellipse, rgba(8, 30, 60, 0.22), transparent 70%);
+}
+.sr-zoom {
+    position: absolute; left: 16px; bottom: 14px; z-index: 2;
+    padding: 6px 12px; border-radius: 999px; font-size: 0.78rem; color: var(--muted);
+    background: rgba(255, 255, 255, 0.85); border: 1px solid var(--line);
+}
+.sr-nav {
+    position: absolute; top: 50%; z-index: 2; width: 44px; height: 44px; border-radius: 50%; cursor: pointer;
+    border: 1px solid var(--line); background: rgba(255, 255, 255, 0.9); color: var(--sky-deep);
+    transform: translateY(-50%); box-shadow: var(--shadow);
+    transition: transform 0.3s var(--ease), background 0.3s, color 0.3s;
+}
+.sr-nav.prev { left: 14px; }
+.sr-nav.next { right: 14px; }
+.sr-nav:hover { background: linear-gradient(135deg, #38bdf8, #2563eb); color: #fff; transform: translateY(-50%) scale(1.08); }
+
+.sr-tag {
+    display: inline-block; padding: 5px 12px; border-radius: 999px; font-size: 0.8rem; font-weight: 600;
+    background: rgba(14, 165, 233, 0.1); color: var(--sky-deep);
+}
+.sr-name { font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 800; margin: 10px 0 8px; }
+.sr-lead { color: #334e68; margin: 0 0 18px; }
+.sr-specs { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 18px; }
+.sr-specs span {
+    display: flex; align-items: center; gap: 8px; padding: 10px 12px; border-radius: 14px;
+    background: #fff; border: 1px solid var(--line); font-size: 0.88rem; font-weight: 500;
+}
+.sr-specs i { color: var(--sky); width: 18px; text-align: center; }
+.sr-specs .safe i { color: #16a34a; }
+.sr-price { color: var(--muted); margin-bottom: 18px; }
+.sr-price b { font-family: var(--font-head); font-size: 2rem; color: var(--sky-deep); }
+.sr-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.sr-progress { display: flex; justify-content: center; gap: 8px; padding-top: 14px; }
+.sr-progress span { width: 26px; height: 4px; border-radius: 4px; background: rgba(14, 165, 233, 0.2); transition: width 0.4s var(--ease), background 0.4s; }
+.sr-progress span.on { width: 54px; background: linear-gradient(90deg, #38bdf8, #2563eb); }
+
+/* เปลี่ยนรถ: รูปเลื่อนเข้ามาตามทิศทาง ข้อมูลค่อยๆ ขึ้น */
+.showroom.swap .sr-photo { animation: car-in 0.7s var(--ease) both; }
+.showroom.swap .sr-watermark { animation: fade-in 0.7s var(--ease) both; }
+.showroom.swap .sr-info > * { animation: rise 0.6s var(--ease) both; }
+.showroom.swap .sr-info > *:nth-child(2) { animation-delay: 0.05s; }
+.showroom.swap .sr-info > *:nth-child(3) { animation-delay: 0.1s; }
+.showroom.swap .sr-info > *:nth-child(4) { animation-delay: 0.15s; }
+.showroom.swap .sr-info > *:nth-child(5) { animation-delay: 0.2s; }
+.showroom.swap .sr-info > *:nth-child(6) { animation-delay: 0.25s; }
+@keyframes car-in { from { opacity: 0; transform: translateX(calc(var(--dir, 1) * 70px)) scale(0.96); } }
+@keyframes fade-in { from { opacity: 0; } }
+
+/* --- ตารางเปรียบเทียบ --- */
+.compare-wrap { padding: 8px; overflow-x: auto; }
+.compare { min-width: 640px; }
+.cmp-row { display: grid; grid-template-columns: 1.1fr repeat(3, 1fr); border-top: 1px solid var(--line); }
+.cmp-row:first-child { border-top: 0; }
+.cmp-label { padding: 14px 16px; color: var(--muted); font-size: 0.9rem; font-weight: 600; display: flex; align-items: center; }
+.cmp-cell {
+    padding: 14px 10px; text-align: center; display: flex; align-items: center; justify-content: center; gap: 6px;
+    font-weight: 500; transition: background 0.3s;
+}
+.cmp-cell i { color: var(--sky); }
+.cmp-cell.col-active, .cmp-car.col-active { background: rgba(14, 165, 233, 0.07); }
+.cmp-price { font-family: var(--font-head); font-size: 1.3rem; color: var(--sky-deep); }
+.cmp-book { padding: 9px 22px; font-size: 0.9rem; }
+.cmp-car {
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+    padding: 14px 8px 12px; border: 0; border-radius: 18px 18px 0 0; cursor: pointer;
+    background: transparent; font: inherit; color: var(--text);
+}
+.cmp-car img { height: 70px; width: auto; max-width: 100%; object-fit: contain; transition: transform 0.5s var(--ease); }
+.cmp-car:hover img { transform: scale(1.08); }
+.cmp-car b { font-family: var(--font-head); font-size: 1.05rem; }
+.cmp-car.col-active b { color: var(--sky-deep); }
+
+/* --- มาตรฐาน --- */
+.std { padding: 24px 22px; transition: transform 0.45s var(--ease); }
+.std:hover { transform: translateY(-6px); }
+.std-icon {
+    width: 50px; height: 50px; border-radius: 15px; display: grid; place-items: center; margin-bottom: 14px;
+    font-size: 1.25rem; color: var(--sky-deep); background: rgba(14, 165, 233, 0.1); border: 1px solid rgba(14, 165, 233, 0.25);
+}
+.std h3 { font-size: 1.08rem; font-weight: 600; margin-bottom: 6px; }
+.std p { margin: 0; color: var(--muted); font-size: 0.9rem; }
+
+@media (max-width: 960px) {
+    .sr-stage { grid-template-columns: 1fr; gap: 18px; }
+    .sr-visual { min-height: 300px; }
+}
+@media (max-width: 640px) {
+    .showroom { padding: 12px; }
+    .sr-tab { flex-direction: column; gap: 4px; padding: 10px 4px; }
+    .sr-tab span { align-items: center; }
+    .sr-visual { min-height: 240px; }
+    .sr-photo img { max-height: 200px; }
+    .sr-nav { width: 38px; height: 38px; }
+    .sr-zoom { display: none; }
+    .sr-stage { padding: 14px 4px 4px; }
+    .sr-specs { grid-template-columns: 1fr; }
+    .sr-actions .btn { width: 100%; }
+    .compare { min-width: 520px; }
+    .cmp-label { position: sticky; left: 0; z-index: 1; background: #fff; padding: 12px 10px; font-size: 0.82rem; }
+    .cmp-cell { font-size: 0.88rem; padding: 12px 6px; }
+}
