@@ -1,0 +1,1426 @@
+/* theme.css — Bank Taxi Service (ธีมขาว-ฟ้า) ใช้ร่วมกันทุกหน้า */
+/* ==========================================================
+   1. ตัวแปรสี / ฟอนต์ (Design Tokens)
+   ธีม "Night Drive" — กรมท่าเข้ม + ฟ้านีออน + เหลืองแท็กซี่
+   ========================================================== */
+:root {
+    --bg: #f5f9ff;
+    --bg-2: #eaf4ff;
+    --surface: rgba(255, 255, 255, 0.7);
+    --surface-2: rgba(14, 165, 233, 0.08);
+    --line: rgba(14, 116, 184, 0.14);
+    --text: #0f2a44;
+    --muted: #5b7089;
+    --sky: #0ea5e9;
+    --sky-deep: #0369a1;
+    --violet: #6366f1;
+    --gold: #2563eb;
+    --gold-deep: #0369a1;
+    --green: #16a34a;
+    --shadow: 0 12px 34px rgba(14, 116, 184, 0.10);
+    --grad: linear-gradient(120deg, #0ea5e9 0%, #2563eb 50%, #06b6d4 100%);
+    --radius: 22px;
+    --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    --font-head: 'Kanit', 'Sarabun', sans-serif;
+    --font-body: 'Sarabun', sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+    margin: 0;
+    font-family: var(--font-body);
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+
+img { max-width: 100%; display: block; }
+a { color: inherit; }
+
+h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.25; margin: 0; }
+
+::selection { background: var(--sky); color: var(--bg); }
+
+/* ==========================================================
+   2. พื้นหลังมีชีวิต: แสงออโรร่า + ตารางถนน + สปอตไลต์ตามเมาส์
+   ========================================================== */
+.bg-scene {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.bg-blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(90px);
+    opacity: 0.45;
+    animation: drift 22s ease-in-out infinite alternate;
+}
+.bg-blob.b1 { width: 520px; height: 520px; background: #7dd3fc; top: -160px; left: -120px; }
+.bg-blob.b2 { width: 460px; height: 460px; background: #93c5fd; top: 30%; right: -160px; animation-delay: -7s; opacity: 0.45; }
+.bg-blob.b3 { width: 380px; height: 380px; background: #a5f3fc; bottom: -140px; left: 30%; animation-delay: -14s; opacity: 0.5; }
+
+@keyframes drift {
+    0%   { transform: translate(0, 0) scale(1); }
+    50%  { transform: translate(80px, 60px) scale(1.15); }
+    100% { transform: translate(-40px, 120px) scale(0.95); }
+}
+
+.bg-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(14,116,184,0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(14,116,184,0.06) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 30%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 30%, transparent 75%);
+}
+
+.bg-spot {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    left: 0; top: 0;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(56,189,248,0.10), transparent 60%);
+    transform: translate(var(--sx, -999px), var(--sy, -999px)) translate(-50%, -50%);
+    transition: transform 0.25s linear;
+}
+
+/* ==========================================================
+   3. HEADER กระจกฝ้า + แถบความคืบหน้าแบบ "ถนน" มีรถแท็กซี่วิ่ง
+   ========================================================== */
+header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(18px) saturate(160%);
+    -webkit-backdrop-filter: blur(18px) saturate(160%);
+    border-bottom: 1px solid var(--line);
+    transition: background 0.4s var(--ease);
+}
+header.scrolled { background: rgba(255, 255, 255, 0.9); box-shadow: 0 8px 30px rgba(14,116,184,0.10); }
+
+.header-wrapper {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    transition: padding 0.4s var(--ease);
+}
+header.scrolled .header-wrapper { padding: 9px 24px; }
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 1.1rem;
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+}
+.brand { color: var(--text); }
+.brand-mark {
+    width: 40px; height: 40px;
+    filter: drop-shadow(0 6px 12px rgba(37, 99, 235, 0.3));
+    transition: transform 0.5s var(--ease);
+}
+.brand:hover .brand-mark { transform: rotate(-8deg) scale(1.08); }
+.brand span b { color: var(--gold); }
+
+.nav-menu {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 5px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+}
+.nav-menu a {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-size: 0.92rem;
+    font-weight: 500;
+    color: var(--muted);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color 0.3s var(--ease), background 0.3s var(--ease);
+}
+.nav-menu a i { font-size: 0.85rem; transition: transform 0.35s var(--ease); }
+.nav-menu a:hover { color: var(--sky-deep); background: var(--surface-2); }
+.nav-menu a:hover i { transform: translateY(-2px) rotate(-8deg); color: var(--sky); }
+.nav-menu a.active {
+    color: #fff;
+    font-weight: 700;
+    background: linear-gradient(135deg, #38bdf8, #2563eb);
+    box-shadow: 0 4px 18px rgba(37, 99, 235, 0.35);
+}
+.nav-menu a.active i { color: #fff; }
+
+.language-switcher-top {
+    display: flex;
+    gap: 6px;
+    padding: 5px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+}
+.lang-btn {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background-size: cover;
+    background-position: center;
+    border: 2px solid transparent;
+    font-size: 0;
+    opacity: 0.55;
+    transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.lang-btn.th { background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Flag_of_Thailand.svg/120px-Flag_of_Thailand.svg.png'); }
+.lang-btn.en { background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Flag_of_the_United_Kingdom_%283-5%29.svg/120px-Flag_of_the_United_Kingdom_%283-5%29.svg.png'); }
+.lang-btn:hover { opacity: 1; transform: scale(1.12); }
+.lang-btn.active { opacity: 1; border-color: var(--sky); box-shadow: 0 0 14px rgba(56,189,248,0.6); }
+
+/* ถนนแสดงความคืบหน้าการเลื่อนหน้า */
+.road-progress {
+    position: absolute;
+    left: 0; right: 0; bottom: -1px;
+    height: 3px;
+    background: repeating-linear-gradient(90deg, rgba(14,116,184,0.18) 0 14px, transparent 14px 26px);
+}
+.road-progress .fill {
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: var(--p, 0%);
+    background: linear-gradient(90deg, var(--sky), var(--gold));
+    box-shadow: 0 0 12px rgba(56,189,248,0.7);
+}
+.road-progress .car {
+    position: absolute;
+    left: clamp(12px, var(--p, 0%), calc(100% - 12px));
+    bottom: -6px;
+    transform: translateX(-50%);
+    font-size: 15px;
+    color: var(--gold);
+    filter: drop-shadow(0 0 6px rgba(37,99,235,0.8));
+}
+
+/* ==========================================================
+   4. HERO
+   ========================================================== */
+.wrap { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+.hero {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 48px;
+    align-items: center;
+    padding: 72px 0 56px;
+}
+
+.live-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 7px 16px 7px 12px;
+    border-radius: 999px;
+    background: rgba(34, 197, 94, 0.08);
+    border: 1px solid rgba(34, 197, 94, 0.3);
+    color: #15803d;
+    font-size: 0.88rem;
+    font-weight: 600;
+}
+.live-dot {
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 0 0 rgba(34,197,94,0.7);
+    animation: ping 1.8s infinite;
+}
+@keyframes ping {
+    0%   { box-shadow: 0 0 0 0 rgba(34,197,94,0.7); }
+    70%  { box-shadow: 0 0 0 10px rgba(34,197,94,0); }
+    100% { box-shadow: 0 0 0 0 rgba(34,197,94,0); }
+}
+
+.hero h1 {
+    margin: 22px 0 18px;
+    font-size: clamp(2.3rem, 5.4vw, 4.2rem);
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+.grad-text {
+    background: var(--grad);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: shine 6s linear infinite;
+}
+@keyframes shine { to { background-position: 200% center; } }
+
+.typed-wrap { white-space: nowrap; }
+.typed { color: var(--gold); }
+.caret {
+    display: inline-block;
+    width: 3px;
+    height: 0.9em;
+    margin-left: 4px;
+    vertical-align: -0.08em;
+    background: var(--gold);
+    animation: blink 1s steps(1) infinite;
+}
+@keyframes blink { 50% { opacity: 0; } }
+
+.slogan {
+    font-family: var(--font-head);
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: var(--gold-deep);
+    text-shadow: 0 0 18px rgba(3,105,161,0.35);
+    margin: 0;
+}
+.slogan-en { color: var(--muted); font-style: italic; margin: 4px 0 30px; }
+
+.hero-cta { display: flex; flex-wrap: wrap; gap: 14px; }
+
+.btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 14px 28px;
+    border-radius: 999px;
+    font-family: var(--font-head);
+    font-size: 1.02rem;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    border: 1px solid transparent;
+    overflow: hidden;
+    isolation: isolate;
+    transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease), background 0.35s var(--ease);
+}
+.btn-primary {
+    color: #fff;
+    background: linear-gradient(135deg, #38bdf8, #0ea5e9 45%, #2563eb);
+    box-shadow: 0 10px 30px rgba(14, 165, 233, 0.35);
+}
+/* แสงวิ่งผ่านปุ่ม (Shimmer) */
+.btn-primary::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -60%;
+    width: 40%; height: 100%;
+    background: linear-gradient(110deg, transparent, rgba(255,255,255,0.55), transparent);
+    transform: skewX(-20deg);
+    animation: sweep 3.2s ease-in-out infinite;
+    z-index: -1;
+}
+@keyframes sweep { 0%, 60% { left: -60%; } 100% { left: 130%; } }
+.btn-primary:hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 16px 40px rgba(37,99,235,0.5); }
+.btn-primary:hover i { animation: vroom 0.5s ease-in-out infinite alternate; }
+@keyframes vroom { to { transform: translateX(4px); } }
+
+.btn-ghost {
+    color: var(--text);
+    background: var(--surface);
+    border-color: var(--line);
+    backdrop-filter: blur(10px);
+}
+.btn-ghost:hover { border-color: var(--sky); background: rgba(56,189,248,0.1); transform: translateY(-3px); }
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-top: 40px;
+}
+.stat {
+    padding: 16px 14px;
+    border-radius: 18px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    text-align: center;
+}
+.stat strong {
+    display: block;
+    font-family: var(--font-head);
+    font-size: 1.7rem;
+    font-weight: 700;
+    color: var(--sky-deep);
+    line-height: 1.1;
+}
+.stat span { font-size: 0.8rem; color: var(--muted); }
+
+/* ภาพฝั่งขวา: โลโก้ลอย + วงโคจร + ตั๋วเส้นทาง */
+.hero-visual {
+    position: relative;
+    display: grid;
+    place-items: center;
+    min-height: 500px;
+    perspective: 1000px;
+}
+.orbit {
+    position: absolute;
+    left: calc(50% - var(--s) / 2);
+    top: calc(50% - var(--s) / 2);
+    width: var(--s); height: var(--s);
+    pointer-events: none;
+    border-radius: 50%;
+    border: 1px dashed rgba(56, 189, 248, 0.25);
+    animation: spin 40s linear infinite;
+}
+.orbit.o1 { --s: 340px; }
+.orbit.o2 { --s: 260px; border-color: rgba(37,99,235,0.22); animation-duration: 28s; animation-direction: reverse; }
+.orbit::before {
+    content: '';
+    position: absolute;
+    top: -6px; left: 50%;
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: var(--sky);
+    box-shadow: 0 0 16px var(--sky);
+}
+.orbit.o2::before { background: var(--gold); box-shadow: 0 0 16px var(--gold); }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.hero-logo {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 150px;
+    text-decoration: none;
+    transform-style: preserve-3d;
+    transition: transform 0.2s ease-out;
+}
+.mark-wrap { position: relative; display: grid; place-items: center; }
+.mark-wrap::before {
+    content: '';
+    position: absolute;
+    width: 230px; height: 230px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(56,189,248,0.35), transparent 65%);
+    animation: glow 4s ease-in-out infinite;
+}
+@keyframes glow { 50% { transform: scale(1.15); opacity: 0.6; } }
+.hero-logo img {
+    position: relative;
+    width: 190px;
+    filter: drop-shadow(0 24px 30px rgba(37, 99, 235, 0.35));
+    animation: float 6s ease-in-out infinite;
+}
+.wordmark { margin-top: 18px; text-align: center; line-height: 1; }
+.wordmark b {
+    display: block;
+    font-family: var(--font-head);
+    font-size: 2.6rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: var(--text);
+}
+.wordmark b span { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.wordmark small {
+    display: block;
+    margin-top: 8px;
+    font-family: var(--font-head);
+    font-size: 0.95rem;
+    font-weight: 500;
+    letter-spacing: 0.7em;
+    margin-right: -0.7em;
+    color: var(--sky-deep);
+}
+@keyframes float { 50% { transform: translateY(-16px); } }
+
+.ticket {
+    position: absolute;
+    bottom: 6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(360px, 94%);
+    padding: 16px 20px;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.88);
+    border: 1px solid var(--line);
+    backdrop-filter: blur(16px);
+    box-shadow: 0 20px 50px rgba(14,116,184,0.18);
+}
+.ticket-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.ticket small { display: block; font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+.ticket b { font-family: var(--font-head); font-size: 1.05rem; }
+.ticket .to { text-align: right; }
+.route-line { position: relative; flex: 1; height: 2px; margin: 0 6px; background: repeating-linear-gradient(90deg, rgba(14,116,184,0.35) 0 6px, transparent 6px 12px); }
+.route-line i {
+    position: absolute;
+    top: 50%;
+    color: var(--gold);
+    font-size: 0.95rem;
+    transform: translate(-50%, -50%);
+    animation: drive 3.6s var(--ease) infinite;
+    filter: drop-shadow(0 0 6px rgba(37,99,235,0.7));
+}
+@keyframes drive { 0% { left: 0; } 85%, 100% { left: 100%; } }
+.ticket-foot {
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px dashed var(--line);
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    color: var(--muted);
+}
+.ticket-foot strong { color: var(--sky-deep); font-family: var(--font-head); }
+
+/* ==========================================================
+   5. แถบปลายทางวิ่ง (Marquee)
+   ========================================================== */
+.marquee {
+    position: relative;
+    overflow: hidden;
+    border-block: 1px solid var(--line);
+    background: rgba(255,255,255,0.55);
+    padding: 16px 0;
+    mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+}
+.marquee-track {
+    display: flex;
+    gap: 48px;
+    width: max-content;
+    animation: scroll-x 32s linear infinite;
+}
+.marquee:hover .marquee-track { animation-play-state: paused; }
+.marquee-track span {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-family: var(--font-head);
+    font-size: 1.15rem;
+    font-weight: 500;
+    color: #1e3a5f;
+    white-space: nowrap;
+}
+.marquee-track span i { color: var(--gold); font-size: 0.8rem; }
+@keyframes scroll-x { to { transform: translateX(-50%); } }
+
+/* ==========================================================
+   6. หัวข้อ Section
+   ========================================================== */
+section { scroll-margin-top: 90px; }
+.section { padding: 88px 0 20px; }
+.section-head { text-align: center; max-width: 680px; margin: 0 auto 44px; }
+.eyebrow {
+    display: inline-block;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--sky-deep);
+    margin-bottom: 10px;
+}
+.section-head h2 { font-size: clamp(1.8rem, 3.6vw, 2.6rem); font-weight: 700; }
+.section-head p { color: var(--muted); margin: 12px 0 0; }
+
+/* การ์ดกระจก + เส้นขอบเรืองแสงตามเมาส์ */
+.glass {
+    position: relative;
+    background: linear-gradient(160deg, rgba(255,255,255,0.92), rgba(255,255,255,0.6));
+    box-shadow: var(--shadow);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    backdrop-filter: blur(14px);
+}
+.spotlight::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1px;
+    background: radial-gradient(380px circle at var(--mx, 50%) var(--my, 50%), rgba(56,189,248,0.75), transparent 45%);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.4s var(--ease);
+    pointer-events: none;
+}
+.spotlight::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(500px circle at var(--mx, 50%) var(--my, 50%), rgba(56,189,248,0.07), transparent 40%);
+    opacity: 0;
+    transition: opacity 0.4s var(--ease);
+    pointer-events: none;
+}
+.spotlight:hover::before, .spotlight:hover::after { opacity: 1; }
+
+/* ==========================================================
+   7. เครื่องคำนวณค่าโดยสาร (Fare Estimator)
+   ========================================================== */
+.estimator {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    overflow: hidden;
+}
+.est-form { padding: 36px; display: flex; flex-direction: column; gap: 26px; }
+.est-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--muted);
+    margin-bottom: 10px;
+}
+.est-label i { color: var(--sky); }
+
+.select-wrap { position: relative; }
+.select-wrap::after {
+    content: '\f078';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    position: absolute;
+    right: 18px; top: 50%;
+    transform: translateY(-50%);
+    color: var(--sky);
+    pointer-events: none;
+    font-size: 0.8rem;
+}
+.est-select {
+    width: 100%;
+    appearance: none;
+    -webkit-appearance: none;
+    padding: 15px 44px 15px 18px;
+    border-radius: 16px;
+    border: 1px solid var(--line);
+    background: #fff;
+    color: var(--text);
+    font-family: var(--font-head);
+    font-size: 1.05rem;
+    cursor: pointer;
+    transition: border-color 0.3s;
+}
+.est-select:focus { outline: none; border-color: var(--sky); box-shadow: 0 0 0 4px rgba(56,189,248,0.15); }
+.est-select option { background: #fff; }
+
+.car-chips { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.chip {
+    padding: 14px 10px;
+    border-radius: 16px;
+    border: 1px solid var(--line);
+    background: rgba(255, 255, 255, 0.8);
+    color: var(--text);
+    cursor: pointer;
+    text-align: center;
+    font-family: var(--font-body);
+    transition: all 0.35s var(--ease);
+}
+.chip i { display: block; font-size: 1.4rem; margin-bottom: 6px; color: var(--muted); transition: all 0.35s var(--ease); }
+.chip b { display: block; font-family: var(--font-head); font-size: 0.95rem; font-weight: 600; }
+.chip small { color: var(--muted); font-size: 0.78rem; }
+.chip:hover { border-color: rgba(56,189,248,0.5); transform: translateY(-3px); }
+.chip.active {
+    border-color: var(--gold);
+    background: linear-gradient(160deg, rgba(37,99,235,0.16), rgba(37,99,235,0.03));
+    box-shadow: 0 10px 30px rgba(37,99,235,0.15), inset 0 0 0 1px rgba(37,99,235,0.4);
+}
+.chip.active i { color: var(--gold); transform: scale(1.15); }
+
+.est-result {
+    position: relative;
+    padding: 36px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 6px;
+    background:
+        radial-gradient(circle at 80% 10%, rgba(37,99,235,0.22), transparent 55%),
+        radial-gradient(circle at 10% 90%, rgba(56,189,248,0.22), transparent 55%),
+        linear-gradient(160deg, #f0f9ff, #e0f2fe);
+    border-left: 1px solid var(--line);
+}
+.est-result small { color: var(--muted); font-size: 0.85rem; }
+.est-route { font-family: var(--font-head); font-size: 1.15rem; color: var(--text); }
+.est-price {
+    font-family: var(--font-head);
+    font-size: clamp(2.8rem, 6vw, 4rem);
+    font-weight: 800;
+    line-height: 1.1;
+    margin: 8px 0;
+}
+.est-price .unit { font-size: 1.1rem; font-weight: 500; color: var(--muted); margin-left: 6px; -webkit-text-fill-color: var(--muted); }
+.est-price.bump { animation: bump 0.5s var(--ease); }
+@keyframes bump { 30% { transform: scale(1.08); } }
+.est-note { font-size: 0.82rem; color: var(--muted); margin: 0 0 18px; }
+
+/* ==========================================================
+   8. สไลด์โชว์รถแบบภาพยนตร์ (Cinematic Slider)
+   ========================================================== */
+.cinema-slider {
+    position: relative;
+    height: 520px;
+    border-radius: 28px;
+    overflow: hidden;
+    background: #0c2340;
+    border: 1px solid var(--line);
+    box-shadow: 0 40px 80px rgba(14,116,184,0.25);
+    touch-action: pan-y;
+}
+.slide-item {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 1s ease, visibility 1s;
+}
+.slide-item.active { opacity: 1; visibility: visible; }
+.slide-item img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.8) saturate(1.1);
+    transform: scale(1.12);
+}
+/* Ken Burns: ซูมภาพช้าๆ แบบหนังโฆษณารถ */
+.slide-item.active img { animation: kenburns 7s ease-out forwards; }
+@keyframes kenburns { from { transform: scale(1.12) translateX(2%); } to { transform: scale(1) translateX(0); } }
+
+.slide-item::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(to top, rgba(8,30,60,0.92) 0%, rgba(8,30,60,0.2) 45%, transparent 70%),
+        linear-gradient(to right, rgba(8,30,60,0.55), transparent 60%);
+}
+.slide-caption {
+    position: absolute;
+    left: 48px; bottom: 64px;
+    z-index: 2;
+    max-width: 520px;
+}
+.slide-caption .tag {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 999px;
+    background: rgba(37,99,235,0.15);
+    border: 1px solid rgba(37,99,235,0.4);
+    color: #bae6fd;
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+.slide-caption h3 { color: #fff; font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 800; margin-bottom: 8px; }
+.slide-caption p { margin: 0; color: #e0f2fe; font-size: 1.05rem; }
+.slide-item.active .slide-caption > * { animation: rise 0.9s var(--ease) both; }
+.slide-item.active .slide-caption > *:nth-child(2) { animation-delay: 0.12s; }
+.slide-item.active .slide-caption > *:nth-child(3) { animation-delay: 0.24s; }
+@keyframes rise { from { opacity: 0; transform: translateY(26px); } }
+
+.slider-btn {
+    position: absolute;
+    top: 50%;
+    z-index: 5;
+    width: 50px; height: 50px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.2);
+    background: rgba(8,30,60,0.4);
+    backdrop-filter: blur(10px);
+    color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+    transform: translateY(-50%);
+    transition: all 0.35s var(--ease);
+}
+.slider-btn:hover { background: var(--sky); color: #fff; border-color: var(--sky); transform: translateY(-50%) scale(1.1); }
+.prev-btn { left: 20px; }
+.next-btn { right: 20px; }
+
+.slider-dots {
+    position: absolute;
+    right: 32px; bottom: 32px;
+    z-index: 5;
+    display: flex;
+    gap: 8px;
+}
+.dot {
+    position: relative;
+    width: 34px; height: 4px;
+    border: 0;
+    padding: 0;
+    border-radius: 4px;
+    background: rgba(255,255,255,0.25);
+    cursor: pointer;
+    overflow: hidden;
+    transition: width 0.4s var(--ease);
+}
+.dot.active { width: 64px; }
+.dot.active::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--gold);
+    transform-origin: left;
+    animation: fillbar var(--slide-ms, 5000ms) linear forwards;
+}
+.cinema-slider:hover .dot.active::after { animation-play-state: paused; }
+@keyframes fillbar { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+.slide-counter {
+    position: absolute;
+    top: 28px; right: 32px;
+    z-index: 5;
+    font-family: var(--font-head);
+    color: rgba(255,255,255,0.6);
+    letter-spacing: 2px;
+}
+.slide-counter b { color: #fff; font-size: 1.3rem; }
+
+/* ==========================================================
+   9. คำมั่นสัญญา (Feature Cards)
+   ========================================================== */
+.promise-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+.feature { padding: 28px 24px; transition: transform 0.45s var(--ease); }
+.feature:hover { transform: translateY(-8px); }
+.feature-icon {
+    width: 56px; height: 56px;
+    border-radius: 16px;
+    display: grid;
+    place-items: center;
+    font-size: 1.4rem;
+    margin-bottom: 18px;
+    color: var(--sky);
+    background: rgba(56,189,248,0.1);
+    border: 1px solid rgba(56,189,248,0.25);
+    transition: transform 0.5s var(--ease);
+}
+.feature:hover .feature-icon { transform: rotate(-10deg) scale(1.1); }
+.feature:nth-child(2) .feature-icon { color: var(--gold); background: rgba(37,99,235,0.1); border-color: rgba(37,99,235,0.25); }
+.feature:nth-child(3) .feature-icon { color: var(--violet); background: rgba(129,140,248,0.1); border-color: rgba(129,140,248,0.25); }
+.feature:nth-child(4) .feature-icon { color: #16a34a; background: rgba(22,163,74,0.1); border-color: rgba(22,163,74,0.25); }
+.feature h3 { font-size: 1.15rem; font-weight: 600; margin-bottom: 8px; }
+.feature p { margin: 0; color: var(--muted); font-size: 0.93rem; }
+
+.promise-text {
+    margin-top: 28px;
+    padding: 32px 36px;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 24px;
+    align-items: start;
+}
+.promise-text .quote-mark { font-size: 2.6rem; color: var(--gold); opacity: 0.8; line-height: 1; }
+.promise-text p { margin: 0 0 12px; color: #334e68; }
+.promise-text p:last-child { margin-bottom: 0; }
+.promise-text strong { color: var(--sky-deep); }
+
+/* ==========================================================
+   10. ตารางราคา (Rate Cards)
+   ========================================================== */
+.rates-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+.rate-column {
+    display: flex;
+    flex-direction: column;
+    padding: 16px 16px 24px;
+    transition: transform 0.45s var(--ease), box-shadow 0.45s var(--ease);
+}
+.rate-column:hover { transform: translateY(-8px); box-shadow: 0 30px 60px rgba(14,116,184,0.18); }
+.rate-media {
+    position: relative;
+    height: 190px;
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 18px;
+}
+.rate-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s var(--ease);
+}
+.rate-column:hover .rate-media img { transform: scale(1.08); }
+.rate-media::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(8,30,60,0.35), transparent 55%);
+}
+.seat-badge {
+    position: absolute;
+    left: 12px; bottom: 12px;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    background: rgba(255,255,255,0.92);
+    color: var(--text);
+    border: 1px solid rgba(14,116,184,0.15);
+    backdrop-filter: blur(8px);
+}
+.seat-badge i { color: var(--gold); }
+.rate-column h3 { font-size: 1.35rem; font-weight: 700; padding: 0 6px; }
+.rate-from { padding: 0 6px; margin: 2px 0 14px; color: var(--muted); font-size: 0.88rem; }
+.rate-from b { color: var(--gold); font-family: var(--font-head); font-size: 1.05rem; }
+
+.rate-column table { width: 100%; border-collapse: collapse; margin-bottom: 22px; }
+.rate-column td {
+    padding: 9px 6px;
+    font-size: 0.92rem;
+    border-bottom: 1px dashed rgba(14,116,184,0.15);
+    color: #334e68;
+    transition: background 0.25s, color 0.25s;
+}
+.rate-column td:last-child { text-align: right; font-weight: 700; color: var(--sky-deep); font-family: var(--font-head); white-space: nowrap; }
+.rate-column tr:hover td { background: rgba(14,165,233,0.08); color: var(--sky-deep); }
+.rate-column tr:hover td:first-child { border-radius: 8px 0 0 8px; }
+.rate-column tr:hover td:last-child { border-radius: 0 8px 8px 0; }
+.rate-column .btn { margin-top: auto; width: 100%; }
+
+/* ==========================================================
+   11. แถบ Call-to-Action ปิดท้าย
+   ========================================================== */
+.cta-band {
+    position: relative;
+    margin-top: 96px;
+    padding: 56px 40px;
+    border-radius: 30px;
+    overflow: hidden;
+    text-align: center;
+    color: #fff;
+    background: linear-gradient(120deg, #38bdf8, #2563eb 55%, #06b6d4);
+    box-shadow: 0 30px 60px rgba(37,99,235,0.25);
+    background-size: 200% 200%;
+    animation: flow 12s ease infinite;
+}
+@keyframes flow { 50% { background-position: 100% 50%; } }
+.cta-band::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(90deg, rgba(255,255,255,0.18) 0 40px, transparent 40px 80px);
+    height: 4px;
+    top: 50%;
+    opacity: 0.35;
+    animation: lane 1.4s linear infinite;
+}
+@keyframes lane { to { background-position: -80px 0; } }
+.cta-band > * { position: relative; }
+.cta-band .btn-primary { background: #fff; color: var(--gold); box-shadow: 0 12px 30px rgba(8,30,60,0.25); }
+.cta-band h2 { font-size: clamp(1.7rem, 4vw, 2.6rem); font-weight: 800; }
+.cta-band p { margin: 10px 0 28px; color: rgba(255,255,255,0.85); }
+
+/* ==========================================================
+   12. ช่องทางการติดต่อ + แผนที่
+   ========================================================== */
+.contact-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 22px 24px;
+    text-decoration: none;
+    transition: transform 0.45s var(--ease);
+}
+.contact-item:hover { transform: translateY(-6px); }
+.contact-icon {
+    flex-shrink: 0;
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-size: 1.3rem;
+    color: var(--sky);
+    background: rgba(56,189,248,0.1);
+    transition: all 0.4s var(--ease);
+}
+.contact-item:hover .contact-icon { background: var(--sky); color: #fff; transform: rotate(-12deg); }
+.contact-item.line .contact-icon { color: #06c755; background: rgba(6,199,85,0.12); }
+.contact-item.line:hover .contact-icon { background: #06c755; color: #fff; }
+.contact-details h4 { font-family: var(--font-body); font-size: 0.75rem; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); font-weight: 600; margin-bottom: 2px; }
+.contact-details span { font-family: var(--font-head); font-weight: 600; font-size: 1.05rem; word-break: break-all; }
+
+.map-container {
+    margin-top: 22px;
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--line);
+}
+.map-container iframe {
+    width: 100%;
+    height: 360px;
+    border: 0;
+    display: block;
+    filter: saturate(0.85);
+    transition: filter 0.6s var(--ease);
+}
+.map-container:hover iframe { filter: none; }
+
+/* ==========================================================
+   13. ปุ่มลอยติดต่อด่วน
+   ========================================================== */
+.floating-contact {
+    position: fixed;
+    right: 22px;
+    bottom: 22px;
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.float-btn {
+    position: relative;
+    width: 54px; height: 54px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    color: #fff;
+    font-size: 1.4rem;
+    text-decoration: none;
+    box-shadow: 0 10px 25px rgba(14,116,184,0.25);
+    transition: transform 0.4s var(--ease);
+}
+.float-btn:hover { transform: scale(1.12) translateY(-4px); }
+.float-btn.line  { background: linear-gradient(135deg, #06c755, #059b43); }
+.float-btn.phone { background: linear-gradient(135deg, #ff3b30, #d32f2f); }
+.float-btn.email { background: linear-gradient(135deg, #38bdf8, #0284c7); }
+.float-btn.phone::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 2px solid #ff3b30;
+    animation: ring 2s ease-out infinite;
+}
+.float-btn.phone i { animation: shake 2s ease-in-out infinite; }
+@keyframes ring { from { transform: scale(1); opacity: 0.8; } to { transform: scale(1.8); opacity: 0; } }
+@keyframes shake { 0%, 50%, 100% { transform: rotate(0); } 10%, 30% { transform: rotate(-14deg); } 20%, 40% { transform: rotate(14deg); } }
+.float-btn .tip {
+    position: absolute;
+    right: 66px;
+    padding: 6px 12px;
+    border-radius: 10px;
+    background: #fff;
+    color: var(--text);
+    box-shadow: var(--shadow);
+    border: 1px solid var(--line);
+    font-size: 0.82rem;
+    white-space: nowrap;
+    opacity: 0;
+    transform: translateX(8px);
+    transition: all 0.3s var(--ease);
+    pointer-events: none;
+}
+.float-btn:hover .tip { opacity: 1; transform: none; }
+
+/* ==========================================================
+   14. FOOTER
+   ========================================================== */
+footer {
+    margin-top: 96px;
+    border-top: 1px solid var(--line);
+    background: linear-gradient(to bottom, rgba(255,255,255,0.7), #dbeefe);
+    padding: 48px 24px 32px;
+    text-align: center;
+}
+.footer-content { max-width: 1000px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: 16px; }
+.footer-content p { margin: 0; color: #334e68; }
+.footer-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 22px; }
+.footer-links a { color: var(--muted); text-decoration: none; font-size: 0.92rem; transition: color 0.3s; }
+.footer-links a:hover { color: var(--sky); }
+.copyright { font-size: 0.82rem; color: #64748b !important; }
+
+/* ==========================================================
+   15. Admin Modal
+   ========================================================== */
+#adminModal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: rgba(15,42,68,0.4);
+    backdrop-filter: blur(8px);
+    justify-content: center;
+    align-items: center;
+    padding: 16px;
+}
+.modal-card {
+    width: 320px;
+    max-width: 100%;
+    padding: 30px;
+    text-align: center;
+    background: #fff;
+    animation: rise 0.5s var(--ease);
+}
+.modal-card h3 { margin-bottom: 4px; }
+.modal-card p { color: var(--muted); font-size: 0.9rem; margin: 0 0 18px; }
+.modal-card input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 14px;
+    border-radius: 12px;
+    border: 1px solid var(--line);
+    background: #f8fbff;
+    color: var(--text);
+    text-align: center;
+    font-size: 1rem;
+}
+.modal-card input:focus { outline: none; border-color: var(--sky); }
+.modal-card .btn { width: 100%; }
+.modal-cancel { margin-top: 8px; background: none; border: 0; color: var(--muted); cursor: pointer; font-family: var(--font-body); }
+
+/* ==========================================================
+   16. Scroll Reveal
+   ========================================================== */
+.reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.9s var(--ease), transform 0.9s var(--ease); }
+.reveal.in { opacity: 1; transform: none; }
+.reveal[data-delay="1"] { transition-delay: 0.1s; }
+.reveal[data-delay="2"] { transition-delay: 0.2s; }
+.reveal[data-delay="3"] { transition-delay: 0.3s; }
+
+/* ==========================================================
+   17. Responsive
+   ========================================================== */
+@media (max-width: 1024px) {
+    .hero { grid-template-columns: 1fr; text-align: center; padding-top: 48px; }
+    .hero-cta, .live-badge { justify-content: center; }
+    .hero-visual { min-height: 420px; }
+    .promise-grid { grid-template-columns: repeat(2, 1fr); }
+    .rates-grid { grid-template-columns: 1fr; max-width: 520px; margin: 0 auto; }
+    .estimator { grid-template-columns: 1fr; }
+    .est-result { border-left: 0; border-top: 1px solid var(--line); }
+    .contact-grid { grid-template-columns: 1fr; max-width: 520px; margin: 0 auto; }
+}
+
+@media (max-width: 1100px) {
+    header .brand span { display: none; }
+}
+
+@media (max-width: 860px) {
+    .header-wrapper { padding: 10px 16px; gap: 10px; }
+    .nav-menu { overflow-x: auto; scrollbar-width: none; }
+    .nav-menu::-webkit-scrollbar { display: none; }
+    .nav-menu a { padding: 7px 12px; font-size: 0.85rem; }
+}
+
+@media (max-width: 640px) {
+    .wrap { padding: 0 16px; }
+    .nav-menu a i { display: none; }
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .orbit.o1 { --s: 280px; }
+    .orbit.o2 { --s: 220px; }
+    .hero-logo img { width: 160px; }
+    .wordmark b { font-size: 2.1rem; }
+    .hero-visual { min-height: 380px; }
+    .cinema-slider { height: 380px; border-radius: 20px; }
+    .slide-caption { left: 20px; right: 20px; bottom: 56px; }
+    .slider-btn { width: 40px; height: 40px; top: auto; bottom: 12px; transform: none; }
+    .slider-btn:hover { transform: scale(1.1); }
+    .prev-btn { left: auto; right: 64px; }
+    .next-btn { right: 16px; }
+    .slide-counter { top: 18px; right: 20px; }
+    .slider-dots { left: 20px; right: auto; bottom: 22px; }
+    .promise-grid { grid-template-columns: 1fr; }
+    .promise-text { grid-template-columns: 1fr; padding: 26px 22px; }
+    .est-form, .est-result { padding: 24px 20px; }
+    .car-chips { gap: 8px; }
+    .chip { padding: 12px 6px; }
+    .cta-band { padding: 44px 22px; border-radius: 22px; }
+    .floating-contact { right: 14px; bottom: 14px; }
+    .float-btn { width: 48px; height: 48px; font-size: 1.2rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+    .reveal { opacity: 1; transform: none; }
+}
+
+/* ==========================================================
+   18. หน้าย่อย: หัวเรื่องหน้า + ตัวแปรสำรองที่สคริปต์เก่าใช้
+   ========================================================== */
+:root { --accent-glow: var(--sky-deep); --text-muted: var(--muted); --primary: var(--sky-deep); --secondary: var(--sky); }
+
+.page { padding-top: 56px; }
+.page-head { text-align: center; max-width: 720px; margin: 0 auto 40px; }
+.page-head h1 { font-size: clamp(2rem, 4.4vw, 3rem); font-weight: 800; margin: 0; }
+.page-head p { color: var(--muted); margin: 12px 0 0; font-size: 1.05rem; }
+.page-head.second { margin-top: 88px; }
+
+/* ==========================================================
+   19. Services / Cars: การ์ดรถแนวนอน
+   ========================================================== */
+.car-selector-bar { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin: 0 0 32px; }
+.car-select-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 10px 20px; border-radius: 999px;
+    background: var(--surface); border: 1px solid var(--line);
+    color: var(--text); text-decoration: none; font-family: var(--font-head); font-weight: 500;
+    box-shadow: var(--shadow);
+    transition: all 0.35s var(--ease);
+}
+.car-select-btn i { color: var(--sky); }
+.car-select-btn:hover { background: linear-gradient(135deg, #38bdf8, #2563eb); color: #fff; transform: translateY(-3px); }
+.car-select-btn:hover i { color: #fff; }
+
+.car-service-list { display: flex; flex-direction: column; gap: 28px; }
+.car-service-card {
+    display: grid;
+    grid-template-columns: 0.95fr 1.05fr;
+    overflow: hidden;
+    scroll-margin-top: 100px;
+    transition: transform 0.45s var(--ease), box-shadow 0.45s var(--ease);
+}
+.car-service-card:hover { transform: translateY(-6px); box-shadow: 0 30px 60px rgba(14,116,184,0.18); }
+.car-service-card:nth-child(even) .car-image-side { order: 2; }
+.car-image-side { position: relative; min-height: 320px; overflow: hidden; background: #fff; border-right: 1px solid var(--line); }
+.car-image-side img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; padding: 24px; transition: transform 0.8s var(--ease); }
+.car-service-card:hover .car-image-side img { transform: scale(1.06); }
+.car-service-card:nth-child(even) .car-image-side { border-right: 0; border-left: 1px solid var(--line); }
+.car-details-side { padding: 30px 32px; display: flex; flex-direction: column; gap: 18px; }
+.car-header-info h2 { font-size: 1.7rem; font-weight: 800; margin-bottom: 6px; }
+.car-header-info > p { margin: 0 0 12px; color: var(--sky-deep); font-weight: 500; }
+.car-specs-info { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+.car-specs-info span {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 5px 12px; border-radius: 999px; font-size: 0.85rem; font-weight: 500;
+    background: rgba(14,165,233,0.08); border: 1px solid rgba(14,165,233,0.2); color: var(--sky-deep);
+}
+.car-card-footer .car-specs-info { margin: 0; }
+.car-card-footer .car-specs-info span { background: rgba(22,163,74,0.08); border-color: rgba(22,163,74,0.25); color: #15803d; }
+
+.rate-table { width: 100%; border-collapse: collapse; }
+.rate-table td {
+    padding: 8px 6px; font-size: 0.92rem; color: #334e68;
+    border-bottom: 1px dashed rgba(14,116,184,0.15);
+    transition: background 0.25s, color 0.25s;
+}
+.rate-table td:last-child { text-align: right; font-weight: 700; color: var(--sky-deep); font-family: var(--font-head); white-space: nowrap; }
+.rate-table tr:hover td { background: rgba(14,165,233,0.08); color: var(--sky-deep); }
+.price-condition {
+    margin-top: 14px; padding: 10px 14px; border-radius: 12px;
+    background: rgba(245,158,11,0.08); border-left: 3px solid #f59e0b;
+    color: #92400e; font-size: 0.88rem; font-weight: 500;
+}
+.price-condition i { margin-right: 6px; }
+.car-card-footer {
+    margin-top: auto; padding-top: 18px; border-top: 1px solid var(--line);
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px;
+}
+.contact-mini-info { display: flex; align-items: center; gap: 12px; }
+.contact-mini-icon {
+    width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center;
+    background: rgba(14,165,233,0.1); color: var(--sky-deep);
+}
+.contact-mini-details h4 { font-family: var(--font-body); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin: 0; }
+.contact-mini-details a { font-family: var(--font-head); font-weight: 600; text-decoration: none; color: var(--text); }
+.contact-mini-details a:hover { color: var(--sky-deep); }
+.btn-booking-glow {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    padding: 12px 24px; border-radius: 999px; text-decoration: none;
+    font-family: var(--font-head); font-weight: 600; color: #fff;
+    background: linear-gradient(135deg, #38bdf8, #0ea5e9 45%, #2563eb);
+    box-shadow: 0 10px 26px rgba(14,165,233,0.35);
+    transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease);
+}
+.btn-booking-glow:hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 16px 36px rgba(14,165,233,0.45); }
+
+.car-image-side img[onclick] { cursor: zoom-in; }
+#imageModal {
+    display: none; position: fixed; inset: 0; z-index: 99999;
+    background: rgba(15,42,68,0.55); backdrop-filter: blur(8px);
+    justify-content: center; align-items: center; padding: 20px; cursor: zoom-out;
+}
+#imageModal span { position: absolute; top: 16px; right: 28px; color: #fff; font-size: 42px; line-height: 1; }
+#imageModal img { max-width: 92%; max-height: 85vh; border-radius: 18px; object-fit: contain; box-shadow: 0 30px 80px rgba(8,30,60,0.4); animation: rise 0.5s var(--ease); }
+
+.map-heading { text-align: center; margin: 88px auto 24px; max-width: 680px; }
+.map-heading h2 { font-size: clamp(1.6rem, 3.2vw, 2.2rem); font-weight: 700; }
+.map-heading p { color: var(--muted); margin: 10px 0 0; }
+
+/* ==========================================================
+   20. Booking: ฟอร์มจอง
+   ========================================================== */
+.booking-wrap { max-width: 920px; margin: 0 auto; }
+.booking-card { padding: 40px; }
+.booking-card > h2 {
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    font-size: 1.5rem; font-weight: 700; margin: 0 0 30px; padding-bottom: 16px;
+    border-bottom: 1px solid var(--line);
+}
+.booking-card > h2 i { color: var(--sky); }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 18px; }
+.form-group { display: flex; flex-direction: column; }
+.form-group label { font-weight: 600; font-size: 0.95rem; color: var(--text); margin-bottom: 8px; }
+.form-group label i { color: var(--sky); margin-right: 4px; }
+.required { color: #e11d48; }
+.booking-card input, .booking-card select, .booking-card textarea {
+    width: 100%; padding: 13px 16px; border-radius: 14px;
+    border: 1px solid var(--line); background: #fff; color: var(--text);
+    font-family: var(--font-body); font-size: 1rem; font-weight: 500;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+.booking-card input:hover, .booking-card select:hover, .booking-card textarea:hover { border-color: rgba(14,165,233,0.45); }
+.booking-card input:focus, .booking-card select:focus, .booking-card textarea:focus { outline: none; border-color: var(--sky); box-shadow: 0 0 0 4px rgba(14,165,233,0.15); }
+.booking-card input[type="file"] { padding: 10px; background: #f8fbff; cursor: pointer; }
+.booking-card input[type="file"]::file-selector-button {
+    margin-right: 12px; padding: 8px 16px; border: 0; border-radius: 999px; cursor: pointer;
+    background: linear-gradient(135deg, #38bdf8, #2563eb); color: #fff; font-family: var(--font-head);
+}
+.price-box-wrapper {
+    margin: 8px 0 22px; padding: 24px; border-radius: 20px; text-align: center;
+    background: radial-gradient(circle at 85% 10%, rgba(37,99,235,0.16), transparent 55%), radial-gradient(circle at 10% 90%, rgba(14,165,233,0.18), transparent 55%), linear-gradient(160deg, #f0f9ff, #e0f2fe);
+    border: 1px solid rgba(14,165,233,0.25);
+}
+.price-box-wrapper label { justify-content: center; }
+.price-tag {
+    display: block; margin: 4px 0 10px;
+    font-family: var(--font-head); font-size: clamp(2.2rem, 5vw, 3rem); font-weight: 800;
+    background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.price-note {
+    display: inline-block; align-self: center; padding: 8px 14px; border-radius: 10px;
+    background: rgba(245,158,11,0.1); border-left: 3px solid #f59e0b; color: #92400e; font-size: 0.88rem; font-weight: 600;
+}
+.btn-submit-glow {
+    width: 100%; margin-top: 6px; padding: 16px; border: 0; border-radius: 999px; cursor: pointer;
+    font-family: var(--font-head); font-size: 1.1rem; font-weight: 600; color: #fff;
+    background: linear-gradient(135deg, #38bdf8, #0ea5e9 45%, #2563eb);
+    box-shadow: 0 12px 30px rgba(14,165,233,0.35);
+    transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease);
+}
+.btn-submit-glow:hover { transform: translateY(-3px); box-shadow: 0 18px 40px rgba(14,165,233,0.45); }
+#payment-section {
+    margin-top: 34px; padding: 30px; border-radius: 22px; text-align: center;
+    background: #f8fbff; border: 2px dashed rgba(14,165,233,0.45); animation: rise 0.6s var(--ease);
+}
+#payment-section h3 { font-size: 1.3rem; margin: 0 0 10px; }
+#payment-section h3 i, #payment-section label i { color: var(--sky); }
+#payment-section > p { color: var(--muted); }
+.deposit-alert {
+    margin-bottom: 20px; padding: 14px 18px; border-radius: 14px; font-weight: 600;
+    background: rgba(225,29,72,0.07); border: 1px dashed rgba(225,29,72,0.45); color: #be123c;
+}
+.qr-container { display: inline-block; margin: 10px 0 14px; padding: 14px; border-radius: 18px; background: #fff; box-shadow: var(--shadow); border: 1px solid var(--line); }
+.qr-container img { width: 190px; height: 190px; object-fit: contain; display: block; }
+.bank-name { font-family: var(--font-head); font-weight: 600; color: var(--sky-deep); margin: 0 0 22px; }
+.upload-box { text-align: left; max-width: 520px; margin: 0 auto; }
+#booking-summary-box {
+    margin-top: 20px; padding: 18px 20px; border-radius: 16px; line-height: 1.7;
+    background: #fff; border: 1px solid var(--line); box-shadow: var(--shadow); color: var(--text);
+}
+#booking-summary-box:empty { display: none; }
+#booking-summary-box strong { color: var(--sky-deep); }
+#payment-section .btn-submit-glow { margin-top: 24px; }
+
+/* ==========================================================
+   21. Contact: ช่องทางติดต่อทั้งหมด
+   ========================================================== */
+.taxi-banner-wrapper {
+    position: relative; overflow: hidden;
+    display: flex; align-items: center; justify-content: space-between; gap: 24px;
+    padding: 30px 36px; margin-bottom: 30px; border-radius: 26px; color: #fff;
+    background: linear-gradient(120deg, #38bdf8, #2563eb 60%, #06b6d4);
+    background-size: 200% 200%; animation: flow 12s ease infinite;
+    box-shadow: 0 24px 50px rgba(37,99,235,0.25);
+}
+.taxi-banner-wrapper::before {
+    content: ''; position: absolute; left: 0; right: 0; bottom: 18px; height: 3px; opacity: 0.4;
+    background: repeating-linear-gradient(90deg, #fff 0 30px, transparent 30px 60px);
+    animation: lane 1.2s linear infinite;
+}
+.taxi-banner-text { position: relative; }
+.taxi-banner-text h3 { font-size: 1.4rem; font-weight: 700; margin-bottom: 6px; }
+.taxi-banner-text h3 i { color: #fff; }
+.taxi-banner-text p { margin: 0; color: rgba(255,255,255,0.88); }
+.taxi-animation-icon {
+    position: relative; flex-shrink: 0;
+    width: 74px; height: 74px; border-radius: 22px; display: grid; place-items: center;
+    background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.35);
+    font-size: 2rem; animation: bounce-car 1.6s ease-in-out infinite;
+}
+@keyframes bounce-car { 50% { transform: translateY(-6px) rotate(-3deg); } }
+
+.channel-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.channel { padding: 26px 24px; transition: transform 0.45s var(--ease); }
+.channel:hover { transform: translateY(-6px); }
+.channel > i {
+    width: 54px; height: 54px; border-radius: 16px; display: grid; place-items: center;
+    font-size: 1.5rem; margin-bottom: 16px;
+    color: var(--sky-deep); background: rgba(14,165,233,0.1);
+    transition: transform 0.5s var(--ease);
+}
+.channel:hover > i { transform: rotate(-10deg) scale(1.1); }
+.channel.whatsapp > i  { color: #25d366; background: rgba(37,211,102,0.1); }
+.channel.line > i      { color: #06c755; background: rgba(6,199,85,0.1); }
+.channel.facebook > i  { color: #1877f2; background: rgba(24,119,242,0.1); }
+.channel.instagram > i { color: #e1306c; background: rgba(225,48,108,0.1); }
+.channel h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 10px; }
+.channel a {
+    display: flex; align-items: center; gap: 8px; padding: 6px 0;
+    color: #334e68; text-decoration: none; font-weight: 500; word-break: break-all;
+    transition: color 0.25s, transform 0.25s;
+}
+.channel a::before { content: '\f054'; font-family: 'Font Awesome 6 Free'; font-weight: 900; font-size: 0.65rem; color: var(--sky); }
+.channel a:hover { color: var(--sky-deep); transform: translateX(4px); }
+.map-section-box { margin-top: 26px; padding: 26px; }
+.map-section-box h3 { display: flex; align-items: center; gap: 10px; font-size: 1.25rem; margin: 0 0 6px; }
+.map-section-box h3 i { color: var(--sky); }
+.map-section-box > p { color: var(--muted); margin: 0; }
+.map-section-box .map-container { margin-top: 18px; }
+
+.float-btn.facebook  { background: linear-gradient(135deg, #1877f2, #0d5bd1); }
+.float-btn.instagram { background: linear-gradient(135deg, #f58529, #dd2a7b 50%, #8134af); }
+.float-btn.whatsapp  { background: linear-gradient(135deg, #25d366, #128c7e); }
+
+@media (max-width: 1024px) {
+    .channel-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 860px) {
+    .car-service-card { grid-template-columns: 1fr; }
+    .car-service-card:nth-child(even) .car-image-side { order: 0; }
+    .car-image-side, .car-service-card:nth-child(even) .car-image-side { min-height: 240px; border: 0; border-bottom: 1px solid var(--line); }
+}
+@media (max-width: 640px) {
+    .page { padding-top: 36px; }
+    .car-details-side { padding: 22px 18px; }
+    .car-card-footer .btn-booking-glow { width: 100%; }
+    .booking-card { padding: 24px 18px; }
+    .form-row { grid-template-columns: 1fr; gap: 14px; margin-bottom: 14px; }
+    #payment-section { padding: 22px 16px; }
+    .channel-grid { grid-template-columns: 1fr; }
+    .taxi-banner-wrapper { padding: 24px 22px; }
+    .taxi-animation-icon { width: 58px; height: 58px; font-size: 1.5rem; }
+    .floating-contact { gap: 8px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+}

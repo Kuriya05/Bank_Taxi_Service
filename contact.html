@@ -4,523 +4,61 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ติดต่อเรา / Contact Us | Bank Taxi Service</title>
-    <link rel="stylesheet" href="style.css">
-    <!-- Google Fonts - Sarabun -->
-    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <!-- FontAwesome Icons -->
+    <meta name="theme-color" content="#f5f9ff">
+    <link rel="icon" href="logo-mark.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;800&family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --bg-main: #0f172a;
-            --bg-header: #0a0f1d;
-            --card-bg: #1e293b;
-            --accent-glow: #38bdf8;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --border-color: rgba(255, 255, 255, 0.08);
-        }
-
-        body {
-            font-family: 'Sarabun', sans-serif;
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            background-color: var(--bg-main);
-            color: var(--text-main);
-        }
-
-        /* Header & Navigation */
-        header {
-            background: var(--bg-header);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .header-wrapper {
-            position: relative;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 16px 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .language-switcher-top {
-            position: absolute;
-            top: 50%;
-            right: 30px;
-            transform: translateY(-50%);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(255, 255, 255, 0.05);
-            padding: 6px;
-            border-radius: 50px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(12px);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            z-index: 10;
-        }
-
-        .lang-btn {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: 0.65rem;
-            font-weight: 800;
-            text-decoration: none;
-            transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            border: 2px solid transparent;
-            color: #fff;
-            overflow: hidden;
-            background-size: cover;
-            background-position: center;
-        }
-
-        .lang-btn[href*="index.html"]:not([href*="-en"]) {
-            background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Flag_of_Thailand.svg/1200px-Flag_of_Thailand.svg.png');
-        }
-
-        .lang-btn[href*="-en"] {
-            background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Flag_of_the_United_Kingdom_%283-5%29.svg/1200px-Flag_of_the_United_Kingdom_%283-5%29.svg.png');
-        }
-
-        .lang-btn:hover {
-            transform: scale(1.15);
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
-        }
-
-        .lang-btn.active {
-            border-color: var(--accent-glow);
-            transform: scale(1.2);
-            box-shadow: 0 0 15px rgba(56, 189, 248, 0.6);
-            background: linear-gradient(135deg, #0284c7, #38bdf8);
-            color: #ffffff;
-            font-weight: 700;
-        }
-
-        .header-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .nav-menu {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 40px;
-            list-style: none;
-            margin: 0;
-            padding: 0;
-        }
-
-        .nav-menu a {
-            position: relative;
-            color: var(--text-muted);
-            text-decoration: none;
-            font-size: 0.95rem;
-            font-weight: 500;
-            padding: 8px 0;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transition: color 0.25s ease;
-        }
-
-        .nav-menu a i {
-            font-size: 0.9rem;
-            color: #64748b;
-            transition: color 0.25s ease;
-        }
-
-        .nav-menu a:hover {
-            color: #ffffff;
-        }
-
-        .nav-menu a:hover i {
-            color: var(--accent-glow);
-        }
-
-        .nav-menu a::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 1px;
-            background: var(--accent-glow);
-            transition: width 0.3s ease;
-        }
-
-        .nav-menu a:hover::after {
-            width: 100%;
-        }
-
-        .nav-menu a.active {
-            color: #ffffff;
-            font-weight: 600;
-        }
-
-        .nav-menu a.active i {
-            color: var(--accent-glow);
-        }
-
-        .nav-menu a.active::after {
-            width: 100%;
-            background: var(--accent-glow);
-        }
-
-        /* 🌟 ลูกเล่นจุดแสงเรืองแสงด้านบนเมนู Active แบบเดียวกับหน้า Booking */
-        .nav-menu a.active::before {
-            content: '';
-            position: absolute;
-            top: -4px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 6px;
-            height: 6px;
-            background: var(--accent-glow);
-            border-radius: 50%;
-            box-shadow: 0 0 8px var(--accent-glow);
-        }
-
-        /* Container */
-        .container {
-            max-width: 1000px;
-            margin: 40px auto;
-            padding: 20px 30px;
-        }
-
-        /* Page Title Header Decoration */
-        .page-title-box {
-            text-align: center;
-            margin-bottom: 40px;
-            color: #ffffff;
-        }
-
-        .page-title-box h1 {
-            font-size: 2.6rem;
-            margin: 0 0 10px 0;
-            font-weight: 800;
-            color: #ffffff;
-            text-shadow: 0 2px 15px rgba(56, 189, 248, 0.3);
-        }
-
-        .page-title-box p {
-            font-size: 1.15rem;
-            color: var(--accent-glow);
-            margin: 0;
-            opacity: 0.95;
-        }
-
-        /* 🚗 ลูกเล่นแบนเนอร์แท็กซี่เคลื่อนไหวพิเศษ */
-        .taxi-banner-wrapper {
-            background: linear-gradient(135deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.9));
-            border: 1px solid rgba(56, 189, 248, 0.2);
-            border-radius: 20px;
-            padding: 20px 30px;
-            margin-bottom: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            overflow: hidden;
-            position: relative;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-        }
-
-        .taxi-banner-text h3 {
-            margin: 0 0 5px 0;
-            font-size: 1.25rem;
-            color: #f8fafc;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .taxi-banner-text p {
-            margin: 0;
-            font-size: 0.95rem;
-            color: var(--text-muted);
-        }
-
-        .taxi-animation-icon {
-            font-size: 2.8rem;
-            color: var(--accent-glow);
-            animation: driveCar 4s ease-in-out infinite alternate;
-            filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.5));
-        }
-
-        @keyframes driveCar {
-            0% { transform: translateX(0px) scaleX(1); }
-            50% { transform: translateX(-15px) scaleX(1); }
-            100% { transform: translateX(10px) scaleX(1); }
-        }
-
-        /* Contact Card Layout (Clean & Transparent) */
-        .contact-card {
-            background: transparent !important;
-            border-radius: 0;
-            padding: 0;
-            border: none;
-            box-shadow: none;
-        }
-
-        .contact-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 25px;
-            margin-bottom: 40px;
-        }
-
-        .contact-item {
-            background: rgba(30, 41, 59, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 20px;
-            padding: 25px 20px;
-            text-align: center;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .contact-item:hover {
-            transform: translateY(-6px);
-            border-color: var(--accent-glow);
-            background: rgba(30, 41, 59, 0.85);
-            box-shadow: 0 15px 35px rgba(56, 189, 248, 0.15);
-        }
-
-        .contact-item i {
-            font-size: 2.3rem;
-            color: var(--accent-glow);
-            margin-bottom: 15px;
-            transition: transform 0.3s ease;
-        }
-
-        .contact-item:hover i {
-            transform: scale(1.15) rotate(-5deg);
-        }
-
-        .contact-item h3 {
-            font-size: 1.15rem;
-            color: #f8fafc;
-            margin: 0 0 15px 0;
-            font-weight: 700;
-            border-bottom: 2px solid var(--accent-glow);
-            padding-bottom: 8px;
-            display: inline-block;
-        }
-
-        .contact-item p, .contact-item a {
-            font-size: 0.95rem;
-            color: #f8fafc;
-            text-decoration: none;
-            margin: 8px 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            font-weight: 600;
-            transition: color 0.3s ease, text-shadow 0.3s ease;
-        }
-
-        /* 🔘 จุดนำหน้าข้อความสไตล์เดิม */
-        .contact-item a::before, .contact-item p::before {
-            content: '';
-            width: 6px;
-            height: 6px;
-            background-color: var(--accent-glow);
-            border-radius: 50%;
-            display: inline-block;
-            box-shadow: 0 0 6px var(--accent-glow);
-        }
-
-        .contact-item a:hover {
-            color: var(--accent-glow);
-            text-shadow: 0 0 8px rgba(56, 189, 248, 0.5);
-            text-decoration: underline;
-        }
-
-        /* Map Section */
-        .map-section-box {
-            background: rgba(30, 41, 59, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 24px;
-            padding: 30px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
-        }
-
-        .map-box {
-            margin-top: 20px;
-            border-radius: 16px;
-            overflow: hidden;
-            border: 2px solid rgba(56, 189, 248, 0.3);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-        }
-
-        .map-box iframe {
-            width: 100%;
-            height: 380px;
-            border: none;
-            display: block;
-        }
-
-        /* Floating Contact Buttons */
-        .floating-contact {
-            position: fixed;
-            bottom: 25px;
-            right: 25px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            z-index: 999;
-        }
-
-        .float-btn {
-            width: 55px;
-            height: 55px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #ffffff;
-            font-size: 1.5rem;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            text-decoration: none;
-        }
-
-        .float-btn.line { background: linear-gradient(135deg, #06c755, #059b43); }
-        .float-btn.phone { background: linear-gradient(135deg, #ff3b30, #d32f2f); }
-        .float-btn.whatsapp { background: linear-gradient(135deg, #25D366, #128C7E); }
-        .float-btn.facebook { background: linear-gradient(135deg, #1877f2, #0d5bc7); }
-        .float-btn.instagram { background: linear-gradient(135deg, #f09433, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888); }
-        .float-btn.email { background: linear-gradient(135deg, #f59e0b, #d97706); }
-
-        .float-btn:hover {
-            transform: scale(1.12) translateY(-4px);
-            box-shadow: 0 12px 30px rgba(0,0,0,0.35);
-        }
-
-        /* Footer */
-        footer {
-            background: linear-gradient(135deg, #0b3c5d, #07192f);
-            color: #ffffff;
-            text-align: center;
-            padding: 40px 20px;
-            margin-top: 90px;
-            border-top: 2px solid rgba(50, 140, 193, 0.4);
-            box-shadow: 0 -4px 20px rgba(11, 60, 93, 0.2);
-        }
-
-        .footer-content {
-            max-width: 1000px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            align-items: center;
-        }
-
-        .footer-content p {
-            margin: 0;
-            font-size: 0.95rem;
-            color: #e2e8f0;
-            letter-spacing: 0.5px;
-        }
-
-        .footer-links {
-            display: flex;
-            gap: 25px;
-            margin-top: 8px;
-        }
-
-        .footer-links a {
-            color: #38bdf8;
-            text-decoration: none;
-            font-size: 0.95rem;
-            font-weight: 600;
-            transition: color 0.3s ease;
-        }
-
-        .footer-links a:hover {
-            color: #ffffff;
-            text-decoration: underline;
-        }
-
-        @media (max-width: 768px) {
-            .header-wrapper {
-                padding: 12px 15px;
-                justify-content: space-between;
-            }
-            .language-switcher-top {
-                position: static;
-                transform: none;
-            }
-            .nav-menu {
-                gap: 20px;
-            }
-            .nav-menu a {
-                font-size: 0.95rem;
-            }
-            .container {
-                padding: 15px;
-                margin: 20px auto;
-            }
-            .taxi-banner-wrapper {
-                flex-direction: column;
-                text-align: center;
-                gap: 15px;
-            }
-            .page-title-box h1 {
-                font-size: 2rem;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="theme.css">
 </head>
 <body>
+    <div class="bg-scene" aria-hidden="true">
+        <div class="bg-blob b1"></div>
+        <div class="bg-blob b2"></div>
+        <div class="bg-blob b3"></div>
+        <div class="bg-grid"></div>
+        <div class="bg-spot" id="bgSpot"></div>
+    </div>
 
-    <!-- Header & Navigation -->
-    <header>
+    <header id="siteHeader">
         <div class="header-wrapper">
-            <!-- Language Switcher -->
-            <div class="language-switcher-top">
-                <a href="contact.html" class="lang-btn active" data-lang="th">TH</a>
-                <a href="contact-en.html" class="lang-btn" data-lang="en">EN</a>
-            </div>
+            <a href="index.html" class="brand">
+                <img src="logo-mark.svg" class="brand-mark" alt="">
+                <span>Bank <b>Taxi</b> Service</span>
+            </a>
 
-            <div class="header-container">
-                <nav class="nav-menu">
-                    <a href="index.html"><i class="fa-solid fa-house"></i> <span>Home</span></a>
-                    <a href="services.html"><i class="fa-solid fa-tags"></i> <span>Services & Rates</span></a>
-                    <a href="cars.html"><i class="fa-solid fa-car"></i> <span>Cars</span></a>
-                    <a href="booking.html"><i class="fa-solid fa-calendar-check"></i> <span>Booking</span></a>
-                    <a href="contact.html" class="active"><i class="fa-solid fa-address-book"></i> <span>Contact</span></a>
-                </nav>
+            <nav class="nav-menu">
+                <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+                <a href="services.html"><i class="fa-solid fa-tags"></i> Services & Rates</a>
+                <a href="cars.html"><i class="fa-solid fa-car"></i> Cars</a>
+                <a href="booking.html"><i class="fa-solid fa-calendar-check"></i> Booking</a>
+                <a href="contact.html" class="active"><i class="fa-solid fa-address-book"></i> Contact</a>
+            </nav>
+
+            <div class="language-switcher-top">
+                <a href="contact.html" class="lang-btn th active" title="ภาษาไทย">TH</a>
+                <a href="contact-en.html" class="lang-btn en" title="English">EN</a>
             </div>
+        </div>
+        <div class="road-progress" aria-hidden="true">
+            <div class="fill"></div>
+            <i class="fa-solid fa-taxi car"></i>
         </div>
     </header>
 
     <!-- Main Container -->
-    <main class="container">
-        <div class="page-title-box">
+    <main class="wrap page">
+        <div class="page-head reveal">
+            <span class="eyebrow">Contact</span>
             <h1>ติดต่อเรา / Contact Us</h1>
             <p>ช่องทางการติดต่อ สอบถามบริการรถรับส่งและนำเที่ยวตลอด 24 ชั่วโมง</p>
         </div>
 
         <!-- 🚗 ลูกเล่นแบนเนอร์แท็กซี่เคลื่อนไหวพิเศษ -->
-        <div class="taxi-banner-wrapper">
+        <div class="taxi-banner-wrapper reveal">
             <div class="taxi-banner-text">
-                <h3><i class="fa-solid fa-car-side" style="color: var(--accent-glow);"></i> พร้อมให้บริการรับ-ส่งทั่วไทย 24 ชม.</h3>
+                <h3><i class="fa-solid fa-car-side"></i> พร้อมให้บริการรับ-ส่งทั่วไทย 24 ชม.</h3>
                 <p>เดินทางปลอดภัย สะดวก รวดเร็ว พร้อมคนขับมืออาชีพ ติดต่อเราได้ทันทีทุกช่องทาง</p>
             </div>
             <div class="taxi-animation-icon">
@@ -528,10 +66,10 @@
             </div>
         </div>
 
-        <div class="contact-card">
-            <div class="contact-grid">
+        <div class="contact-wrap">
+            <div class="channel-grid">
                 <!-- Phone -->
-                <div class="contact-item">
+                <div class="glass spotlight channel  reveal">
                     <i class="fa-solid fa-phone-volume"></i>
                     <h3>เบอร์โทรศัพท์ / Phone</h3>
                     <a href="tel:0831524168">083-152-4168</a>
@@ -539,8 +77,8 @@
                 </div>
 
                 <!-- WhatsApp -->
-                <div class="contact-item">
-                    <i class="fa-brands fa-whatsapp" style="color: #25D366;"></i>
+                <div class="glass spotlight channel whatsapp reveal">
+                    <i class="fa-brands fa-whatsapp"></i>
                     <h3>WhatsApp</h3>
                     <a href="https://wa.me/66875854108" target="_blank">087-585-4108</a>
                     <a href="https://wa.me/66948798228" target="_blank">094-879-8228</a>
@@ -548,29 +86,29 @@
                 </div>
 
                 <!-- LINE OA -->
-                <div class="contact-item">
-                    <i class="fa-brands fa-line" style="color: #06c755;"></i>
+                <div class="glass spotlight channel line reveal">
+                    <i class="fa-brands fa-line"></i>
                     <h3>ไลน์ / LINE OA</h3>
                     <a href="https://line.me/ti/p/4wD6IYASNu" target="_blank">แอดไลน์หลัก (Add LINE)</a>
                     <a href="https://line.me/ti/p/mEbpRpyRnB" target="_blank">แอดไลน์สำรอง (Add LINE)</a>
                 </div>
 
                 <!-- Facebook -->
-                <div class="contact-item">
-                    <i class="fa-brands fa-facebook" style="color: #1877f2;"></i>
+                <div class="glass spotlight channel facebook reveal">
+                    <i class="fa-brands fa-facebook"></i>
                     <h3>เฟซบุ๊ก / Facebook</h3>
                     <a href="https://www.facebook.com/share/1DTJ5yZoDF/?mibextid=wwXIfr" target="_blank">เยี่ยมชมเพจ Facebook</a>
                 </div>
 
                 <!-- Instagram -->
-                <div class="contact-item">
-                    <i class="fa-brands fa-instagram" style="color: #e1306c;"></i>
+                <div class="glass spotlight channel instagram reveal">
+                    <i class="fa-brands fa-instagram"></i>
                     <h3>อินสตาแกรม / Instagram</h3>
                     <a href="https://www.instagram.com/yaonou" target="_blank">@yaonou (Instagram)</a>
                 </div>
 
                 <!-- Email -->
-                <div class="contact-item">
+                <div class="glass spotlight channel  reveal">
                     <i class="fa-solid fa-envelope-open-text"></i>
                     <h3>อีเมล / Email</h3>
                     <a href="mailto:bank8307@gmail.com">bank8307@gmail.com</a>
@@ -579,12 +117,12 @@
             </div>
 
             <!-- Map Location Box -->
-            <div class="map-section-box">
-                <h3 style="color: #f8fafc; font-size: 1.25rem; margin: 0 0 10px 0; display: flex; align-items: center; gap: 10px;">
-                    <i class="fa-solid fa-map-location-dot" style="color: var(--accent-glow);"></i> แผนที่บริการ / Service Location
+            <div class="map-section-box glass reveal">
+                <h3>
+                    <i class="fa-solid fa-map-location-dot"></i> แผนที่บริการ / Service Location
                 </h3>
-                <p style="color: var(--text-muted); font-size: 0.95rem; margin: 0;">จุดให้บริการหลักและการเดินทางทั่วประเทศ</p>
-                <div class="map-box">
+                <p>จุดให้บริการหลักและการเดินทางทั่วประเทศ</p>
+                <div class="map-container">
                     <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3875.352467325081!2d100.5018!3d13.7563!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zUMKhci4gQmFuayBUYXhpIFNlcnZpY2U!5e0!3m2!1sth!2sth!4v1620000000000!5m2!1sth!2sth" allowfullscreen="" loading="lazy"></iframe>
                 </div>
             </div>
@@ -592,29 +130,37 @@
     </main>
 
     <!-- Floating Contact Buttons -->
+    
+
     <div class="floating-contact">
-        <a href="https://line.me/ti/p/4wD6IYASNu" target="_blank" class="float-btn line" title="แอดไลน์หลักติดต่อเรา"><i class="fa-brands fa-line"></i></a>
-        <a href="https://www.facebook.com/share/1DTJ5yZoDF/?mibextid=wwXIfr" target="_blank" class="float-btn facebook" title="ติดต่อผ่าน Facebook"><i class="fa-brands fa-facebook-f"></i></a>
-        <a href="https://www.instagram.com/yaonou" target="_blank" class="float-btn instagram" title="ติดต่อผ่าน Instagram"><i class="fa-brands fa-instagram"></i></a>
-        <a href="https://wa.me/66948798228" target="_blank" class="float-btn whatsapp" title="ติดต่อ WhatsApp"><indicator><i class="fa-brands fa-whatsapp"></i></a>
+        <a href="https://line.me/ti/p/4wD6IYASNu" target="_blank" rel="noopener" class="float-btn line" title="แอดไลน์หลักติดต่อเรา"><i class="fa-brands fa-line"></i></a>
+        <a href="https://www.facebook.com/share/1DTJ5yZoDF/?mibextid=wwXIfr" target="_blank" rel="noopener" class="float-btn facebook" title="ติดต่อผ่าน Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+        <a href="https://www.instagram.com/yaonou" target="_blank" rel="noopener" class="float-btn instagram" title="ติดต่อผ่าน Instagram"><i class="fa-brands fa-instagram"></i></a>
+        <a href="https://wa.me/66948798228" target="_blank" rel="noopener" class="float-btn whatsapp" title="ติดต่อ WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
         <a href="tel:0875854108" class="float-btn phone" title="โทรด่วน 0875854108"><i class="fa-solid fa-phone"></i></a>
         <a href="mailto:bank8307@gmail.com" class="float-btn email" title="ส่งอีเมลติดต่อเรา"><i class="fa-solid fa-envelope"></i></a>
     </div>
 
-    <!-- Footer -->
     <footer>
         <div class="footer-content">
-            <p><strong>Bank Taxi Service</strong> — Nationwide transfer and tour services, safe, convenient, and prompt 24 hours a day</p>
+            <a href="index.html" class="brand">
+                <img src="logo-mark.svg" class="brand-mark" alt="">
+                <span>Bank <b>Taxi</b> Service</span>
+            </a>
+            <p>บริการรถรับส่งและท่องเที่ยวทั่วประเทศ ปลอดภัย สะดวก ตรงเวลา ตลอด 24 ชั่วโมง</p>
             <div class="footer-links">
-                <a href="index.html">Home</a>
-                <a href="services.html">Services & Rates</a>
-                <a href="cars.html">Cars</a>
-                <a href="booking.html">Booking</a>
-                <a href="contact.html">Contact</a>
+                <a href="index.html">หน้าแรก</a>
+                <a href="services.html">บริการและราคา</a>
+                <a href="cars.html">รถยนต์</a>
+                <a href="booking.html">จองรถ</a>
+                <a href="contact.html">ติดต่อเรา</a>
             </div>
-            <p style="font-size: 0.85rem; color: #94a3b8; margin-top: 10px;">&copy; 2026 Bank Taxi Service. All Rights Reserved.</p>
+            <p class="copyright">&copy; 2026 Bank Taxi Service. All Rights Reserved.</p>
         </div>
     </footer>
-<script src="mobile-switcher.js"></script>
+
+    <script src="site.js"></script>
+
+    <script src="mobile-switcher.js"></script>
 </body>
 </html>
