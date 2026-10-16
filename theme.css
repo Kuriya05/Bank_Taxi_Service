@@ -1716,3 +1716,191 @@ body.receipt-open { overflow: hidden; }
     .drawer-quick a:first-child i { color: #ef4444; }
     .drawer-quick a:last-child i { color: #06c755; font-size: 1.1rem; }
 }
+
+/* ==========================================================
+   25. หน้าบริการและราคา (services.html / services-en.html)
+   ========================================================== */
+.svc-hero { padding-bottom: 8px; }
+.svc-hero .page-head { margin-bottom: 28px; }
+.svc-hero .page-head h1 { font-size: clamp(2.2rem, 5vw, 3.4rem); }
+.svc-stats { max-width: 860px; margin: 0 auto; }
+.svc-block { padding-top: 72px; }
+.svc-step-head { max-width: 640px; margin: 0 0 24px; }
+.svc-step-head h2 { font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 700; }
+.svc-step-head p { color: var(--muted); margin: 8px 0 0; }
+
+/* --- การ์ดเลือกรถ --- */
+.svc-cars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.svc-car {
+    display: flex; flex-direction: column; align-items: flex-start; gap: 6px;
+    padding: 18px 18px 20px; text-align: left; cursor: pointer;
+    font: inherit; color: var(--text);
+    transition: transform 0.45s var(--ease), box-shadow 0.45s var(--ease), border-color 0.3s;
+}
+.svc-car:hover { transform: translateY(-6px); }
+.svc-car.active {
+    border-color: transparent;
+    box-shadow: 0 0 0 2px #38bdf8, 0 24px 50px rgba(37, 99, 235, 0.22);
+    background: linear-gradient(160deg, #ffffff, #eef7ff);
+}
+.svc-car-tag {
+    padding: 4px 10px; border-radius: 999px; font-size: 0.75rem; font-weight: 600;
+    background: rgba(14, 165, 233, 0.1); color: var(--sky-deep);
+}
+.svc-car-check {
+    position: absolute; top: 16px; right: 16px;
+    width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center;
+    border: 2px solid var(--line); color: transparent; background: #fff;
+    transition: all 0.35s var(--ease);
+}
+.svc-car.active .svc-car-check { background: linear-gradient(135deg, #38bdf8, #2563eb); border-color: transparent; color: #fff; transform: scale(1.08); }
+.svc-car-img { width: 100%; height: 140px; margin: 6px 0 4px; display: grid; place-items: center; }
+.svc-car-img img { max-height: 140px; width: auto; object-fit: contain; transition: transform 0.6s var(--ease); }
+.svc-car:hover .svc-car-img img, .svc-car.active .svc-car-img img { transform: scale(1.06) translateX(4px); }
+.svc-car-name { font-family: var(--font-head); font-size: 1.25rem; font-weight: 700; }
+.svc-car-meta { display: flex; flex-wrap: wrap; gap: 6px 14px; color: var(--muted); font-size: 0.85rem; }
+.svc-car-meta i { color: var(--sky); margin-right: 3px; }
+.svc-car-price { margin-top: 8px; color: var(--muted); font-size: 0.9rem; }
+.svc-car-price b { font-family: var(--font-head); font-size: 1.5rem; color: var(--sky-deep); }
+
+/* --- ตารางเทียบราคา --- */
+.price-board { padding: 22px; }
+.pb-tools { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-bottom: 18px; }
+.pb-search { position: relative; flex: 1 1 260px; }
+.pb-search i { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--sky); }
+.pb-search input {
+    width: 100%; padding: 13px 16px 13px 44px; border-radius: 999px;
+    border: 1px solid var(--line); background: #fff; color: var(--text);
+    font-family: var(--font-body); font-size: 1rem;
+}
+.pb-search input:focus { outline: none; border-color: var(--sky); box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.15); }
+.pb-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.pb-chip {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 9px 14px; border-radius: 999px; cursor: pointer;
+    border: 1px solid var(--line); background: #fff; color: var(--text);
+    font-family: var(--font-body); font-size: 0.88rem; font-weight: 500;
+    transition: all 0.3s var(--ease);
+}
+.pb-chip i { color: var(--sky); font-size: 0.8rem; }
+.pb-chip:hover { border-color: rgba(14, 165, 233, 0.5); }
+.pb-chip.active { background: linear-gradient(135deg, #38bdf8, #2563eb); color: #fff; border-color: transparent; box-shadow: 0 6px 16px rgba(37, 99, 235, 0.3); }
+.pb-chip.active i { color: #fff; }
+
+.pb-table { border-radius: 18px; overflow: hidden; border: 1px solid var(--line); background: #fff; }
+.pb-row {
+    display: grid; grid-template-columns: minmax(0, 1.7fr) repeat(3, minmax(0, 1fr));
+    align-items: stretch; border-top: 1px solid var(--line);
+}
+.pb-row[hidden] { display: none; }
+.pb-head { border-top: 0; background: linear-gradient(160deg, #f0f9ff, #e8f3ff); }
+.pb-head > span {
+    padding: 14px 16px; font-family: var(--font-head); font-weight: 600; font-size: 0.95rem;
+    display: flex; flex-direction: column; justify-content: center;
+}
+.pb-head small { font-family: var(--font-body); font-weight: 400; font-size: 0.75rem; color: var(--muted); }
+.pb-head .pb-col { text-align: center; align-items: center; transition: background 0.3s, color 0.3s; }
+.pb-head .pb-col.col-active { background: linear-gradient(135deg, #38bdf8, #2563eb); color: #fff; }
+.pb-head .pb-col.col-active small { color: rgba(255, 255, 255, 0.85); }
+
+.pb-route { display: flex; align-items: center; gap: 10px; padding: 14px 16px; font-weight: 500; flex-wrap: wrap; }
+.pb-place i { color: var(--sky); font-size: 0.8rem; margin-right: 4px; }
+.pb-arrow { color: var(--muted); font-size: 0.85rem; }
+.pb-price {
+    display: flex; align-items: baseline; justify-content: center; gap: 4px;
+    padding: 14px 8px; text-decoration: none; color: var(--text);
+    border-left: 1px dashed var(--line);
+    transition: background 0.25s, color 0.25s;
+}
+.pb-price b { font-family: var(--font-head); font-size: 1.1rem; font-weight: 600; }
+.pb-price span { font-size: 0.75rem; color: var(--muted); }
+.pb-price .pb-car { display: none; }
+.pb-price.col-active { background: rgba(14, 165, 233, 0.08); color: var(--sky-deep); }
+.pb-price.col-active b { font-weight: 700; }
+.pb-price:hover { background: linear-gradient(135deg, #38bdf8, #2563eb); color: #fff; }
+.pb-price:hover span { color: rgba(255, 255, 255, 0.85); }
+.pb-row:not(.pb-head):hover .pb-route { color: var(--sky-deep); }
+.pb-anim .pb-row:not(.pb-head) { animation: rise 0.5s var(--ease) both; animation-delay: calc(var(--r, 0) * 35ms); }
+.pb-empty { margin: 0; padding: 28px 20px; text-align: center; color: var(--muted); }
+.pb-empty i { color: var(--sky); margin-right: 6px; }
+
+.svc-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 22px; }
+
+/* --- เงื่อนไข --- */
+.cond-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.cond { padding: 24px 22px; transition: transform 0.45s var(--ease); }
+.cond:hover { transform: translateY(-6px); }
+.cond-icon {
+    width: 50px; height: 50px; border-radius: 15px; display: grid; place-items: center;
+    margin-bottom: 14px; font-size: 1.25rem; color: #fff;
+    background: linear-gradient(135deg, #38bdf8, #2563eb); box-shadow: 0 10px 22px rgba(37, 99, 235, 0.25);
+}
+.cond:nth-child(2) .cond-icon { background: linear-gradient(135deg, #fb7185, #e11d48); box-shadow: 0 10px 22px rgba(225, 29, 72, 0.22); }
+.cond:nth-child(3) .cond-icon { background: linear-gradient(135deg, #818cf8, #4f46e5); box-shadow: 0 10px 22px rgba(79, 70, 229, 0.22); }
+.cond:nth-child(4) .cond-icon { background: linear-gradient(135deg, #4ade80, #16a34a); box-shadow: 0 10px 22px rgba(22, 163, 74, 0.22); }
+.cond h3 { font-size: 1.08rem; font-weight: 600; margin-bottom: 6px; }
+.cond p { margin: 0; color: var(--muted); font-size: 0.9rem; }
+
+/* --- ขั้นตอนการจอง --- */
+.steps { position: relative; display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+.steps::before {
+    content: ''; position: absolute; top: 34px; left: 16%; right: 16%; height: 3px; z-index: 0;
+    background: repeating-linear-gradient(90deg, rgba(14, 165, 233, 0.45) 0 12px, transparent 12px 22px);
+}
+.step { position: relative; z-index: 1; text-align: center; padding: 0 10px; }
+.step-icon {
+    width: 70px; height: 70px; margin: 0 auto 16px; border-radius: 22px; display: grid; place-items: center;
+    font-size: 1.6rem; color: var(--sky-deep); background: #fff;
+    border: 1px solid var(--line); box-shadow: var(--shadow);
+    transition: transform 0.5s var(--ease);
+}
+.step:hover .step-icon { transform: translateY(-6px) rotate(-6deg); }
+.step-num {
+    position: absolute; top: -8px; left: calc(50% + 20px); z-index: 2;
+    width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center;
+    font-family: var(--font-head); font-weight: 700; font-size: 0.85rem; color: #fff;
+    background: linear-gradient(135deg, #38bdf8, #2563eb); box-shadow: 0 6px 14px rgba(37, 99, 235, 0.35);
+}
+.step h3 { font-size: 1.12rem; font-weight: 600; margin-bottom: 6px; }
+.step p { margin: 0 auto; max-width: 260px; color: var(--muted); font-size: 0.92rem; }
+
+@media (max-width: 1024px) {
+    .cond-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 860px) {
+    .svc-cars { grid-template-columns: 1fr; }
+    .svc-car { display: grid; grid-template-columns: 120px 1fr; column-gap: 14px; row-gap: 2px; align-items: center; }
+    .svc-car-tag { grid-column: 2; justify-self: start; }
+    .svc-car-img { grid-column: 1; grid-row: 1 / span 4; height: 90px; margin: 0; }
+    .svc-car-img img { max-height: 90px; }
+    .svc-car-name, .svc-car-meta, .svc-car-price { grid-column: 2; }
+    .svc-car-price { margin-top: 2px; }
+    .steps { grid-template-columns: 1fr; gap: 28px; }
+    .steps::before { top: 0; bottom: 0; left: 50%; right: auto; width: 3px; height: auto;
+        background: repeating-linear-gradient(180deg, rgba(14, 165, 233, 0.35) 0 12px, transparent 12px 22px); }
+    .step { background: var(--bg); padding: 6px 10px; }
+}
+@media (max-width: 640px) {
+    .svc-block { padding-top: 56px; }
+    .price-board { padding: 14px; }
+    .pb-chips { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin: 0 -14px; padding: 0 14px 2px; }
+    .pb-chips::-webkit-scrollbar { display: none; }
+    .pb-chip { white-space: nowrap; }
+    .pb-head { display: none; }
+    .pb-table { border: 0; background: none; display: flex; flex-direction: column; gap: 10px; }
+    #pbBody { display: flex; flex-direction: column; gap: 10px; }
+    .pb-row {
+        grid-template-columns: repeat(3, 1fr); gap: 6px; padding: 12px;
+        border: 1px solid var(--line); border-radius: 16px; background: #fff;
+    }
+    .pb-route { grid-column: 1 / -1; padding: 0 2px 6px; font-weight: 600; }
+    .pb-price {
+        flex-direction: column; align-items: center; gap: 0; padding: 8px 4px;
+        border: 1px solid var(--line); border-radius: 12px;
+    }
+    .pb-price .pb-car { display: block; font-size: 0.7rem; color: var(--muted); }
+    .pb-price.col-active { border-color: #38bdf8; box-shadow: inset 0 0 0 1px #38bdf8; }
+    .pb-price:hover .pb-car { color: rgba(255, 255, 255, 0.85); }
+    .cond-grid { grid-template-columns: 1fr; }
+    .svc-actions .btn { width: 100%; }
+}

@@ -314,26 +314,12 @@
 
 
     <script src="site.js"></script>
+    <script src="fares.js"></script>
     <script>
         // ===== ข้อมูลราคา (แก้ราคาที่นี่ที่เดียว ใช้ทั้งตารางและเครื่องคำนวณ) =====
-        const CARS = [
-            { key: 'camry',    name: 'Toyota Camry',    seats: '1-3',  img: 'https://img1.pic.in.th/images/camry.png' },
-            { key: 'fortuner', name: 'Toyota Fortuner', seats: '4-5',  img: 'https://img1.pic.in.th/images/fortuner.png' },
-            { key: 'commuter', name: 'Toyota Commuter', seats: '9-10', img: 'https://img2.pic.in.th/commuter.png' }
-        ];
-        // [เส้นทาง, Camry, Fortuner, Commuter]
-        const FARES = [
-            ['Suvarnabhumi - Pattaya',   1000, 1400, 1800],
-            ['Suvarnabhumi - Hua Hin',  1800, 2500, 2700],
-            ['Suvarnabhumi - Rayong',   1800, 2500, 2700],
-            ['Suvarnabhumi - Koh Chang', 3500, 4000, 4500],
-            ['Don Mueang - Pattaya',     1400, 1800, 2200],
-            ['U-Tapao - Pattaya',      800, 1200, 1300],
-            ['Pattaya - Bangkok',      1200, 1600, 1900],
-            ['Pattaya - Don Mueang',     1400, 1800, 2200],
-            ['Pattaya - Suvarnabhumi',   1000, 1400, 1800],
-            ['Bangkok - Pattaya',      1200, 1600, 1900]
-        ];
+        // ราคาและรถมาจาก fares.js (แก้ราคาที่ไฟล์นั้นที่เดียว)
+        const CARS = window.BT_CARS;
+        const FARES = window.BT_FARES.map(f => [btRouteName(f, 'en'), ...f.prices]);
 
         // ===== สร้างการ์ดตารางราคา =====
         document.getElementById('ratesGrid').innerHTML = CARS.map((car, i) => {

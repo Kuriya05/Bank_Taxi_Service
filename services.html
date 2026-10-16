@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>บริการและอัตราค่าบริการ - Bank Taxi Service</title>
+    <title>บริการและราคา - Bank Taxi Service</title>
     <meta name="theme-color" content="#f5f9ff">
     <link rel="icon" href="logo-mark.svg" type="image/svg+xml">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -47,132 +47,84 @@
         </div>
     </header>
 
-    <main class="wrap page">
+    <main class="wrap page svc-page">
+        <section class="svc-hero">
+            <div class="page-head reveal">
+                <span class="eyebrow">Services &amp; Rates</span>
+                <h1>ราคาชัดเจน <span class="grad-text">ทุกเส้นทาง</span></h1>
+                <p>เลือกรถที่ใช่ แล้วดูราคาเหมาจ่ายต่อเที่ยวของทุกเส้นทางได้ในตารางเดียว กดที่ราคาเพื่อจองได้ทันที</p>
+            </div>
+            <div class="stats svc-stats reveal" data-delay="1"><div class="stat"><strong data-count="10">0</strong><span>เส้นทางยอดนิยม</span></div><div class="stat"><strong data-count="3">0</strong><span>รุ่นรถให้เลือก</span></div><div class="stat"><strong data-count="800">0</strong><span>บาท ราคาเริ่มต้น</span></div><div class="stat"><strong data-count="24">0</strong><span>ชั่วโมง ทุกวัน</span></div></div>
+        </section>
 
+        <section class="svc-block">
+            <div class="svc-step-head reveal"><span class="eyebrow">Step 1</span><h2>เลือกรถ</h2><p>เลือกตามจำนวนผู้โดยสารและสัมภาระ ตารางราคาจะไฮไลต์รถที่คุณเลือก</p></div>
+            <div class="svc-cars" id="svcCars"></div>
+        </section>
 
-    <!-- Main Container -->
-    <div class="container">
-        <div class="page-head reveal"><span class="eyebrow">Services & Rates</span><h1>บริการและอัตราค่าบริการตามประเภทรถ</h1><p>เลือกประเภทรถที่ต้องการ พร้อมดูอัตราค่าบริการและเงื่อนไขในแต่ละเส้นทาง</p></div>
+        <section class="svc-block">
+            <div class="svc-step-head reveal"><span class="eyebrow">Step 2</span><h2>เทียบราคาทุกเส้นทาง</h2><p>พิมพ์ค้นหาหรือกรองตามจุดรับ แล้วกดที่ราคาเพื่อไปหน้าจอง</p></div>
+            <div class="glass price-board reveal" id="priceBoard"></div>
+            <div class="svc-actions reveal">
+                <a href="booking.html" class="btn btn-primary" data-book-selected><i class="fa-solid fa-car-side"></i> จองรถที่เลือก</a>
+                <a href="tel:0875854108" class="btn btn-ghost"><i class="fa-solid fa-phone"></i> โทร 087-585-4108</a>
+            </div>
+        </section>
 
-        <!-- Car Service List (Modern Editorial Layout - No Box) -->
-        <div class="car-service-list">
-
-            <!-- 1. Toyota Camry -->
-            <div class="car-service-card glass spotlight reveal">
-                <div class="car-image-side">
-                    <img src="https://img1.pic.in.th/images/camry.png">
+        <section class="svc-block">
+            <div class="section-head reveal"><span class="eyebrow">Good to know</span><h2>เงื่อนไขการจอง</h2></div>
+            <div class="cond-grid">
+                <div class="glass spotlight cond reveal" data-delay="0">
+                    <span class="cond-icon"><i class="fa-solid fa-wallet"></i></span>
+                    <h3>มัดจำ 400 บาท</h3>
+                    <p>ชำระมัดจำผ่าน PromptPay ตอนจอง ส่วนที่เหลือชำระกับคนขับในวันเดินทาง</p>
                 </div>
-                <div class="car-details-side">
-                    <div class="car-header-info">
-                        <h2>Toyota Camry</h2>
-                        <p><i class="fa-solid fa-users"></i> จำนวนคน 1-3 ที่นั่ง</p>
-                        <table class="rate-table">
-                            <tr><td>สุวรรณภูมิ - พัทยา</td><td>1,000 บาท</td></tr>
-                            <tr><td>สุวรรณภูมิ - หัวหิน</td><td>1,800 บาท</td></tr>
-                            <tr><td>สุวรรณภูมิ - ระยอง</td><td>1,800 บาท</td></tr>
-                            <tr><td>สุวรรณภูมิ - เกาะช้าง</td><td>3,500 บาท</td></tr>
-                            <tr><td>ดอนเมือง - พัทยา</td><td>1,400 บาท</td></tr>
-                            <tr><td>อู่ตะเภา - พัทยา</td><td>800 บาท</td></tr>
-                            <tr><td>พัทยา - กรุงเทพ</td><td>1,200 บาท</td></tr>
-                            <tr><td>พัทยา - ดอนเมือง</td><td>1,400 บาท</td></tr>
-                            <tr><td>พัทยา - สุวรรณภูมิ</td><td>1,000 บาท</td></tr>
-                            <tr><td>กรุงเทพ - พัทยา</td><td>1,200 บาท</td></tr>
-                        </table>
-                        <div class="price-condition"><i class="fa-solid fa-triangle-exclamation"></i> เงื่อนไขราคา: ยกเลิกไม่คืนค่ามัดจำ</div>
-                    </div>
-                    <div class="car-card-footer">
-                        <div class="contact-mini-info">
-                            <div class="contact-mini-icon"><i class="fa-solid fa-phone"></i></div>
-                            <div class="contact-mini-details">
-                               <h4>ติดต่อจองด่วน</h4>
-                               <a href="tel:0875854108">087-585-4108</a>
-                            </div>
-                        </div>
-                        <a href="booking.html" class="btn-booking-glow"><i class="fa-solid fa-car-side"></i> จอง Toyota Camry</a>
-                    </div>
+                <div class="glass spotlight cond reveal" data-delay="1">
+                    <span class="cond-icon"><i class="fa-solid fa-ban"></i></span>
+                    <h3>ยกเลิกไม่คืนมัดจำ</h3>
+                    <p>หากยกเลิกการเดินทาง จะไม่คืนค่ามัดจำ</p>
+                </div>
+                <div class="glass spotlight cond reveal" data-delay="2">
+                    <span class="cond-icon"><i class="fa-solid fa-van-shuttle"></i></span>
+                    <h3>Toyota Commuter</h3>
+                    <p>กรณีบวกเพิ่มคนละ 100-200 บาท สอบถามรายละเอียดก่อนจองได้</p>
+                </div>
+                <div class="glass spotlight cond reveal" data-delay="3">
+                    <span class="cond-icon"><i class="fa-solid fa-headset"></i></span>
+                    <h3>เส้นทางอื่นๆ</h3>
+                    <p>ไม่มีเส้นทางที่ต้องการ? ทักมาทาง LINE หรือโทร 087-585-4108 เพื่อขอราคา</p>
                 </div>
             </div>
+        </section>
 
-            <!-- 2. Toyota Fortuner -->
-            <div class="car-service-card glass spotlight reveal">
-                <div class="car-image-side">
-                    <img src="https://img1.pic.in.th/images/fortuner.png">
+        <section class="svc-block">
+            <div class="section-head reveal"><span class="eyebrow">How it works</span><h2>จองง่ายใน 3 ขั้นตอน</h2></div>
+            <div class="steps">
+                <div class="step reveal" data-delay="1">
+                    <span class="step-num">1</span>
+                    <span class="step-icon"><i class="fa-solid fa-car-side"></i></span>
+                    <h3>เลือกรถและเส้นทาง</h3>
+                    <p>ดูราคาจากตารางด้านบน แล้วกดจอง</p>
                 </div>
-                <div class="car-details-side">
-                    <div class="car-header-info">
-                        <h2>Toyota Fortuner</h2>
-                        <p><i class="fa-solid fa-users"></i> จำนวนคน 4-5 ที่นั่ง</p>
-                        <table class="rate-table">
-                            <tr><td>สุวรรณภูมิ - พัทยา</td><td>1,400 บาท</td></tr>
-                            <tr><td>สุวรรณภูมิ - หัวหิน</td><td>2,500 บาท</td></tr>
-                            <tr><td>สุวรรณภูมิ - ระยอง</td><td>2,500 บาท</td></tr>
-                            <tr><td>สุวรรณภูมิ - เกาะช้าง</td><td>4,000 บาท</td></tr>
-                            <tr><td>ดอนเมือง - พัทยา</td><td>1,800 บาท</td></tr>
-                            <tr><td>อู่ตะเภา - พัทยา</td><td>1,200 บาท</td></tr>
-                            <tr><td>พัทยา - กรุงเทพ</td><td>1,600 บาท</td></tr>
-                            <tr><td>พัทยา - ดอนเมือง</td><td>1,800 บาท</td></tr>
-                            <tr><td>พัทยา - สุวรรณภูมิ</td><td>1,400 บาท</td></tr>
-                            <tr><td>กรุงเทพ - พัทยา</td><td>1,600 บาท</td></tr>
-                        </table>
-                        <div class="price-condition"><i class="fa-solid fa-triangle-exclamation"></i> เงื่อนไขราคา: ยกเลิกไม่คืนค่ามัดจำ</div>
-                    </div>
-                    <div class="car-card-footer">
-                        <div class="contact-mini-info">
-                            <div class="contact-mini-icon"><i class="fa-solid fa-phone"></i></div>
-                            <div class="contact-mini-details">
-                               <h4>ติดต่อจองด่วน</h4>
-                               <a href="tel:0875854108">087-585-4108</a>
-                            </div>
-                        </div>
-                        <a href="booking.html" class="btn-booking-glow"><i class="fa-solid fa-car-side"></i> จอง Toyota Fortuner</a>
-                    </div>
+                <div class="step reveal" data-delay="2">
+                    <span class="step-num">2</span>
+                    <span class="step-icon"><i class="fa-solid fa-qrcode"></i></span>
+                    <h3>กรอกข้อมูล + โอนมัดจำ</h3>
+                    <p>ใส่ชื่อ เบอร์โทร วันเวลา แล้วแนบสลิปมัดจำ 400 บาท</p>
+                </div>
+                <div class="step reveal" data-delay="3">
+                    <span class="step-num">3</span>
+                    <span class="step-icon"><i class="fa-solid fa-file-circle-check"></i></span>
+                    <h3>รับใบจองทันที</h3>
+                    <p>บันทึกหรือพิมพ์ใบจองไว้ ทีมงานจะติดต่อกลับเพื่อยืนยัน</p>
                 </div>
             </div>
+        </section>
 
-            <!-- 3. Toyota Commuter -->
-            <div class="car-service-card glass spotlight reveal">
-                <div class="car-image-side">
-                    <img src="https://img2.pic.in.th/commuter.png">
-                </div>
-                <div class="car-details-side">
-                    <div class="car-header-info">
-                        <h2>Toyota Commuter</h2>
-                        <p><i class="fa-solid fa-users"></i> จำนวนคน 9-10 ที่นั่ง</p>
-                        <table class="rate-table">
-                            <tr><td>สุวรรณภูมิ - พัทยา</td><td>1,800 บาท</td></tr>
-                            <tr><td>สุวรรณภูมิ - หัวหิน</td><td>2,700 บาท</td></tr>
-                            <tr><td>สุวรรณภูมิ - ระยอง</td><td>2,700 บาท</td></tr>
-                            <tr><td>สุวรรณภูมิ - เกาะช้าง</td><td>4,500 บาท</td></tr>
-                            <tr><td>ดอนเมือง - พัทยา</td><td>2,200 บาท</td></tr>
-                            <tr><td>อู่ตะเภา - พัทยา</td><td>1,300 บาท</td></tr>
-                            <tr><td>พัทยา - กรุงเทพ</td><td>1,900 บาท</td></tr>
-                            <tr><td>พัทยา - ดอนเมือง</td><td>2,200 บาท</td></tr>
-                            <tr><td>พัทยา - สุวรรณภูมิ</td><td>1,800 บาท</td></tr>
-                            <tr><td>กรุงเทพ - พัทยา</td><td>1,900 บาท</td></tr>
-                        </table>
-                        <div class="price-condition"><i class="fa-solid fa-triangle-exclamation"></i> เงื่อนไขราคา: ยกเลิกไม่คืนค่ามัดจำ | กรณีบวกเพิ่มคนละ 100-200 บาท</div>
-                    </div>
-                    <div class="car-card-footer">
-                        <div class="contact-mini-info">
-                            <div class="contact-mini-icon"><i class="fa-solid fa-phone"></i></div>
-                            <div class="contact-mini-details">
-                               <h4>ติดต่อจองด่วน</h4>
-                               <a href="tel:0875854108">087-585-4108</a>
-                            </div>
-                        </div>
-                        <a href="booking.html" class="btn-booking-glow"><i class="fa-solid fa-car-side"></i> จอง Toyota Commuter</a>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-        <!-- Map Section -->
         <div class="map-heading reveal"><h2>แผนที่และจุดให้บริการ</h2><p>เราพร้อมให้บริการรับส่งคุณจากทุกสนามบินและพื้นที่หลักทั่วประเทศ</p></div>
         <div class="map-container reveal">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3875.5977987879!2d100.5018!3d13.7563!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTPCsDQ1JzIyLjciTiAxMDDCsDMwJzA2LjUiRQ!5e0!3m2!1sth!2sth!4v1650000000000!5m2!1sth!2sth" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3875.5977987879!2d100.5018!3d13.7563!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTPCsDQ1JzIyLjciTiAxMDDCsDMwJzA2LjUiRQ!5e0!3m2!1sth!2sth!4v1650000000000!5m2!1sth!2sth" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="แผนที่ Bank Taxi Service"></iframe>
         </div>
-    </div>
 
         <div class="cta-band reveal">
             <h2>พร้อมออกเดินทางแล้วหรือยัง?</h2>
@@ -206,6 +158,8 @@
     </footer>
 
     <script src="site.js"></script>
+    <script src="fares.js"></script>
+    <script src="services.js"></script>
 
 </body>
 </html>
