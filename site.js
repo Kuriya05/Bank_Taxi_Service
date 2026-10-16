@@ -28,28 +28,93 @@ function animateNumber(el, from, to, ms = 600) {
     onScroll();
 })();
 
-// ===== ปุ่มเมนูสามขีดบนมือถือ =====
+// ===== เมนูนำทาง: แถบไฮไลต์เลื่อนตามเมาส์ (คอม) + แผงเมนูสไลด์ (มือถือ) =====
 (function () {
     const header = document.getElementById('siteHeader');
     const nav = header && header.querySelector('.nav-menu');
     if (!nav) return;
     const isEn = document.documentElement.lang === 'en';
+    const links = [...nav.querySelectorAll('a')];
+
+    // --- คอม: แถบสีฟ้าเลื่อนไปอยู่ใต้เมนูที่ชี้ แล้วกลับมาที่หน้าปัจจุบันเมื่อเอาเมาส์ออก
+    const pill = document.createElement('span');
+    pill.className = 'nav-pill';
+    pill.setAttribute('aria-hidden', 'true');
+    nav.prepend(pill);
+    const active = nav.querySelector('a.active');
+    function moveTo(link) {
+        if (!link || !nav.offsetWidth) return;
+        pill.style.setProperty('--x', link.offsetLeft + 'px');
+        pill.style.setProperty('--w', link.offsetWidth + 'px');
+        links.forEach(a => a.classList.toggle('lit', a === link));
+    }
+    links.forEach(a => a.addEventListener('mouseenter', () => moveTo(a)));
+    nav.addEventListener('mouseleave', () => moveTo(active));
+    addEventListener('resize', () => moveTo(active));
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => moveTo(active));
+    requestAnimationFrame(() => { moveTo(active); requestAnimationFrame(() => nav.classList.add('pill-ready')); });
+
+    // --- มือถือ: แผงเมนูสไลด์จากด้านขวา
+    const SUB = isEn
+        ? { index: 'Back to the start', services: 'Fares for every route', cars: 'Camry · Fortuner · Commuter', booking: 'Book online, get a receipt', contact: 'Phone · LINE · WhatsApp' }
+        : { index: 'กลับสู่หน้าหลัก', services: 'ตารางราคาทุกเส้นทาง', cars: 'Camry · Fortuner · Commuter', booking: 'จองออนไลน์ พร้อมใบจอง', contact: 'โทร · LINE · WhatsApp' };
+    const pageKey = href => (href.split('/').pop().replace('-en', '').split('.')[0] || 'index');
+    const bookingHref = isEn ? 'booking-en.html' : 'booking.html';
+
+    const drawer = document.createElement('aside');
+    drawer.className = 'nav-drawer';
+    drawer.id = 'navDrawer';
+    drawer.setAttribute('aria-label', isEn ? 'Site menu' : 'เมนูเว็บไซต์');
+    drawer.setAttribute('aria-hidden', 'true');
+    drawer.innerHTML = `
+        <div class="drawer-head">
+            <img src="logo-mark.svg" alt="">
+            <div><b>Bank <span>Taxi</span> Service</b><small>${isEn ? 'Airport transfers 24/7' : 'รถรับส่งสนามบิน 24 ชั่วโมง'}</small></div>
+            <button type="button" class="drawer-close" aria-label="${isEn ? 'Close menu' : 'ปิดเมนู'}"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <nav class="drawer-links">
+            ${links.map((a, i) => {
+                const key = pageKey(a.getAttribute('href'));
+                const icon = a.querySelector('i') ? a.querySelector('i').className : 'fa-solid fa-circle';
+                return `<a href="${a.getAttribute('href')}" class="drawer-link k-${key}${a.classList.contains('active') ? ' active' : ''}" style="--i:${i}">
+                    <span class="d-icon"><i class="${icon}"></i></span>
+                    <span class="d-text"><b>${a.textContent.trim()}</b><small>${SUB[key] || ''}</small></span>
+                    <i class="fa-solid fa-chevron-right d-arrow"></i>
+                </a>`;
+            }).join('')}
+        </nav>
+        <div class="drawer-foot">
+            <a href="${bookingHref}" class="btn btn-primary"><i class="fa-solid fa-car-side"></i> ${isEn ? 'Book a ride now' : 'จองรถเลย'}</a>
+            <div class="drawer-quick">
+                <a href="tel:0875854108"><i class="fa-solid fa-phone"></i> 087-585-4108</a>
+                <a href="https://line.me/ti/p/4wD6IYASNu" target="_blank" rel="noopener"><i class="fa-brands fa-line"></i> LINE</a>
+            </div>
+        </div>`;
+    const backdrop = document.createElement('div');
+    backdrop.className = 'nav-backdrop';
+    document.body.append(backdrop, drawer);
+
     const btn = document.createElement('button');
     btn.type = 'button';
     btn.className = 'nav-toggle';
     btn.setAttribute('aria-label', isEn ? 'Menu' : 'เมนู');
+    btn.setAttribute('aria-controls', 'navDrawer');
     btn.setAttribute('aria-expanded', 'false');
     btn.innerHTML = '<span></span><span></span><span></span>';
     header.querySelector('.header-wrapper').appendChild(btn);
 
     function setOpen(open) {
-        header.classList.toggle('nav-open', open);
+        document.body.classList.toggle('drawer-open', open);
         btn.setAttribute('aria-expanded', String(open));
+        drawer.setAttribute('aria-hidden', String(!open));
+        if (open) drawer.querySelector('.drawer-link.active, .drawer-link').focus({ preventScroll: true });
     }
-    btn.addEventListener('click', () => setOpen(!header.classList.contains('nav-open')));
-    nav.addEventListener('click', e => { if (e.target.closest('a')) setOpen(false); });
-    document.addEventListener('click', e => { if (!header.contains(e.target)) setOpen(false); });
+    btn.addEventListener('click', () => setOpen(!document.body.classList.contains('drawer-open')));
+    drawer.querySelector('.drawer-close').addEventListener('click', () => { setOpen(false); btn.focus(); });
+    backdrop.addEventListener('click', () => setOpen(false));
+    drawer.addEventListener('click', e => { if (e.target.closest('a')) setOpen(false); });
     document.addEventListener('keydown', e => { if (e.key === 'Escape') setOpen(false); });
+    matchMedia('(min-width: 861px)').addEventListener('change', e => { if (e.matches) setOpen(false); });
 })();
 
 // ===== Scroll reveal + ตัวเลขนับขึ้น =====
